@@ -1,0 +1,100 @@
+/**
+ * Complex layout needs custom refinement for mobile, hence it is reasonable
+ * to apply for Desktop up. You have to adjust mobile version by your design.
+ */
+@include breakpoint($ipad, true) {
+  .slick--center .slick-slide.slick-center {
+    @include transform(scale(1.08));
+    opacity: 1;
+  }
+}
+
+@include breakpoint($desk, true) {
+  // Fixed FireFox draggable issue.
+  .slick__slide img {
+    pointer-events: none;
+  }
+
+  .slide__caption  {
+
+    /* Caption right, stage left */
+    // Stages are full width image with captions positioned on top of it.
+    .slide--caption--stage-left &,
+    .slide--caption--stage-right &,
+    .slide--caption--stage-zebra & {
+      left: 50%;
+      margin-left: -41%;
+      padding: 0;
+      width: 82%;
+    }
+  }
+
+  /* Contains text or other fields within caption */
+  .slide__data {
+    /* Caption right, stage left */
+    .slide--caption--stage-left .slide__caption &,
+    .slide--caption--stage-zebra .slide__caption:nth-child(odd) & {
+      margin-right: 56%;
+    }
+
+    /* Caption left, stage right */
+    .slide--caption--stage-right .slide__caption &,
+    .slide--caption--stage-zebra .slide__caption:nth-child(even) & {
+      margin-left: 56%;
+    }
+  }
+
+  /* Contains image within caption container */
+  .slide__overlay {
+    .slide--caption--stage-left .slide__caption &,
+    .slide--caption--stage-zebra .slide__caption:nth-child(odd) & {
+      float: right;
+      width: 52%;
+    }
+
+    .slide--caption--stage-right .slide__caption &,
+    .slide--caption--stage-zebra .slide__caption:nth-child(even) & {
+      float: left;
+      width: 52%;
+    }
+  }
+
+  .slide__media {
+    .slick--skin--split .slide--caption--split-left &,
+    .slick--skin--split .slide--caption--split-zebra:nth-child(odd) & {
+      float: left;
+      width: 48%;
+    }
+
+    .slick--skin--split .slide--caption--split-right &,
+    .slick--skin--split .slide--caption--split-zebra:nth-child(even) & {
+      float: right;
+      width: 48%;
+    }
+  }
+
+  .slide__caption {
+    .slick--skin--split .slide--caption--split-left &,
+    .slick--skin--split .slide--caption--split-zebra:nth-child(odd) & {
+      margin-left: 52%;
+    }
+    .slick--skin--split .slide--caption--split-right &,
+    .slick--skin--split .slide--caption--split-zebra:nth-child(even) & {
+      margin-right: 52%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .slick--center .slick-center.slick-slide {
+    @include transform(scale(1));
+    opacity:1;
+  }
+}
+
+@media (max-width: 767px) {
+  .slick--center {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

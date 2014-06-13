@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Adds Views plugins for Slick carousel.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function slick_views_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
+
+/**
+ * Implements hook_theme().
+
+function slick_views_theme($existing, $type, $theme, $path) {
+  $base = array(
+    'file' => 'slick_views.theme.inc',
+    'path' => $path . '/templates',
+  );
+  
+  return array(
+    // Slick views.
+    'slick_views' => $base + array(
+      'variables' => array(
+        'view' => array(),
+        // 'options' => array(),
+        'items' => array(),
+        'settings' => array(),
+      ),
+    ),
+  );
+}
+ */

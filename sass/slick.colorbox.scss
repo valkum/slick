@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "variables/**/*";
+@import "abstractions/**/*";
+/**
+ * @file
+ */
+.colorbox-on--video,
+.colorbox-on--audio {
+  #colorbox,
+  #cboxContent,
+  #cboxLoadedContent {
+    @include box-sizing(border-box !important);
+  }
+
+  #cboxBottomCenter,
+  #cboxBottomRight,
+  #cboxBottomLeft,
+  #cboxTopCenter,
+  #cboxTopRight,
+  #cboxTopLeft,
+  #cboxMiddleLeft,
+  #cboxMiddleRight {
+    display: none;
+    height: 0 !important;
+    width: 0 !important;
+  }
+
+  #cboxWrapper,
+  #cboxContent {
+    background: none;
+    border-radius: 0;
+  }
+  #cboxContent,
+  #cboxLoadedContent {
+    overflow: visible !important;
+  }
+  #cboxLoadedContent .cboxIframe {
+    @include background-clip(padding-box !important);
+    border-radius: 0;
+    border: 8px solid $color-1;
+  }
+}

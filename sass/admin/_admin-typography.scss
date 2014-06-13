@@ -1,0 +1,23 @@
+/**
+ * Typhography.
+ */
+// http://atendesigngroup.com/blog/vertical-rhythm-compass
+@include establish-baseline($base-font-size);
+ 
+html {
+  color: $base-color;
+  font-family: $base-font-family;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+   text-rendering: optimizeSpeed !important;
+}
+
+body {
+  font-family: $base-font-family;
+  @include font-size($base-font-size);
+
+  @include breakpoint($desk-large, true) {
+     @include font-size($base-font-size-large);
+     line-height: $base-line-height-large;
+  }
+}

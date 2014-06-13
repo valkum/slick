@@ -1,0 +1,69 @@
+
+Slick 7.x-1.0-dev, 2014-06-13
+-----------------------------
+Added slick-views.tpl.php to satisfy Views UI template discovery.
+
+Slick 7.x-1.0-dev, 2014-06-11
+-----------------------------
+Added thumbnail pager option.
+Changed _slick_fields_get_media_thumbnail() to be reusable for thumbnail pagers.
+Fixed Youtube URL not playing inside Colorbox due to missing external params.
+Fixed checkboxes states with checked attributes at admin pages.
+Added autoplay to Colorbox audio/video.
+
+Slick 7.x-1.0-dev, 2014-06-09
+-----------------------------
+Added API file containing skin information.
+Added more Views options to have consistent markups with the Field version.
+
+Slick 7.x-1.0-dev, 2014-06-08
+-----------------------------
+Added optional Colorbox intergration to display image or video inside Colorbox,
+  or as an image to iframe switcher.
+
+Slick 7.x-1.0-dev, 2014-06-07
+-----------------------------
+
+Added Sass versions for slick.skin.css and slick.media.css.
+Added basic skins to support various slide layouts.
+Added direct layout options for core Image field. Media and Field collection
+  should use a separate field instead with some pre-defined options.
+Added slick.make file to download relevant libraries. We don't name it.example
+  to allow simplytest.me download the library.
+Added title, captions and overlay fields for Field Collection and Media
+Added options to break down Media and Field collection fields to support custom
+  displays for slide title, description, overlay audio/video/image, link, and
+  layout fields.
+Added supports for Field collection at slick_fields.module.
+Added Picture module integration.
+
+Slick 7.x-1.0-dev, 2014-05-25
+-----------------------------
+Added admin CSS and JS to make nice CTools UI.
+Added responsive display options, and additional custom options.
+Added slick.media.js to allow image to iframe switcher.
+Reworked JS settings in the head to only output base defaults alone, with no
+  extra items. Individual JS settings are stored as data attributes, only single
+  one now.
+Reworked the theme functions to merge HTML5 data attributes to store JS settings
+  as a single JSON object within the Slick container rather than regular JS
+  settings in the <head>.
+Simplified logic at module slick.js. JS should not do hard work with typecast
+  or parse separate multiple data attributes, PHP does. JS is now ready to
+  consume valid JSON object, or nothing. This is relevant where bunch of JS
+  settings with responsive displays get in.
+Renamed module slick.js into slick.load.js, to avoid conflict with the library
+  for debug purposes.
+Renamed slick.css into slick.skin.css, otherwise Drupal overrides the library.
+Renamed "theme" directory into "templates" for Drupal 8 auto discovery goodness.
+Deprecating theme_carousel in favor of theme_slick. Will deprecate it, not yet.
+Deleted slick.views.inc and slick_plugin_style_slick.inc files, and use a
+  separate slick_views.module instead.
+
+Added CTools plugin for exportable configuration via optionsets.
+Added dependencies on CTools, and libraries modules at slick.info file.
+Added supports for Image, and Media at slick_fields.module.
+Added 2 sub-modules: slick_views and slick_fields.
+Added slick.install to install database table for optionsets.
+Added the file CHANGELOG.txt.
+by gausarts: Reworked some architecture.

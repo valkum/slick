@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "variables/**/*";
+@import "abstractions/**/*";
+/**
+ * @file
+ * Detailed stylings are all yours, get yourself dirty.
+ * Transform is more performed than positions.
+ */
+.slick--skin--classic {
+  .slick__slide {
+    overflow: hidden;
+    position: relative;
+  }
+  .slick__caption {
+    height: auto;
+    min-height: 80px;
+  }
+
+  .slide--caption--left {
+    .slide__caption {
+      left: 0;
+      @include transform(translateX(-320px));
+    }
+  }
+
+  .slide--caption--right {
+    .slide__caption {
+      left: auto;
+      right: 0;
+      @include transform(translateX(320px));
+    }
+  }
+
+  .slide--caption--left,
+  .slide--caption--right {
+    .slide__caption {
+      height: 100%;
+      top: 0;
+      // Adjust for smaller device.
+      width: 22%;
+    }
+  }
+
+  .slide--caption--top,
+  .slide--caption--center-top {
+    .slide__caption {
+      top: 0;
+      @include transform(translateY(-210px));
+    }
+  }
+
+  .slide--caption--bottom {
+    .slide__caption {
+      bottom: 0;
+      top: auto;
+      @include transform(translateY(210px));
+    }
+  }
+
+  .slide--caption--center {
+    .slide__caption {
+      color: $white;
+      @include element-hoverable;
+    }
+
+    &:hover {
+      .slide__caption {
+        @include element-hoverable-hovered;
+      }
+    }
+  }
+
+  .slide--caption--left,
+  .slide--caption--right,
+  .slide--caption--top,
+  .slide--caption--center-top,
+  .slide--caption--bottom {
+    .slide__caption {
+      background-color: $dark;
+      background-color: $dark-trans;
+      color: $white;
+      min-height: 80px;
+      @include transition(transform $transition-transform-1);
+    }
+    &:hover {
+      .slide__caption {
+        @include transform(translateY(0));
+        @include transition-delay(0s);
+      }
+    }
+  }
+  .slide--caption--left,
+  .slide--caption--right {
+    min-height: 100%;
+    top: 0;
+    width: 22%;
+  }
+}

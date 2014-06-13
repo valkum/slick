@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * @file
+ * Installation actions for slick.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function slick_schema() {
+  $schema = array();
+
+  $schema['slick_optionset'] = array(
+    'description' => 'Store option sets for slick instances.',
+    'export' => array(
+      'key' => 'name',
+      'key name' => 'Optionset',
+      'identifier' => 'preset',
+      'admin_title' => 'label',
+      'default hook' => 'slick_default_presets',
+      'bulk export' => TRUE,
+      'api' => array(
+        'owner' => 'slick',
+        'api' => 'slick_default_preset',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'name' => array(
+        'description' => 'The machine-readable option set name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'The human-readable label for this option set.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'breakpoints' => array(
+        'description' => 'The number of defined breakpoints.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'skin' => array(
+        'description' => 'The slick skin.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'options' => array(
+        'description' => 'The options array.',
+        'type' => 'blob',
+        'size' => 'big',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Create a table "slick_optionset" to store optionsets for CTools exportables.
+ */
+function slick_update_7005() {
+  if (!db_table_exists('slick_optionset')) {
+    $schema['slick_optionset'] = array(
+      'description' => 'Store option sets for slick instances.',
+      'export' => array(
+        'key' => 'name',
+        'key name' => 'Optionset',
+        'identifier' => 'preset',
+        'admin_title' => 'label',
+        'default hook' => 'slick_default_presets',
+        'bulk export' => TRUE,
+        'api' => array(
+          'owner' => 'slick',
+          'api' => 'slick_default_preset',
+          'minimum_version' => 1,
+          'current_version' => 1,
+        ),
+      ),
+      'fields' => array(
+        'name' => array(
+          'description' => 'The machine-readable option set name.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ),
+        'label' => array(
+          'description' => 'The human-readable label for this option set.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ),
+        'breakpoints' => array(
+          'description' => 'The number of defined breakpoints.',
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'skin' => array(
+          'description' => 'The slick skin.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
+        'options' => array(
+          'description' => 'The options array.',
+          'type' => 'blob',
+          'size' => 'big',
+          'serialize' => TRUE,
+        ),
+      ),
+      'primary key' => array('name'),
+    );
+
+    db_create_table('slick_optionset', $schema['slick_optionset']);
+  }
+}

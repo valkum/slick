@@ -1,0 +1,126 @@
+/**
+ * Thumbnails.
+ */
+.slick--has-thumbnail {
+  margin-bottom: 120px;
+}
+
+// Default to anything but full width.
+.slick__thumbnail {
+  bottom: -120px;
+  list-style: none;
+  margin: 10px auto;
+  @include pie-clearfix;
+  position: absolute;
+  text-align: center;
+  visibility: hidden;
+  width: 100%;
+
+  // Overrides some theme UL spaces.
+  .block & {
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .slick-initialized & {
+    visibility: visible;
+  }
+
+  li {
+    display: inline-block;
+    float: none;
+    height: auto;
+    max-height: 100px;
+    max-width: 100px;
+    margin: 5px;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+    width: auto;
+
+    img {
+      background: $white;
+      border: 2px solid transparent;
+      display: block;
+      opacity: .6;
+      @include transition($transition);
+    }
+
+    &:hover,
+    &.slick-active {
+      img {
+        border: 2px solid $color-2;
+        opacity: 1;
+        @include transition-delay(0s);
+      }
+    }
+  }
+}
+
+/* Adjust accordingly to actual thumbnail size */
+.slick__thumbnail--hover {
+  li {
+    overflow: visible;
+
+    .slide__thumbnail__box {
+      bottom: 140%;
+      left: 50%;
+      margin: -60px 0 0 -60px;
+      min-width: 120px;
+      opacity: 0;
+      overflow: visible;
+      position: absolute;
+      visibility: hidden;
+      width: 120px;
+      z-index: -1;
+      @include transition($transition);
+
+      img {
+        pointer-events: none;
+      }
+
+      &:after {
+        border: 7px solid transparent;
+        border-bottom: 0;
+        border-top-color: $color-2;
+        bottom: -7px;
+        content: '';
+        display: block;
+        height: 0;
+        left: 50%;
+        margin: 0 0 0 -7px;
+        position: absolute;
+        width: 0;
+      }
+    }
+    &:hover {
+      .slide__thumbnail__box {
+        bottom: 120%;
+        margin-top: -20px;
+        opacity: 1;
+        visibility: visible;
+        @include transition-delay(0s);
+        z-index: 3;
+      }
+    }
+  }
+}
+
+// With centerMode, or carousel mode, we need to pull down the thumbnails.
+.slick--has-thumbnail {
+  &.slick--skin--fulllwidth {
+    margin-bottom: 0;
+    .slick__thumbnail {
+      bottom: 10px;
+    }
+  }
+}
+
+.slick--has-thumbnail--hover {
+  margin-bottom: 40px;
+  .slick__thumbnail {
+    bottom: -40px;
+  }
+}
+
+

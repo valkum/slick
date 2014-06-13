@@ -1,0 +1,530 @@
+/**
+ * @file.
+ * Provided basic layout and styling for the Slick based on custom settings.
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+.slick *,
+.slick *:before,
+.slick *:after {
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+img,
+object,
+embed,
+audio,
+canvas,
+video {
+  border: 0;
+  max-width: 100%;
+}
+
+img {
+  -ms-interpolation-mode: bicubic;
+  height: auto;
+}
+
+/**
+ * Arrows contained/wrapped within slick__arrow for easy moves.
+ */
+.slick-prev,
+.slick-next,
+.slick-down {
+  border: 0;
+  border-radius: 50%;
+  display: block;
+  font-size: 0;
+  height: 42px;
+  margin-top: -21px;
+  top: 50%;
+  width: 42px;
+}
+.slick-prev:active, .slick-prev:focus,
+.slick-next:active,
+.slick-next:focus,
+.slick-down:active,
+.slick-down:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.slick-prev:before, .slick-prev:after,
+.slick-next:before,
+.slick-next:after,
+.slick-down:before,
+.slick-down:after {
+  pointer-events: none;
+}
+
+/* Overrides problematic hidden arrows by core slick.css */
+.slick-prev {
+  left: 0;
+}
+
+.slick-next {
+  right: 0;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #ff6d2c;
+  font-size: 36px;
+  font-size: 2.25rem;
+}
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: #37465b;
+}
+
+.slick__arrow {
+  bottom: auto;
+  height: 2px;
+  left: 0;
+  margin-top: -1px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 2;
+}
+.slick--has-arrow-down .slick__arrow {
+  bottom: 20px;
+  height: 62px;
+  left: 50%;
+  margin: 0 0 0 -90px;
+  top: auto;
+  width: 180px;
+}
+
+.slick-down {
+  background: #ff6d2c;
+  border: 0;
+  border-radius: 50%;
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+  height: 48px;
+  left: 50%;
+  margin: -24px 0 0 -24px;
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  /* Pure CSS arrow down, override by icon font accordingly */
+}
+.slick-down:hover {
+  background: #37465b;
+}
+.slick-down:before, .slick-down:after {
+  border-right: 3px solid;
+  color: white;
+  content: '';
+  display: block;
+  height: 16px;
+  margin-top: -6px;
+  position: absolute;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+  right: 28px;
+  top: 50%;
+  width: 0;
+}
+.slick-down:after {
+  right: 18px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.slick-down:hover:before, .slick-down:hover:after {
+  color: white;
+}
+
+/**
+ * Slick center, depends on JS centerMode with partial view if visible ones > 2.
+ */
+.slick--center .slick-track {
+  padding-bottom: 32px;
+  padding-top: 32px;
+}
+.slick--center .slide__content {
+  margin: 2px;
+}
+.slick--center .slick__slide {
+  opacity: 0.2;
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+.slick--center .slick__slide.slick-active {
+  opacity: 1;
+}
+.slick--center .slick__slide.slick-center {
+  z-index: 2;
+}
+
+/**
+ * Thumbnails.
+ */
+.slick--has-thumbnail {
+  margin-bottom: 120px;
+}
+
+.slick__thumbnail {
+  bottom: -120px;
+  list-style: none;
+  margin: 10px auto;
+  *zoom: 1;
+  position: absolute;
+  text-align: center;
+  visibility: hidden;
+  width: 100%;
+}
+.slick__thumbnail:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.block .slick__thumbnail {
+  margin: 0 auto;
+  padding: 0;
+}
+.slick-initialized .slick__thumbnail {
+  visibility: visible;
+}
+.slick__thumbnail li {
+  display: inline-block;
+  float: none;
+  height: auto;
+  max-height: 100px;
+  max-width: 100px;
+  margin: 5px;
+  overflow: hidden;
+  position: relative;
+  vertical-align: top;
+  width: auto;
+}
+.slick__thumbnail li img {
+  background: white;
+  border: 2px solid transparent;
+  display: block;
+  opacity: .6;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.slick__thumbnail li:hover img, .slick__thumbnail li.slick-active img {
+  border: 2px solid #ff6d2c;
+  opacity: 1;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  -o-transition-delay: 0s;
+  transition-delay: 0s;
+}
+
+/* Adjust accordingly to actual thumbnail size */
+.slick__thumbnail--hover li {
+  overflow: visible;
+}
+.slick__thumbnail--hover li .slide__thumbnail__box {
+  bottom: 140%;
+  left: 50%;
+  margin: -60px 0 0 -60px;
+  min-width: 120px;
+  opacity: 0;
+  overflow: visible;
+  position: absolute;
+  visibility: hidden;
+  width: 120px;
+  z-index: -1;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.slick__thumbnail--hover li .slide__thumbnail__box img {
+  pointer-events: none;
+}
+.slick__thumbnail--hover li .slide__thumbnail__box:after {
+  border: 7px solid transparent;
+  border-bottom: 0;
+  border-top-color: #ff6d2c;
+  bottom: -7px;
+  content: '';
+  display: block;
+  height: 0;
+  left: 50%;
+  margin: 0 0 0 -7px;
+  position: absolute;
+  width: 0;
+}
+.slick__thumbnail--hover li:hover .slide__thumbnail__box {
+  bottom: 120%;
+  margin-top: -20px;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  -o-transition-delay: 0s;
+  transition-delay: 0s;
+  z-index: 3;
+}
+
+.slick--has-thumbnail.slick--skin--fulllwidth {
+  margin-bottom: 0;
+}
+.slick--has-thumbnail.slick--skin--fulllwidth .slick__thumbnail {
+  bottom: 10px;
+}
+
+.slick--has-thumbnail--hover {
+  margin-bottom: 40px;
+}
+.slick--has-thumbnail--hover .slick__thumbnail {
+  bottom: -40px;
+}
+
+/**
+ * Misc overrides core slick.
+ */
+/* Hide non-js lazy-loaded image to show <noscript> one instead, if the theme
+supports no-js */
+.no-js img.lazy {
+  display: none !important;
+}
+
+.slick-initialized {
+  overflow: visible;
+}
+
+.slick,
+.slick__slide {
+  position: relative;
+}
+
+.slick-slide img {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+
+.slick-loading .slick-track {
+  opacity: 0;
+}
+.slick-loading .slide__image {
+  display: block;
+  visibility: hidden;
+}
+.slick-loading .slick__slide {
+  visibility: hidden;
+}
+
+/**
+ * Complex layout needs custom refinement for mobile, hence it is reasonable
+ * to apply for Desktop up. You have to adjust mobile version by your design.
+ */
+@media (min-width: 48em) {
+  .slick--center .slick-slide.slick-center {
+    -webkit-transform: scale(1.08);
+    -moz-transform: scale(1.08);
+    -ms-transform: scale(1.08);
+    -o-transform: scale(1.08);
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+@media (min-width: 65em) {
+  .slick__slide img {
+    pointer-events: none;
+  }
+
+  .slide__caption {
+    /* Caption right, stage left */
+  }
+  .slide--caption--stage-left .slide__caption, .slide--caption--stage-right .slide__caption, .slide--caption--stage-zebra .slide__caption {
+    left: 50%;
+    margin-left: -41%;
+    padding: 0;
+    width: 82%;
+  }
+
+  /* Contains text or other fields within caption */
+  .slide__data {
+    /* Caption right, stage left */
+    /* Caption left, stage right */
+  }
+  .slide--caption--stage-left .slide__caption .slide__data, .slide--caption--stage-zebra .slide__caption:nth-child(odd) .slide__data {
+    margin-right: 56%;
+  }
+  .slide--caption--stage-right .slide__caption .slide__data, .slide--caption--stage-zebra .slide__caption:nth-child(even) .slide__data {
+    margin-left: 56%;
+  }
+
+  /* Contains image within caption container */
+  .slide--caption--stage-left .slide__caption .slide__overlay, .slide--caption--stage-zebra .slide__caption:nth-child(odd) .slide__overlay {
+    float: right;
+    width: 52%;
+  }
+  .slide--caption--stage-right .slide__caption .slide__overlay, .slide--caption--stage-zebra .slide__caption:nth-child(even) .slide__overlay {
+    float: left;
+    width: 52%;
+  }
+
+  .slick--skin--split .slide--caption--split-left .slide__media, .slick--skin--split .slide--caption--split-zebra:nth-child(odd) .slide__media {
+    float: left;
+    width: 48%;
+  }
+  .slick--skin--split .slide--caption--split-right .slide__media, .slick--skin--split .slide--caption--split-zebra:nth-child(even) .slide__media {
+    float: right;
+    width: 48%;
+  }
+
+  .slick--skin--split .slide--caption--split-left .slide__caption, .slick--skin--split .slide--caption--split-zebra:nth-child(odd) .slide__caption {
+    margin-left: 52%;
+  }
+  .slick--skin--split .slide--caption--split-right .slide__caption, .slick--skin--split .slide--caption--split-zebra:nth-child(even) .slide__caption {
+    margin-right: 52%;
+  }
+}
+@media (max-width: 768px) {
+  .slick--center .slick-center.slick-slide {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@media (max-width: 767px) {
+  .slick--center {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+.media,
+.slide__media {
+  overflow: hidden;
+  position: relative;
+}
+
+.slick__image {
+  margin: 0 auto;
+}
+
+/**
+ * Slide layouts, adjust accordingly per actual container slide.
+ */
+.slide__caption {
+  font-size: 16px;
+  font-size: 1rem;
+  left: 0;
+  min-height: 32%;
+  margin-top: 0;
+  padding: 20px;
+  position: absolute;
+  text-align: left;
+  top: 10%;
+  width: 42%;
+  z-index: 3;
+}
+.slide--caption--below .slide__caption {
+  position: relative;
+  top: auto;
+  width: 100%;
+}
+.slide--caption--center .slide__caption {
+  margin-top: -16%;
+  top: 50%;
+}
+.slide--caption--center .slide__caption, .slide--caption--center-top .slide__caption {
+  left: 50%;
+  margin-left: -21%;
+  padding: 0;
+  text-align: center;
+}
+.slide--caption--right .slide__caption {
+  right: 0;
+}
+.slide--caption--top .slide__caption, .slide--caption--bottom .slide__caption {
+  width: 100%;
+}
+.slide--caption--top .slide__caption {
+  top: 0;
+}
+.slide--caption--bottom .slide__caption {
+  bottom: 0;
+}
+.slick--has-arrow-down .slide--caption--bottom .slide__caption {
+  padding-bottom: 80px;
+}
+
+/**
+ * Skins.
+ */
+.slide__title {
+  margin: 10px 0 5px;
+  line-height: 1.2;
+}
+.slick--carousel .slide__title {
+  font-size: 22px;
+  font-size: 1.375rem;
+}
+
+.slide__link {
+  margin: 30px auto;
+  text-transform: uppercase;
+}
+.slide__link .field-item {
+  display: inline-block;
+  vertical-align: top;
+}
+.slide__link .field-item a {
+  display: block;
+  padding: 5px 10px;
+}
+
+.slide__pattern {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.slick--has-pattern .slide__pattern {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAAA3NCSVQICAjb4U/gAAAABlBMVEUAAAD///+l2Z/dAAAAAnRSTlP/AOW3MEoAAAAJcEhZcwAACusAAArrAYKLDVoAAAAWdEVYdENyZWF0aW9uIFRpbWUAMjUvMDQvMTHvvlk6AAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M1cbXjNgAAAA5JREFUCJljSGB4wPAAAAVmAiGdUf+vAAAAAElFTkSuQmCC") repeat 0 0;
+}
+
+/**
+ * Bullets.
+ */
+/* Overrides too tiny bullets from core slick.css */
+.slick-dots li button:before {
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+
+/**
+ * @todo drop, temp Bartik overrides.
+ */
+#content .slide__title {
+  margin: 10px 0 5px;
+  line-height: 1.2;
+}
+
+#content .slick--carousel .slide__title {
+  font-size: 22px;
+  font-size: 1.375rem;
+}

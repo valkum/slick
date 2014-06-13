@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "variables/**/*";
+@import "abstractions/**/*";
+/**
+ * @file
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+.slick--skin--fullwidth {
+  text-shadow: none; // overrides Bartik
+  .slide__caption {
+    @include font-size(22px);
+    color: $white;
+  }
+  .slide__title {
+    color: $white;
+    @include font-size(48px);
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .slide__link {
+    a {
+      border-bottom: 2px solid $white-trans;
+      border-top: 2px solid $white-trans;
+      color: $white;
+      color: $white-trans;
+      text-decoration: none;
+
+      &:hover {
+        border-color: $white;
+        color: $white;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .slide__constrained {
+    @include max-container-absolute(98%, 10%);
+    min-height: 210px;
+
+    .slide__caption {
+      position: relative;
+    }
+
+    @include breakpoint($desk) {
+      @include max-container-absolute($max-container, 15%);
+    }
+    @include breakpoint($desk-large) {
+      @include max-container-absolute($max-container-large);
+    }
+  }
+}

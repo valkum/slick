@@ -1,0 +1,82 @@
+/**
+ * @file
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+.slick--skin--fullwidth {
+  text-shadow: none;
+}
+.slick--skin--fullwidth .slide__caption {
+  font-size: 22px;
+  font-size: 1.375rem;
+  color: white;
+}
+.slick--skin--fullwidth .slide__title {
+  color: white;
+  font-size: 48px;
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.slick--skin--fullwidth .slide__link a {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  border-top: 2px solid rgba(255, 255, 255, 0.8);
+  color: white;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+.slick--skin--fullwidth .slide__link a:hover {
+  border-color: white;
+  color: white;
+  text-decoration: none;
+}
+.slick--skin--fullwidth .slide__constrained {
+  left: 50%;
+  margin-left: -49%;
+  position: absolute;
+  top: 10%;
+  width: 98%;
+  *zoom: 1;
+  z-index: 2;
+  min-height: 210px;
+}
+.slick--skin--fullwidth .slide__constrained:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.slick--skin--fullwidth .slide__constrained .slide__caption {
+  position: relative;
+}
+@media (min-width: 65em) {
+  .slick--skin--fullwidth .slide__constrained {
+    left: 50%;
+    margin-left: -570px;
+    position: absolute;
+    top: 15%;
+    width: 1140px;
+    *zoom: 1;
+    z-index: 2;
+  }
+  .slick--skin--fullwidth .slide__constrained:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@media (min-width: 90em) {
+  .slick--skin--fullwidth .slide__constrained {
+    left: 50%;
+    margin-left: -585px;
+    position: absolute;
+    top: 0;
+    width: 1170px;
+    *zoom: 1;
+    z-index: 2;
+  }
+  .slick--skin--fullwidth .slide__constrained:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}

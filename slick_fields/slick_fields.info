@@ -1,0 +1,7 @@
+name = Slick Fields
+description = "Adds a field display formatter for Slick carousel"
+core = 7.x
+package = Slick
+
+dependencies[] = image
+dependencies[] = slick

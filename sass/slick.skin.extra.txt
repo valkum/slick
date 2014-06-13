@@ -1,0 +1,61 @@
+/**
+ * Numeric bullets.
+ *
+.slick-dots li button {
+  color: #000;
+  font-size: 22px;
+}
+
+.slick-dots li button:before {
+  display: none;
+}
+*/
+
+/**
+ * Pure CSS arrows
+ */
+/*
+.slick__arrow {
+  .slick-prev {
+    &:before,
+    &:after {
+      right: 18px;
+    }
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    color: #FF6D2C;
+    margin-top: -2px;
+    font-size: 32px;
+    font-size: 2rem;
+  }
+
+  .slick-prev:after,
+  .slick-next:after {
+    margin-top: -8px;
+  }
+
+  .slick-prev:hover:before,
+  .slick-next:hover:before {
+    color: #37465B;
+  }
+
+  .slick-prev:before,
+  .slick-prev:after,
+  .slick-next:before,
+  .slick-next:after {
+    height: 10px;
+  }
+
+  .slick-next:before {
+    right: 16px;
+    @include transform(rotate(-135deg));
+  }
+
+  .slick-next:after {
+    right: 16px;
+    @include transform(rotate(-45deg));
+  }
+}
+*/

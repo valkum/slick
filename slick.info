@@ -1,9 +1,10 @@
 name = Slick
-description = Slick carousel for Drupal
+description = "Slick carousel for Drupal"
 core = 7.x
+package = Slick
 
-dependencies[] = libraries
+dependencies[] = libraries (>=2.x)
+dependencies[] = ctools
+dependencies[] = jquery_update
 
-files[] = theme/slick.theme.inc
-files[] = slick.views.inc
-files[] = slick_plugin_style_slick.inc
+files[] = templates/slick.theme.inc

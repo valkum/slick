@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "variables/**/*";
+@import "abstractions/**/*";
+/**
+ * @file
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+.slide__media {
+  .slick--skin--rounded & {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
