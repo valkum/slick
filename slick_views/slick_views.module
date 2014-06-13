@@ -13,26 +13,3 @@ function slick_views_views_api() {
     'api' => 3,
   );
 }
-
-/**
- * Implements hook_theme().
-
-function slick_views_theme($existing, $type, $theme, $path) {
-  $base = array(
-    'file' => 'slick_views.theme.inc',
-    'path' => $path . '/templates',
-  );
-  
-  return array(
-    // Slick views.
-    'slick_views' => $base + array(
-      'variables' => array(
-        'view' => array(),
-        // 'options' => array(),
-        'items' => array(),
-        'settings' => array(),
-      ),
-    ),
-  );
-}
- */
