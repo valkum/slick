@@ -544,6 +544,23 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 .has-tooltip .form-item.selected .hint, .has-tooltip .form-item.hover .hint {
   display: block;
 }
+.has-tooltip .form-item.selected > .description {
+  padding-left: 20px !important;
+}
+.has-tooltip .form-item.selected > .description:before {
+  color: #dadada;
+  content: "x";
+  display: block;
+  font-family: sans-serif;
+  height: 20px;
+  left: 5px;
+  line-height: 18px;
+  margin-top: -10px;
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  z-index: 0;
+}
 
 .no-js .has-tooltip .form-item:hover > .description {
   bottom: 100%;
