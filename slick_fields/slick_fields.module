@@ -95,12 +95,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
   $caption_options = array();
   $title_options   = array();
   $link_options    = array();
-
-  $optionsets = array();
-  ctools_include('export');
-  foreach (slick_optionset_load_all() as $name => $optionset) {
-    $optionsets[$name] = check_plain($optionset->label);
-  }
+  $optionsets = slick_optionset_options();
 
   $is_views_ui = '';
   if ($instance['entity_type'] == 'ctools') {
@@ -345,44 +340,44 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
 
   if (in_array($field_entity_type, array('field_collection_item', 'file'))) {
     $element['media_switch']['#description'] .= t('<br />Iframe switcher: audio/video iframe is hidden below image overlay until toggled, otherwise iframe is always displayed, and draggable fails. Aspect ratio applies.');
-  }
 
-  $element['aspect_ratio'] = array(
-    '#type' => 'select',
-    '#title' => t('Aspect ratio'),
+    $element['aspect_ratio'] = array(
+      '#type' => 'select',
+      '#title' => t('Aspect ratio'),
       // http://en.wikipedia.org/wiki/List_of_common_resolutions
-    '#description' => t('Aspect ratio to get consistently responsive images and iframes within responsive layout, required if using media file to switch between iframe and overlay image, otherwise you have to do it properly. <a href="@dimensions">Image styles and video dimensions</a> must <a href="@follow">follow the ratio</a>, otherwise your images will be unexpedtedly resized. <a href="@link">Learn more</a>, or leave empty if you care not for aspect ratio, or prefer to DIY, etc. Check "Aspect ratio overlay only" below to apply to Media or FC overlay field only.', array('@dimensions' => '//size43.com/jqueryVideoTool.html', '@follow' => '//en.wikipedia.org/wiki/Aspect_ratio_%28image%29', '@link' => '//www.smashingmagazine.com/2014/02/27/making-embedded-content-work-in-responsive-design/')),
-    '#options' => drupal_map_assoc(array('4:3', '16:9')),
-    '#empty_option' => t('- None -'),
-    '#default_value' => $settings['aspect_ratio'],
-    '#attributes' => array('class' => array('is-tooltip')),
-    '#states' => array(
-      'visible' => array(
-        'select[name*="[media_switch]"]' => array('value' => 'iframe-switch'),
-      ),
-    ),
-  );
-
-  if ($field_entity_type == 'field_collection_item') {
-    $element['media_switch']['#title'] = t('Media overlay switcher');
-    $element['media_switch']['#description'] .= t('<br />Both applied to overlay only.');
-    $element['aspect_ratio_overlay'] = array(
-      '#title' => t('Aspect ratio overlay only'),
-      '#type' => 'checkbox',
-      '#default_value' => $settings['aspect_ratio_overlay'],
-      '#field_suffix' => '',
-      '#title_display' => 'before',
+      '#description' => t('Aspect ratio to get consistently responsive images and iframes within responsive layout, required if using media file to switch between iframe and overlay image, otherwise you have to do it properly. <a href="@dimensions">Image styles and video dimensions</a> must <a href="@follow">follow the ratio</a>, otherwise your images will be unexpedtedly resized. <a href="@link">Learn more</a>, or leave empty if you care not for aspect ratio, or prefer to DIY, etc. Check "Aspect ratio overlay only" below to apply to Media or FC overlay field only.', array('@dimensions' => '//size43.com/jqueryVideoTool.html', '@follow' => '//en.wikipedia.org/wiki/Aspect_ratio_%28image%29', '@link' => '//www.smashingmagazine.com/2014/02/27/making-embedded-content-work-in-responsive-design/')),
+      '#options' => drupal_map_assoc(array('4:3', '16:9')),
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['aspect_ratio'],
+      '#attributes' => array('class' => array('is-tooltip')),
       '#states' => array(
-        'invisible' => array(
-          'select[name*="[aspect_ratio]"]' => array('value' => ''),
-        ),
         'visible' => array(
           'select[name*="[media_switch]"]' => array('value' => 'iframe-switch'),
         ),
       ),
-      '#description' => t('Apply aspect ratio to overlay media only, excluding main/background image.'),
-      '#attributes' => array('class' => array('is-tooltip')),
     );
+
+    if ($field_entity_type == 'field_collection_item') {
+      $element['media_switch']['#title'] = t('Media overlay switcher');
+      $element['media_switch']['#description'] .= t('<br />Both applied to overlay only.');
+      $element['aspect_ratio_overlay'] = array(
+        '#title' => t('Aspect ratio overlay only'),
+        '#type' => 'checkbox',
+        '#default_value' => $settings['aspect_ratio_overlay'],
+        '#field_suffix' => '',
+        '#title_display' => 'before',
+        '#states' => array(
+          'invisible' => array(
+            'select[name*="[aspect_ratio]"]' => array('value' => ''),
+          ),
+          'visible' => array(
+            'select[name*="[media_switch]"]' => array('value' => 'iframe-switch'),
+          ),
+        ),
+        '#description' => t('Apply aspect ratio to overlay media only, excluding main/background image.'),
+        '#attributes' => array('class' => array('is-tooltip')),
+      );
+    }
   }
 
   // Optional colorbox integration.
@@ -509,8 +504,8 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
   );
 
   if ($display['type'] == 'slick') {
-    $element['#attached']['css'][] = $slick_module_path . '/css/slick.admin.ui.css';
-    $element['#attached']['css'][] = $slick_module_path . '/css/slick.admin.ui.field.css';
+    $element['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui.css';
+    $element['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui--field.css';
     $element['#attached']['js'][] = $slick_module_path . '/js/slick.admin.ui.js';
   }
 
@@ -637,6 +632,8 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       'slide_caption' => FALSE,
       'attach_colorbox' => FALSE,
       'thumbnail_hover' => FALSE,
+      'media_switch' => FALSE,
+      'picture' => FALSE,
     );
 
     $settings = array_merge($settings, $display['settings']);

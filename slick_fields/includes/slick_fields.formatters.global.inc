@@ -144,6 +144,7 @@ function _slick_fields_get_media_thumbnail(&$settings, $uri, $image_style = NULL
           if ($embed_data = $wrapper->getOEmbed($soundcloud_url)) {
             $settings['soundcloud'] = TRUE;
           }
+
           $media_id = $parts['u'];
           break;
       }

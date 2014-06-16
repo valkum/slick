@@ -8,15 +8,15 @@
 @import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
-@import "variables/**/*";
-@import "abstractions/**/*";
+@import "../variables/**/*";
+@import "../abstractions/**/*";
 
 /**
  * @file.
  * Provided basic layout and styling for the Slick based on custom settings.
  * Detailed stylings are all yours, get yourself dirty.
  */
-@import "base/**/*";
+@import "../base/**/*";
 @import "components/**/*";
 
 .media,

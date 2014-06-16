@@ -115,11 +115,11 @@ function slick_library() {
 
   $slick_library_path = libraries_get_path('slick');
   $slick_module_path = drupal_get_path('module', 'slick');
-  $info = system_get_info('module', 'media');
+  $info = system_get_info('module', 'slick');
 
   $common = array(
     'website' => 'http://drupal.org/project/slick',
-    'version' => !empty($info['version']) ? $info['version'] : '7.x-1.x',
+    'version' => !empty($info['version']) ? $info['version'] : '7.x-2.x',
   );
 
   $libraries = array();
@@ -132,6 +132,9 @@ function slick_library() {
     'js' => array(
       libraries_get_path('easing') . '/jquery.easing.min.js' => array('group' => JS_LIBRARY, 'weight' => -6),
     ),
+    'dependencies' => array(
+      array('system', 'jquery'),
+    ),
   );
 
   // @todo mousewheel, no module for drupal 7 by now.
@@ -141,6 +144,9 @@ function slick_library() {
     'version' => '3.1.11',
     'js' => array(
       libraries_get_path('mousewheel') . '/jquery.mousewheel.min.js' => array('group' => JS_LIBRARY, 'weight' => -5),
+    ),
+    'dependencies' => array(
+      array('system', 'jquery'),
     ),
   );
 
@@ -153,19 +159,21 @@ function slick_library() {
       $slick_library_path . '/slick/slick.min.js' => array('group' => JS_LIBRARY, 'weight' => -4),
     ),
     'css' => array(
-      $slick_library_path . '/slick/slick.css' => array('group' => CSS_DEFAULT, 'weight' => -4),
+      $slick_library_path . '/slick/slick.css' => array('weight' => -4),
+    ),
+    'dependencies' => array(
+      array('system', 'jquery'),
     ),
   );
 
   // Slick colorbox libraries.
   $libraries['drupal.slick.colorbox'] = $common + array(
     'title' => 'Slick colorbox',
-    'version' => '7.x-1.x',
     'js' => array(
       $slick_module_path . '/js/slick.colorbox.js' => array('group' => JS_DEFAULT, 'weight' => 0),
     ),
     'css' => array(
-      $slick_module_path . '/css/slick.colorbox.css' => array('group' => CSS_DEFAULT),
+      $slick_module_path . '/css/components/slick.colorbox.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
     ),
     'dependencies' => array(
       array('system', 'jquery.once'),
@@ -177,12 +185,11 @@ function slick_library() {
   // Slick module libraries.
   $libraries['drupal.slick'] = $common + array(
     'title' => 'Slick module',
-    'version' => '7.x-1.x',
     'js' => array(
       $slick_module_path . '/js/slick.load.js' => array('group' => JS_DEFAULT, 'weight' => 1),
     ),
     'css' => array(
-      $slick_module_path . '/css/slick.skin.css' => array('group' => CSS_DEFAULT),
+      $slick_module_path . '/css/theme/slick.theme.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
     ),
     'dependencies' => array(
       array('system', 'jquery.once'),
@@ -193,12 +200,11 @@ function slick_library() {
   // Slick media libraries.
   $libraries['drupal.slick.media'] = $common + array(
     'title' => 'Slick media',
-    'version' => '7.x-1.x',
     'js' => array(
       $slick_module_path . '/js/slick.media.js' => array('group' => JS_DEFAULT, 'weight' => 2),
     ),
     'css' => array(
-      $slick_module_path . '/css/slick.media.css' => array('group' => CSS_DEFAULT),
+      $slick_module_path . '/css/components/slick.media.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
     ),
     'dependencies' => array(
       array('system', 'jquery.once'),
@@ -237,12 +243,14 @@ function slick_libraries_info() {
     // 'integration files' => array(
     // 'slick' => array(
     // 'js' => array(
+    // 'js/slick.colorbox.js',
     // 'js/slick.load.js',
     // 'js/slick.media.js',
     // ),
     // 'css' => array(
-    // 'css/slick.skin.css',
-    // 'css/slick.media.css',
+    // 'css/theme/slick.theme.css',
+    // 'css/components/slick.media.css',
+    // 'css/components/slick.colorbox.css',
     // ),
     // ),
     // ),
@@ -323,12 +331,12 @@ function slick_attach(array $attach) {
     $load['library'][] = array('slick', 'slick');
   }
 
-  if ($attach['attach_module']) {
-    $load['library'][] = array('slick', 'drupal.slick');
-  }
-
   if ($attach['attach_colorbox']) {
     $load['library'][] = array('slick', 'drupal.slick.colorbox');
+  }
+
+  if ($attach['attach_module']) {
+    $load['library'][] = array('slick', 'drupal.slick');
   }
 
   if ($attach['attach_media']) {
@@ -380,6 +388,8 @@ function slick_attach(array $attach) {
  *
  * Notes: This is not used since the sub modules implements #attached property
  * instead. It is here to load library for custom works as needed.
+ *
+ * @see slick_attach()
  *
  * @todo refine by $settings.
  */

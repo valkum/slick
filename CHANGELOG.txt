@@ -1,4 +1,10 @@
 
+
+Slick 7.x-1.0-dev, 2014-06-16
+-----------------------------
+Renamed and reorganized all CSS files to match Drupal 8 file organization, see
+  https://drupal.org/node/1887922
+
 Slick 7.x-1.0-dev, 2014-06-13
 -----------------------------
 Added slick-views.tpl.php to satisfy Views UI template discovery.

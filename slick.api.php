@@ -30,13 +30,13 @@ function hook_slick_skins_info() {
       'description' => t('Skin description.'),
       'css' => array(
         // Full path to a CSS file to include with the skin.
-        drupal_get_path('module', 'module_name') . '/css/module-name.slick.skin-slider.css',
-        drupal_get_path('module', 'module_name') . '/css/module-name.slick.skin-carousel.css',
+        drupal_get_path('module', 'module_name') . '/css/module-name.slick.theme--slider.css',
+        drupal_get_path('module', 'module_name') . '/css/module-name.slick.theme--carousel.css',
       ),
       'js' => array(
         // Full path to a JS file to include with the skin.
-        drupal_get_path('module', 'module_name') . '/js/module-name.slick.skin-slider.js',
-        drupal_get_path('module', 'module_name') . '/js/module-name.slick.skin-carousel.js',
+        drupal_get_path('module', 'module_name') . '/js/module-name.slick.theme--slider.js',
+        drupal_get_path('module', 'module_name') . '/js/module-name.slick.theme--carousel.js',
       ),
     )
   );
@@ -58,5 +58,5 @@ function hook_slick_skins_info_alter(&$skins) {
   // Replace the default skin styling.
   // Namespace your asset files accordingly to avoid conflict since Drupal loads
   // CSS by basename.
-  $skins['default']['css'] = drupal_get_path('module', 'module_name') . '/module-name.slick.skin-owsem.css';
+  $skins['default']['css'] = drupal_get_path('module', 'module_name') . '/module-name.slick.theme--owsem.css';
 }

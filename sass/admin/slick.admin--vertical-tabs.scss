@@ -8,8 +8,8 @@
 @import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
-@import "variables/**/*";
-@import "abstractions/**/*";
+@import "../variables/**/*";
+@import "../abstractions/**/*";
 /**
  * @file
  * Vertical tabs. Lets face it, VT over-specified selector is for a reason:

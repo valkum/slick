@@ -1,0 +1,7 @@
+
+ @todo
+ customPaging 	function 	n/a 	Custom paging templates. See source for use example.
+ onBeforeChange 	function 	null 	Before slide callback
+ onAfterChange 	function 	null 	After slide callback
+ onInit 	function 	null 	Callback that fires after first initialization
+ onReInit 	function 	null 	Callback that fires after every re-initialization

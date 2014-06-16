@@ -8,12 +8,15 @@
 @import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
-@import "variables/**/*";
-@import "abstractions/**/*";
-
+@import "../variables/**/*";
+@import "../abstractions/**/*";
 /**
  * @file
- * Some !important declarations are to overrides over-specified Seven rules.
+ * Detailed stylings are all yours, get yourself dirty.
  */
-@import "base/**/*";
-@import "admin/**/*";
+.slide__media {
+  .slick--skin--rounded & {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}

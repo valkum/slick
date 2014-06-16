@@ -8,15 +8,12 @@
 @import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
-@import "variables/**/*";
-@import "abstractions/**/*";
+@import "../variables/**/*";
+@import "../abstractions/**/*";
 /**
  * @file
+ * Detailed stylings are all yours, get yourself dirty.
  */
-.slick {
-  margin-bottom: 60px;
-}
-
-.slide .field-type-text-long {
-  padding: 20px 0 10px;
+.slick--skin--split .slide__caption {
+  top: 0;
 }

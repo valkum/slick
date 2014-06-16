@@ -8,12 +8,12 @@
 @import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
-@import "variables/**/*";
-@import "abstractions/**/*";
+@import "../variables/**/*";
+@import "../abstractions/**/*";
+
 /**
  * @file
- * Detailed stylings are all yours, get yourself dirty.
+ * Some !important declarations are to overrides over-specified Seven rules.
  */
-.slick--skin--boxed .slick-list {
-  margin: 0 60px;
-}
+@import "../base/**/*";
+@import "components/**/*";

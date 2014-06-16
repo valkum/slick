@@ -78,7 +78,7 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
   $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
 
   // Clean up the main options.
-  $settings = $customs ? $customs : $options['settings'];
+  $settings = $customs ?: $options['settings'];
   $config = array_diff_assoc($settings, $defaults['settings']);
 
   // Must be empty if all is default optionset.
@@ -229,41 +229,46 @@ function _slick_transition_options() {
  * List of all easing methods available from jQuery Easing v1.3.
  */
 function _slick_easing_options() {
-  return array(
-    '' => 'None',
-    'linear' => 'Linear',
-    'swing' => 'Swing',
-    'easeInQuad' => 'easeInQuad',
-    'easeOutQuad' => 'easeOutQuad',
-    'easeInOutQuad' => 'easeInOutQuad',
-    'easeInCubic' => 'easeInCubic',
-    'easeOutCubic' => 'easeOutCubic',
-    'easeInOutCubic' => 'easeInOutCubic',
-    'easeInQuart' => 'easeInQuart',
-    'easeOutQuart' => 'easeOutQuart',
-    'easeInOutQuart' => 'easeInOutQuart',
-    'easeInQuint' => 'easeInQuint',
-    'easeOutQuint' => 'easeOutQuint',
-    'easeInOutQuint' => 'easeInOutQuint',
-    'easeInSine' => 'easeInSine',
-    'easeOutSine' => 'easeOutSine',
-    'easeInOutSine' => 'easeInOutSine',
-    'easeInExpo' => 'easeInExpo',
-    'easeOutExpo' => 'easeOutExpo',
-    'easeInOutExpo' => 'easeInOutExpo',
-    'easeInCirc' => 'easeInCirc',
-    'easeOutCirc' => 'easeOutCirc',
-    'easeInOutCirc' => 'easeInOutCirc',
-    'easeInElastic' => 'easeInElastic',
-    'easeOutElastic' => 'easeOutElastic',
-    'easeInOutElastic' => 'easeInOutElastic',
-    'easeInBack' => 'easeInBack',
-    'easeOutBack' => 'easeOutBack',
-    'easeInOutBack' => 'easeInOutBack',
-    'easeInBounce' => 'easeInBounce',
-    'easeOutBounce' => 'easeOutBounce',
-    'easeInOutBounce' => 'easeInOutBounce',
-  );
+  $easings = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($easings)) {
+    $easings = array(
+      '' => 'None',
+      'linear' => 'Linear',
+      'swing' => 'Swing',
+      'easeInQuad' => 'easeInQuad',
+      'easeOutQuad' => 'easeOutQuad',
+      'easeInOutQuad' => 'easeInOutQuad',
+      'easeInCubic' => 'easeInCubic',
+      'easeOutCubic' => 'easeOutCubic',
+      'easeInOutCubic' => 'easeInOutCubic',
+      'easeInQuart' => 'easeInQuart',
+      'easeOutQuart' => 'easeOutQuart',
+      'easeInOutQuart' => 'easeInOutQuart',
+      'easeInQuint' => 'easeInQuint',
+      'easeOutQuint' => 'easeOutQuint',
+      'easeInOutQuint' => 'easeInOutQuint',
+      'easeInSine' => 'easeInSine',
+      'easeOutSine' => 'easeOutSine',
+      'easeInOutSine' => 'easeInOutSine',
+      'easeInExpo' => 'easeInExpo',
+      'easeOutExpo' => 'easeOutExpo',
+      'easeInOutExpo' => 'easeInOutExpo',
+      'easeInCirc' => 'easeInCirc',
+      'easeOutCirc' => 'easeOutCirc',
+      'easeInOutCirc' => 'easeInOutCirc',
+      'easeInElastic' => 'easeInElastic',
+      'easeOutElastic' => 'easeOutElastic',
+      'easeInOutElastic' => 'easeInOutElastic',
+      'easeInBack' => 'easeInBack',
+      'easeOutBack' => 'easeOutBack',
+      'easeInOutBack' => 'easeInOutBack',
+      'easeInBounce' => 'easeInBounce',
+      'easeOutBounce' => 'easeOutBounce',
+      'easeInOutBounce' => 'easeInOutBounce',
+    );
+  }
+  return $easings;
 }
 
 /**
@@ -378,7 +383,7 @@ function slick_get_options() {
 
   $options['easing'] = array(
     'title' => t('Easing'),
-    'description' => t('Add easing for jQuery animate. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options. Or see Goodies under general option to load easing from CDN.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
+    'description' => t('Add easing for jQuery animate. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
     'type' => 'select',
     'cast' => 'string',
     'default' => 'linear',
@@ -514,7 +519,7 @@ function slick_get_responsive_options($count = 0) {
 
     $options[$key]['settings'] = array(
       'title' => t('Settings'),
-      'description' => t('Settings'),
+      'description' => t('Breakpoint settings'),
       'type' => 'fieldset',
     );
 
@@ -593,6 +598,26 @@ function slick_optionset_load($optionset_name) {
   // Ensure the optionset is typecast after being loaded from DB.
   _slick_typecast_optionset($optionset->options, $optionset->breakpoints);
   return $optionset;
+}
+
+/**
+ * Load all slick optionsets as select options.
+ *
+ * @return array
+ *   An array containing slicks indexed by their names.
+ */
+function slick_optionset_options() {
+  $optionsets = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($optionsets)) {
+    $optionsets = array();
+    $slicks = slick_optionset_load_all();
+    foreach ($slicks as $key => $optionset) {
+      $optionsets[$key] = check_plain($optionset->label);
+    }
+    asort($optionsets);
+  }
+  return $optionsets;
 }
 
 /**

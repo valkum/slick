@@ -170,6 +170,46 @@ img {
 }
 
 /**
+ * Horizontal tabs.
+ */
+.horizontal-tabs fieldset.horizontal-tabs-pane {
+  margin-top: 10px;
+  padding: 0;
+}
+.horizontal-tabs .fieldset-wrapper {
+  padding: 0;
+}
+.horizontal-tabs ul.horizontal-tabs-list {
+  background: none;
+  border: 0;
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+.horizontal-tabs ul.horizontal-tabs-list li {
+  background: none;
+  border: 0;
+  text-align: center;
+}
+.horizontal-tabs ul.horizontal-tabs-list li:hover, .horizontal-tabs ul.horizontal-tabs-list li:focus {
+  background-color: transparent;
+}
+.horizontal-tabs ul.horizontal-tabs-list li a {
+  background: #dadada;
+  text-transform: uppercase;
+}
+.horizontal-tabs ul.horizontal-tabs-list li a:hover {
+  background: black;
+  border: 0;
+  color: white;
+}
+.horizontal-tabs ul.horizontal-tabs-list li.selected a {
+  background: black;
+}
+.horizontal-tabs ul.horizontal-tabs-list li.selected a strong {
+  color: white;
+}
+
+/**
  * Thumbnails.
  */
 .slick--has-thumbnail {

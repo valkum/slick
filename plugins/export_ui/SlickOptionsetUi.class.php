@@ -18,8 +18,8 @@ class SlickOptionsetUi extends ctools_export_ui {
 
     $options = $optionset->options;
 
-    $form['#attached']['css'][] = $module_path . '/css/slick.admin.ui.css';
-    $form['#attached']['css'][] = $module_path . '/css/slick.admin.vertical-tabs.css';
+    $form['#attached']['css'][] = $module_path . '/css/admin/slick.admin--ui.css';
+    $form['#attached']['css'][] = $module_path . '/css/admin/slick.admin--vertical-tabs.css';
     $form['#attached']['js'][] = $module_path . '/js/slick.admin.ui.js';
     $form['#attributes']['class'][] = 'no-js';
     $form['#attributes']['class'][] = 'form--slick';

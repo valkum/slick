@@ -207,8 +207,8 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-    $form['#attached']['css'][] = $slick_module_path . '/css/slick.admin.ui.css';
-    $form['#attached']['css'][] = $slick_module_path . '/css/slick.admin.ui.field.css';
+    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui.css';
+    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui--field.css';
     $form['#attached']['js'][]  = $slick_module_path . '/js/slick.admin.ui.js';
 
     $form['slick'] = array(

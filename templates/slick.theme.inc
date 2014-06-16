@@ -22,12 +22,13 @@ function template_preprocess_slick(&$variables) {
   $settings  = array(
     'optionset'       => '',
     'skin'            => 'default',
-    'media_switch'    => '',
+    'media_switch'    => FALSE,
     'is_carousel'     => FALSE,
     'has_pattern'     => FALSE,
     'has_arrow_down'  => FALSE,
     'thumbnail_style' => FALSE,
     'thumbnail_hover' => FALSE,
+    'aspect_ratio_overlay' => FALSE,
   );
 
   $settings  = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
@@ -91,6 +92,7 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'][] = drupal_clean_css_identifier('slick--optionset--' . $optionset_name);
   }
 
+  // Field or Views overrides the optionset one.
   $skin = $settings['skin'] ?: $optionset->skin;
   if ($skin) {
     if ($skin !== 'boxed' && strpos($skin, 'boxed') !== FALSE) {
@@ -99,8 +101,7 @@ function template_preprocess_slick(&$variables) {
     if ($skin !== 'split' && strpos($skin, 'split') !== FALSE) {
       $attributes['class'][] = 'slick--skin--split';
     }
-    $settings['skin'] = drupal_clean_css_identifier($skin);
-    $attributes['class'][] = 'slick--skin--' . $settings['skin'];
+    $attributes['class'][] = drupal_clean_css_identifier('slick--skin--' . $skin);
   }
 
   if ($js_settings['centerMode']) {
@@ -113,8 +114,7 @@ function template_preprocess_slick(&$variables) {
 
   if ($settings['media_switch'] == 'iframe-switch') {
     if ($settings['aspect_ratio']) {
-      $attributes['class'][] = isset($settings['aspect_ratio_overlay'])
-        && $settings['aspect_ratio_overlay'] ? 'slick--ratio-overlay' : 'slick--ratio';
+      $attributes['class'][] = $settings['aspect_ratio_overlay'] ? 'slick--ratio-overlay' : 'slick--ratio';
 
       $attributes['class'][] = drupal_clean_css_identifier('slick--ratio--' . $settings['aspect_ratio']);
       $attributes['class'][] = drupal_clean_css_identifier('slick--ratio--' . $settings['field_type']);
