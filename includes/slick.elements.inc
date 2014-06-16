@@ -83,15 +83,6 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
 
   // Must be empty if all is default optionset.
   if ($config) {
-    // Anon DIV is problematic, since Slick will slide every div element
-    // within its container which makes it impossible to add a div to wrap
-    // buttons (such as arrow down) nor wrap them for advanced customPaging.
-    // Hence we override with more specific class .slick__slide instead.
-    // Having list type is irrelevant to the JS generated markups.
-    if (isset($config['slide']) && ($config['slide'] == 'div' || empty($config['slide']))) {
-      $config['slide'] = '.slick__slide';
-    }
-
     // Remove wasted dependent options if disabled, even if not empty.
     if (empty($config['autoplay'])) {
       unset($config['pauseOnHover'], $config['autoplaySpeed']);

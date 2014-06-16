@@ -33,13 +33,13 @@
   .slide__data {
     /* Caption right, stage left */
     .slide--caption--stage-left .slide__caption &,
-    .slide--caption--stage-zebra .slide__caption:nth-child(odd) & {
+    .slide--caption--stage-zebra:nth-child(odd) .slide__caption & {
       margin-right: 56%;
     }
 
     /* Caption left, stage right */
     .slide--caption--stage-right .slide__caption &,
-    .slide--caption--stage-zebra .slide__caption:nth-child(even) & {
+    .slide--caption--stage-zebra:nth-child(even) .slide__caption & {
       margin-left: 56%;
     }
   }
@@ -47,13 +47,13 @@
   /* Contains image within caption container */
   .slide__overlay {
     .slide--caption--stage-left .slide__caption &,
-    .slide--caption--stage-zebra .slide__caption:nth-child(odd) & {
+    .slide--caption--stage-zebra:nth-child(odd) .slide__caption & {
       float: right;
       width: 52%;
     }
 
     .slide--caption--stage-right .slide__caption &,
-    .slide--caption--stage-zebra .slide__caption:nth-child(even) & {
+    .slide--caption--stage-zebra:nth-child(even) .slide__caption & {
       float: left;
       width: 52%;
     }

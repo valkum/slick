@@ -164,11 +164,6 @@ class SlickOptionsetUi extends ctools_export_ui {
         '#attributes' => array('class' => array('is-tooltip')),
       );
 
-      if ($name == 'slide') {
-        $slide_element = $options['settings']['slide'] == 'div' || empty($options['settings']['slide']) ? '.slick__slide' : $options['settings']['slide'];
-        $form['options']['settings'][$name]['#default_value'] = $slide_element;
-      }
-
       if (isset($values['field_suffix'])) {
         $form['options']['settings'][$name]['#field_suffix'] = $values['field_suffix'];
       }

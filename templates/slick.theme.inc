@@ -46,6 +46,7 @@ function template_preprocess_slick(&$variables) {
   if (empty($optionset)) {
     // Fall back to 'default' option set.
     $optionset = slick_optionset_load('default');
+
     watchdog('slick', 'Fallback to default optionset.', array(), WATCHDOG_WARNING);
   }
 
@@ -53,12 +54,18 @@ function template_preprocess_slick(&$variables) {
   $general = $options['general'];
   $goodies = $general['goodies'];
   $optionset_name = $optionset->name;
-
   $js_settings = array(
     'centerMode' => FALSE,
     'slidesToShow' => 1,
   );
+
   $js_settings = $customs ? array_merge($options['settings'], $customs) : $options['settings'];
+  // Anon DIV is problematic, since Slick will slide every div element
+  // within its container which makes it impossible to add a div to wrap
+  // buttons (such as arrow down) nor wrap them for advanced customPaging.
+  // Hence we override with more specific class .slick__slide instead.
+  // Having list type is irrelevant to the JS generated markups.
+  $js_settings['slide'] = $js_settings['slide'] == 'div' ? '.slick__slide' : $js_settings['slide'];
 
   $settings['has_arrow_down'] = $settings['has_arrow_down'] ? TRUE : isset($goodies['arrow-down']) && $goodies['arrow-down'];
   $settings['has_pattern'] = $settings['has_pattern'] ? TRUE : isset($goodies['pattern']) && $goodies['pattern'];
@@ -153,8 +160,8 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'][] = strip_tags($general['template_class']);
   }
 
-  // Add the configuration as JSON object into slick container.
-  if (!isset($attributes['data-config']) && $optionset_name != 'default' && $count > 1) {
+  // Add the configuration as JSON object into slick container. $optionset_name != 'default' &&
+  if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
     $attributes['data-config'] = drupal_json_encode($js_data);
   }
