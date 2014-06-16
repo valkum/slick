@@ -99,7 +99,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
 
   $is_views_ui = '';
   if ($instance['entity_type'] == 'ctools') {
-    $is_views_ui = '<h3 class="form--slick__title">' . t('Make sure to check "Use field template" under "Style settings" below, if using multiple-value field for the slides.') . '</h3>';
+    $is_views_ui = '<h3 class="form--slick__title">' . t('Make sure to check "Use field template" under "Style settings" below, if using multiple-value field for the slides. Views preview works with jQuery >= 1.7.') . '</h3>';
   }
 
   $element['opening'] = array(
