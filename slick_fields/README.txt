@@ -41,7 +41,7 @@ To create your option sets, go to:
 
 Slide layout
 ===========
-Core image field support several caption placements/ layout that affect the
+Core image field supports several caption placements/ layout that affect the
 entire slides.
 
 If you have more complex need, use Media or Field collection.
@@ -74,13 +74,13 @@ stage-left|Caption right, stage left
 Option #3
 ---------
 
-If you choose skin Split via CTools UI, additional layout options supported:
+If you choose skin Split, additional layout options supported:
 
 split-right|Caption left, stage right, split half
 split-left|Caption right, stage left, split half
 
 
-Split means image and caption are displayed side by side.
+Split means image and caption are displayed side by side at a slight distance.
 
 Specific to split layout, make sure to get consistent options (left and right)
 per slide, and also choose optionset with skin Split to have a context per
@@ -102,4 +102,5 @@ Merge all options as needed.
 Notes:
 ------
 Current slick do not support variable height, so even short slides will have the
-tallest heights, so use consistent relevant Slide layout options above.
+tallest heights, so use consistent relevant Slide layout options above, e.g.:
+Mixing "Caption below the slide" with others will result inconsistent heights.

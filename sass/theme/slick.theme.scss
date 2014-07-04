@@ -41,7 +41,7 @@
   position: absolute;
   text-align: left;
   top: 10%;
-  width: 42%;
+  width: 84%;
   z-index: 3;
 
   .slide--caption--below & {
@@ -58,7 +58,7 @@
   .slide--caption--center &,
   .slide--caption--center-top & {
     left: 50%;
-    margin-left: -21%;
+    margin-left: -42%;
     padding: 0;
     text-align: center;
   }
@@ -86,9 +86,14 @@
 }
 
 
-.slick--skin--split {
+@include breakpoint($ipad-up, true) {
   .slide__caption {
-  
+    width: 42%;
+    
+    .slide--caption--center &,
+    .slide--caption--center-top & {
+      margin-left: -21%;
+    }
   }
 }
 

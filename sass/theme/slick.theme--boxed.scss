@@ -14,6 +14,27 @@
  * @file
  * Detailed stylings are all yours, get yourself dirty.
  */
-.slick--skin--boxed .slick-list {
-  margin: 0 60px;
+.slick--skin--boxed {
+  // Applies only if we have 1 slideToShow, not carousel.
+  &.slick--slider {
+    .slick__slide {
+      // Prevent text overlapping with arrows on small devices.
+      .slide__caption {
+        visibility: hidden;
+      }
+
+      &.slick-active .slide__caption {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+@include breakpoint($ipad, true) {
+  // Spaces only reasonable for larger device.
+  .slick--skin--boxed {
+    .slick-list {
+      margin: 0 60px;
+    }
+  }
 }

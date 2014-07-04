@@ -42,6 +42,10 @@
     color: $color-1;
   }
 }
+
+.slick__arrow--placeholder {
+  @include visually-hidden;
+}
   
 .slick__arrow {
   bottom: auto;

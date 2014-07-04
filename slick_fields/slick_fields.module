@@ -25,6 +25,8 @@ function slick_fields_field_formatter_info() {
       'thumbnail_hover' => '',
       'slide_image' => '',
       'slide_caption' => array(),
+			'media_switch' => '',
+		  'mousewheel' => FALSE,
     ),
   );
 
@@ -42,7 +44,6 @@ function slick_fields_field_formatter_info() {
       'slide_link' => '',
       'slide_title' => '',
       'view_mode' => '',
-      'media_switch' => '',
       'aspect_ratio' => '',
       'aspect_ratio_overlay' => 0,
     );
@@ -120,13 +121,26 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     '#default_value' => $optionsets[$settings['optionset']],
   );
 
+	$optionset = $settings['optionset'];
+  // Load the selected optionset.
+  if (!empty($optionset)) {
+    $optionset = slick_optionset_load($optionset);
+  }
+
+  // Check if an optionset was loaded.
+  if (empty($optionset)) {
+    // Fall back to 'default' option set.
+    $optionset = slick_optionset_load('default');
+    watchdog('slick', 'Fallback to default optionset.', array(), WATCHDOG_WARNING);
+  }
+
   $skins = slick_skins(TRUE);
   $element['skin'] = array(
     '#type' => 'select',
     '#title' => t('Skin'),
     '#options' => $skins,
     '#default_value' => $settings['skin'],
-    '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself.'),
+    '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README.txt</a> for details on Skins.', array('@skin' => url($slick_module_path . '/README.txt'))),
     '#attributes' => array('class' => array('is-tooltip')),
   );
 
@@ -414,6 +428,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
         'title_field' => t('Title'),
         'alt_field' => t('Alt'),
       ),
+			'#description' => t('Captions will attempt to use Alt and Title attributes if enabled.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -433,7 +448,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
       if ($instance['entity_type'] != 'ctools') {
         $element['slide_caption']['#disabled'] = TRUE;
       }
-      $element['slide_caption']['#description'] = t('You need to <a href="@url">enable the title/ alt field</a> to use it as a caption.', array(
+      $element['slide_caption']['#description'] = t('You need to <a href="@url">enable both title and alt fields</a> to use them as caption.', array(
         '@url' => url('admin/structure/types/manage/' . $instance['bundle'] . '/fields/' . $instance['field_name'],
             array(
               'fragment' => 'edit-instance-settings-title-field',
@@ -481,7 +496,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     else {
       $element['picture_style'] += array(
         '#type' => 'item',
-        '#markup' => t("There're no picture mappings defined, you'll have to @create them first.", array('@create' => l(t('create'), 'admin/config/media/picture'))),
+        '#markup' => t("There're no picture mappings defined, you'll have to <a href='@create'>create</a> them first.", array('@create' => url('admin/config/media/picture'))),
       );
     }
 
@@ -498,6 +513,16 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
       ),
     );
   }
+
+  $element['mousewheel'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable mousewheel'),
+    '#description' => t('Make sure to download the <a href="@mousewheel">mousewheel</a> library, and it is available at <em>sites/.../libraries/mousewheel/jquery.mousewheel.min.js</em>.', array('@mousewheel' => '//github.com/brandonaaron/jquery-mousewheel')),
+    '#default_value' => $settings['mousewheel'],
+    '#field_suffix' => '',
+    '#title_display' => 'before',
+    '#attributes' => array('class' => array('is-tooltip')),
+  );
 
   $element['closing'] = array(
     '#markup' => '</div>',
@@ -604,6 +629,11 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
         $summary[] = t('Picture fallback: %picture_fallback', array('%picture_fallback' => $settings['picture_fallback']));
       }
     }
+
+		if (isset($settings['mousewheel'])) {
+		  $mousewheel = $settings['mousewheel'] ? t('Yes') : t('No');
+      $summary[] = t('Mousewheel: @mousewheel', array('@mousewheel' => $mousewheel));
+		}
   }
 
   // Build settings summary.
@@ -634,6 +664,7 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       'thumbnail_hover' => FALSE,
       'media_switch' => FALSE,
       'picture' => FALSE,
+			'mousewheel' => FALSE,
     );
 
     $settings = array_merge($settings, $display['settings']);
@@ -642,10 +673,11 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
     $field_name = $settings['field_name'];
     $view_mode = !empty($settings['view_mode']) ? $settings['view_mode'] : 'full';
 
-    $attach                    = array();
-    $attach['attach_media']    = FALSE;
-    $attach['attach_skin']     = $settings['skin'];
-    $attach['attach_colorbox'] = $settings['attach_colorbox'];
+    $attach                      = array();
+    $attach['attach_media']      = FALSE;
+    $attach['attach_skin']       = $settings['skin'];
+    $attach['attach_colorbox']   = $settings['attach_colorbox'];
+		$attach['attach_mousewheel'] = $settings['mousewheel'];
 
     list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
     $slick_id = &drupal_static('slick_id', 0);

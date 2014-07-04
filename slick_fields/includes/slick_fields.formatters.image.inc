@@ -47,23 +47,28 @@ function _slick_fields_format_image(&$settings, $items, $field, $view_mode, $lan
     // Image with picture supports.
     $image_slide = _slick_fields_get_picture($settings, $image, $key);
 
+    // Provide thumbnail pagers if so configured.
+    if (!empty($settings['thumbnail_style'])) {
+      $image['path'] = $image['uri'];
+      $image['style_name'] = $settings['thumbnail_style'];
+
+      $thumbnail = theme('image_style', $image);
+
+      if ($settings['thumbnail_hover']) {
+        $image_slide .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+        $image_slide .= '<button type="button">' . ($key + 1) . '</button></div>';
+      }
+      else {
+        $image_slide .= '<div class="slide__thumbnail">' . $thumbnail . '</div>';
+      }
+    }
+
     // Pass it over to theme_slick_media.
     $item['slide'] = array(
       '#theme' => 'slick_media',
       '#item' => $image_slide,
       '#settings' => $settings,
     );
-
-    // Provide thumbnail pagers if so configured.
-    if (!empty($settings['thumbnail_style'])) {
-      $image['path'] = $image['uri'];
-      $image['style_name'] = $settings['thumbnail_style'];
-      $item['thumbnail'] = theme('image_style', $image);
-      if ($settings['thumbnail_hover']) {
-        $item['thumbnail'] = '<div class="slide__thumbnail__box">' . $item['thumbnail'] . '</div>';
-        $item['thumbnail'] .= '<button type="button">' . ($key + 1) . '</button>';
-      }
-    }
 
     $item['settings'] = $settings;
 

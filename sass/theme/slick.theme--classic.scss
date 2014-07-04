@@ -24,7 +24,9 @@
     height: auto;
     min-height: 80px;
   }
-
+  
+	.slide--caption--stage-zebra:nth-child(odd),
+	.slide--caption--stage-left,
   .slide--caption--left {
     .slide__caption {
       left: 0;
@@ -32,6 +34,8 @@
     }
   }
 
+	.slide--caption--stage-zebra:nth-child(even),
+	.slide--caption--stage-right,
   .slide--caption--right {
     .slide__caption {
       left: auto;
@@ -40,6 +44,9 @@
     }
   }
 
+	.slide--caption--stage-zebra,
+	.slide--caption--stage-left,
+	.slide--caption--stage-right,
   .slide--caption--left,
   .slide--caption--right {
     .slide__caption {
@@ -79,6 +86,9 @@
     }
   }
 
+	.slide--caption--stage-zebra,
+	.slide--caption--stage-left,
+	.slide--caption--stage-right,
   .slide--caption--left,
   .slide--caption--right,
   .slide--caption--top,
@@ -91,17 +101,32 @@
       min-height: 80px;
       @include transition(transform $transition-transform-1);
     }
-    &:hover {
+
+		// Replace &.slick-active with &:hover to only be visible at hover.
+    // &:hover,
+    &.slick-active {
       .slide__caption {
         @include transform(translateY(0));
         @include transition-delay(0s);
       }
     }
   }
+
+	.slide--caption--stage-zebra,
+	.slide--caption--stage-left,
+	.slide--caption--stage-right,
   .slide--caption--left,
   .slide--caption--right {
     min-height: 100%;
     top: 0;
     width: 22%;
+
+		.slide__caption {
+		  margin: 0; // nullify caption position for the classic skin.
+		  .slide__data {
+		    margin: 0;
+			  padding: $vert-spacing-unit $horz-spacing-unit;
+			}
+		}
   }
 }

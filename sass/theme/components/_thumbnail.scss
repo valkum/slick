@@ -5,20 +5,27 @@
   margin-bottom: 120px;
 }
 
+.slide__thumbnail {
+  @include visually-hidden;
+}
+
 // Default to anything but full width.
 .slick__thumbnail {
   bottom: -120px;
+  left: 0;
   list-style: none;
-  margin: 10px auto;
+  margin: 10px 0;
   @include pie-clearfix;
+	overflow: hidden;
   position: absolute;
   text-align: center;
   visibility: hidden;
+  white-space: nowrap;
   width: 100%;
 
   // Overrides some theme UL spaces.
   .block & {
-    margin: 0 auto;
+    margin-left: 0;
     padding: 0;
   }
 
@@ -59,6 +66,7 @@
 
 /* Adjust accordingly to actual thumbnail size */
 .slick__thumbnail--hover {
+  overflow: visible;
   li {
     overflow: visible;
 

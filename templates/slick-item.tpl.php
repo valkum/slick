@@ -5,10 +5,9 @@
  * Default theme implementation for the individual Slick item/slide template.
  *
  * Available variables:
- *
- * - $attributes array An array of attributes to apply to the element.
- * - $item array A renderable array of the main image/background.
- * - $caption array A renderable array containing caption fields if provided:
+ * - $attributes: An array of attributes to apply to the element.
+ * - $item: A renderable array of the main image/background.
+ * - $caption: A renderable array containing caption fields if provided:
  *   - Title: slide title.
  *   - Alt: core Image field Alt as caption.
  *   - Link: slide links or buttons.
@@ -26,7 +25,7 @@
 
     <?php print render($item_prefix); ?>
     <?php print render($item); ?>
-    <?php $slide_pattern & print $slide_pattern; ?>
+    <?php $slide_pattern && print $slide_pattern; ?>
     <?php print render($item_suffix); ?>
 
     <?php if (!empty($caption)): ?>

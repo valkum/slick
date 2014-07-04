@@ -13,10 +13,14 @@ See http://kenwheeler.github.io/slick.
 * Works with Views and core and contrib fields: Image, Media or Field collection.
 * Exportable via CTools.
 
+## Versions
+Make sure to run update, when upgrading from 7.x-1.x to 7.x-2.x to allow
+creating database table to store option sets.
+
 ## Requirements
-- CTools, for exportable optionsets
-- libraries
-- jquery_update
+- CTools, for exportable optionsets -- only the main "Chaos tools" is needed.
+- libraries (>=2.x)
+- jquery_update with jQuery >= 1.7
 - jqeasing, or use drush make to download the easing libraries, remove versions
   from the file name (jquery.easing.1.3.min.js to jquery.easing.min.js)
 
@@ -25,9 +29,12 @@ Slick supports enhancements and more complex layouts.
 - Colorbox
 - Picture, to get truly responsive image using art direction technique.
 - Media, including media_youtube, media_vimeo, and media_soundcloud.
-- Field collection
+- Field collection, to add Overlay image/audio/video over the main stage.
+- Mousewheel, download from https://github.com/brandonaaron/jquery-mousewheel,
+  so it is available at sites/.../libraries/mousewheel/jquery.mousewheel.min.js
 
-See README.txt for slick_fields.module for more info on fields integration.
+See README.txt on slick_fields.module for more info on slide layouts and fields
+integration.
 
 ## Optionsets
 To create your option sets, go to:
@@ -39,7 +46,7 @@ Slick Views is available as a style plugin included at slick_views.module.
 Slick Fields is available as a display formatter included at slick_fields.module
 which supports core and contrib fields: core Image, Media, Field collection.
 
-See README.txt for slick_views.module for more info on Views integration.
+See README.txt on slick_views.module for more info on Views integration.
 
 ## Programmatically
 
@@ -50,17 +57,17 @@ See README.txt for slick_views.module for more info on Views integration.
     $items[] = array('#markup' => '<img src="https://drupal.org/files/Two.gif" />');
     $items[] = array('#markup' => '<img src="https://drupal.org/files/Three.gif" />');
 
-    // Add custom JS settings, this is related to core Slick JS options.
+    // Add custom JS options, this is related to core Slick JS options.
     $options = array(
       'autoplay' => TRUE,
       'dots' => TRUE,
       'arrows' => FALSE,
     );
 
-    // Or altenatively load an optionset name.
+    // Or altenatively load a machine-readable optionset name.
     $options['optionset'] = 'optionset_name';
 
-    // Or provide supported Layout settings, see theme_slick.
+    // Or provide "supported" Layout settings, see theme_slick.
     $settings = array(
       'skin' => 'skin_name', // Supported skin name.
       'media_switch' => 'iframe-switch', // Or, colorbox-switch.
@@ -70,7 +77,11 @@ See README.txt for slick_views.module for more info on Views integration.
       'arrow_down_offset' => 120, // Offset from the #main.
     );
 
-    print theme('slick', array('items' => $items, 'options' => $options, 'settings' => $settings));
+    print theme('slick', array(
+		  'items' => $items,
+			'options' => $options,
+			'settings' => $settings
+		));
   ?>
 
 ## Skins
@@ -78,7 +89,15 @@ Skins allow swappable layouts like next/prev links, split image and caption, etc
 Make sure to enable slick_fields.module and provide a dedicated slide layout
 per field to get more control over caption placements. However a combination of
 skins and options may lead to unpredictable layouts, get dirty yourself.
-Use Wrapper class to have a custom context as needed.
+
+Some default complex layout skins applied to desktop only, adjust for the mobile
+accordingly. The provided skins are very basic to support the layouts, it is
+not the module job to match your design requirements.
+
+Tips:
+----
+- Use the Slick API hook_slick_skins_info() to add your own skins.
+- Use the provided Wrapper class to have a custom context as needed.
 
 Available skins:
 ---------------
@@ -95,7 +114,7 @@ Available skins:
   Caption and image/media are split half, and have edge margin 0 60px.
 - Rounded
   This will round the main image display, reasonable for small carousels, maybe
-  with a small caption below to make it nice.
+  with a small caption below to make it nice. Use slideToShow option > 2.
 
 ## Read more
 

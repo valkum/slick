@@ -4,9 +4,16 @@
  * @file
  * Default theme implementation for the Slick carousel template.
  *
- * - $items: The array of items.
- * - $settings: A cherry-picked settings to avoid bloated ones.
+ * Available variables:
+ * - $items: The array of items containing main image/video/audio, and optional
+ *     image/video/audio overlay and captions.
+ * - $settings: A cherry-picked settings that mostly defines the slide HTML or
+ *     layout, and none of JS settings/options which are defined at data-config.
  * - $thumbnails: The array of thumbnails if available.
+ * - $attributes: The array of attributes to hold classes, id and optional
+ *     data-config containing JSON object aka JS settings the Slick expects to
+ *     override default options. We don't store these JS settings in the normal
+ *     <head>, but inline within data-config attribute instead.
  */
 ?>
 <div<?php print $attributes; ?>>
@@ -15,8 +22,9 @@
     <?php print render($item); ?>
   <?php endforeach; ?>
 
-  <?php if (count($items) > 1): ?>
-    <div class="slick__arrow">
+  <?php if (count($items) > 1 && $settings['arrows']): ?>
+    <nav class="slick__arrow--placeholder">
+      <?php $settings['prev_arrow'] && print $settings['prev_arrow']; ?>
       <?php if ($settings['has_arrow_down']): ?>
         <?php
           $is_target = $settings['arrow_down_target'] ? ' data-target="#' . $settings['arrow_down_target'] . '"' : '';
@@ -24,15 +32,8 @@
         ?>
         <button class="slick-down jump-scroll"<?php print $is_target . $is_offset; ?>></button>
       <?php endif; ?>
-    </div>
-
-    <?php if ($thumbnails): ?>
-      <ul class="slick__thumbnail">
-      <?php foreach ($thumbnails as $key => $thumbnail): ?>
-        <li><?php print $thumbnail; ?></li>
-      <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
+      <?php $settings['next_arrow'] && print $settings['next_arrow']; ?>
+    </nav>
   <?php endif; ?>
 
 </div>

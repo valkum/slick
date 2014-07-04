@@ -49,8 +49,11 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
     if ($media && isset($media['#uri'])) {
       $settings['is_media'] = TRUE;
-      $settings['media_height'] = $media['#options']['height'];
-      $settings['media_width']  = $media['#options']['width'];
+      $settings['media_height']   = $media['#options']['height'] ?: 640;
+      $settings['media_width']    = $media['#options']['width'] ?: 360;
+      $settings['media_uri']      = $media['#uri'];
+      $settings['media_fid']      = $file->fid;
+      $settings['media_filename'] = $file->filename;
     }
     $scheme = file_uri_scheme($uri);
     $image_style = isset($media['#style_name']) ? $media['#style_name'] : $image_style;
@@ -60,8 +63,8 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     $settings['type']        = $item_type;
 
     // Get audio/video thumbnail uri.
-    if ($media_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
-      $image['uri'] = $media_uri;
+    if ($media_image_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
+      $image['uri'] = $media_image_uri;
     }
 
     // Title, if so configured.
@@ -102,10 +105,27 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     if ($settings['is_media']) {
       $rendered_media = render($media);
       $media_url = slick_get_media_url($rendered_media);
+      $settings['url'] = $media_url;
     }
 
     // Image with picture supports.
     $image_slide = _slick_fields_get_picture($settings, $image, $key, $media_url);
+
+    // Provide thumbnail pagers if so configured.
+    if (!empty($settings['thumbnail_style'])) {
+      $image['path'] = $image['uri'];
+      $image['style_name'] = $settings['thumbnail_style'];
+
+      $thumbnail = theme('image_style', $image);
+
+      if ($settings['thumbnail_hover']) {
+        $image_slide .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+        $image_slide .= '<button type="button">' . ($key + 1) . '</button></div>';
+      }
+      else {
+        $image_slide .= '<div class="slide__thumbnail">' . $thumbnail . '</div>';
+      }
+    }
 
     // Pass it over theme_slick_media.
     $item['slide'] = array(
@@ -113,17 +133,6 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       '#item' => $image_slide,
       '#settings' => $settings,
     );
-
-    // Provide thumbnail pagers if so configured.
-    if (!empty($settings['thumbnail_style'])) {
-      $image['path'] = $image['uri'];
-      $image['style_name'] = $settings['thumbnail_style'];
-      $item['thumbnail'] = theme('image_style', $image);
-      if ($settings['thumbnail_hover']) {
-        $item['thumbnail'] = '<div class="slide__thumbnail__box">' . $item['thumbnail'] . '</div>';
-        $item['thumbnail'] .= '<button type="button">' . ($key + 1) . '</button>';
-      }
-    }
 
     // If has Media fields.
     if ($settings['is_media']) {

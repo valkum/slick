@@ -427,7 +427,7 @@ function slick_add(array $settings) {
 }
 
 /**
- * Return the settings for a slick instance.
+ * Example to return the settings for a slick instance if using old approach.
  *
  * @param array $settings
  *   An array of the Slick library JS settings.

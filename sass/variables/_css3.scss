@@ -24,7 +24,7 @@ $transition-quick        : all .4s ease-in-out 0s;
 $transition-menu         : visibility 0s linear 0.5s, opacity .5s linear, margin .5s ease; // Bad for Safari: visibility 0.1s linear, opacity 0.5s linear, margin 0.5s ease;
 $transition-delay-1      : 0s; // Bad for Safari: 0.1s;
 $transition-icon         : min-width .3s ease-in .2s;
-$transition-width        : width .6s ease-out .8s;
+$transition-width        : width .6s ease-out .8s, max-width .5s linear 0s;
 $transition-min-width    : min-width .3s ease-in .2s;
 $transition-max-width    : max-width .5s linear 0s;
 $transition-margin       : margin-right .3s ease-in .2s;

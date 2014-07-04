@@ -1,7 +1,21 @@
 
- @todo
+
+  // @done at slick_fields.
+	// @todo at slick.elements.inc when mousewheel gets in.
+  // @see https://github.com/kenwheeler/slick/issues/122
+	$options['mousewheel'] = array(
+    'title' => t('Use mousewheel'),
+    'description' => t('Enable/Disable Mousewheel support. Make sure to download the <a href="@mousewheel">mousewheel</a> library, and it is available at <em>sites/.../libraries/mousewheel/jquery.mousewheel.min.js</em>.', array('@mousewheel' => '/github.com/brandonaaron/jquery-mousewheel')),
+    'type' => 'checkbox',
+    'cast' => 'bool',
+    'default' => FALSE,
+  );
+
+ @done, see slick.api.js:
+ onBeforeChange(this, index) 	method 	null 	Before slide change callback
+ onAfterChange(this, index) 	method 	null 	After slide change callback
+ onInit(this) 	method 	null 	When Slick initializes for the first time callback
+ onReInit(this) 	method 	null 	Every time Slick (re-)initializes callback
+
+ @done, see slick.load.js:
  customPaging 	function 	n/a 	Custom paging templates. See source for use example.
- onBeforeChange 	function 	null 	Before slide callback
- onAfterChange 	function 	null 	After slide callback
- onInit 	function 	null 	Callback that fires after first initialization
- onReInit 	function 	null 	Callback that fires after every re-initialization

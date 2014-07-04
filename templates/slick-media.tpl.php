@@ -2,19 +2,17 @@
 
 /**
  * @file
- *
  * Default theme implementation for the Slick media template.
  *
  * The Slick media support core image, vimeo, youtube and soundcloud.
  * If iframe switcher is enabled, audio/video iframe whill be hidden below image
  * overlay, and only visible when toggled.
  *
- * Variables available:
- *  $id - The file entity ID (fid).
- *  $url - The full url including query options for the iframes.
- *  $alternative_content - Text to display for browsers that don't support
- *  iframes.
- *  $settings - An array containing cherry-picked settings.
+ * Available variables:
+ *  - $url: The full url including query options for the iframes.
+ *  - $alternative_content: Text to display for browsers that don't support
+ *      iframes.
+ *  - $settings: An array containing cherry-picked settings.
  */
 ?>
 <div<?php print $attributes; ?>>
@@ -29,7 +27,7 @@
     <?php endif; ?>
   <?php endif; ?>
 
-  <?php if (!empty($item)): ?>
+  <?php if ($item): ?>
     <?php print render($item_prefix); ?>
     <?php print render($item); ?>
     <?php print render($item_suffix); ?>

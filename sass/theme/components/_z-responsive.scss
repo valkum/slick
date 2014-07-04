@@ -9,7 +9,7 @@
   }
 }
 
-@include breakpoint($desk, true) {
+@include breakpoint($ipad-up, true) {
   // Fixed FireFox draggable issue.
   .slick__slide img {
     pointer-events: none;

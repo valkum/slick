@@ -13,7 +13,7 @@
  * @param string $key
  *   Get specific default value [optional].
  */
-function _slick_optionset_defaults($key = NULL, $settings = NULL, $breakpoints = NULL) {
+function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL) {
 
   // Main slick settings.
   $slick_options = slick_get_options();
@@ -52,13 +52,13 @@ function _slick_optionset_defaults($key = NULL, $settings = NULL, $breakpoints =
   // Typecast the values.
   _slick_typecast_optionset($defaults, $breakpoints);
 
-  // Return the specific item.
-  if (isset($key) && !empty($key) && array_key_exists($key, $defaults)) {
-    return $defaults[$key];
+  // Return the specific item out of the JS settings alone.
+  if (isset($key) && $key && $set && array_key_exists($key, $defaults[$set])) {
+    return $defaults[$set][$key];
   }
 
   // Return a specific group, or all items.
-  return !empty($settings) && $defaults[$settings] ? $defaults[$settings] : $defaults;
+  return !empty($set) && $defaults[$set] ? $defaults[$set] : $defaults;
 }
 
 /**
@@ -85,10 +85,13 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
   if ($config) {
     // Remove wasted dependent options if disabled, even if not empty.
     if (empty($config['autoplay'])) {
-      unset($config['pauseOnHover'], $config['autoplaySpeed']);
+      unset($config['pauseOnHover'], $config['pauseOnDotsHover'], $config['autoplaySpeed']);
     }
     if (empty($config['centerMode'])) {
       unset($config['centerPadding']);
+    }
+    if (isset($config['arrows']) && !$config['arrows']) {
+      unset($config['prevArrow'], $config['nextArrow']);
     }
   }
 
@@ -314,6 +317,15 @@ function slick_get_options() {
     'states' => array('visible' => array(':input[name*="autoplay"]' => array('checked' => TRUE))),
   );
 
+  $options['pauseOnDotsHover'] = array(
+    'title' => t('Pause on dots hover'),
+    'description' => t('Pauses autoplay when a dot is hovered'),
+    'type' => 'checkbox',
+    'cast' => 'bool',
+    'default' => FALSE,
+    'states' => array('visible' => array(':input[name*="autoplay"]' => array('checked' => TRUE))),
+  );
+
   $options['autoplaySpeed'] = array(
     'title' => t('Autoplay speed'),
     'description' => t('Autoplay Speed in milliseconds'),
@@ -329,6 +341,24 @@ function slick_get_options() {
     'type' => 'checkbox',
     'cast' => 'bool',
     'default' => TRUE,
+  );
+
+  $options['prevArrow'] = array(
+    'title' => t('Previous arrow'),
+    'description' => t("Customize the previous arrow markups. Make sure to keep the expected class."),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => '<button type="button" class="slick-prev">Previous</button>',
+    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
+  );
+
+  $options['nextArrow'] = array(
+    'title' => t('Next arrow'),
+    'description' => t("Customize the next arrow markups. Make sure to keep the expected class"),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => '<button type="button" class="slick-next">Next</button>',
+    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
   );
 
   $options['centerMode'] = array(
@@ -406,7 +436,6 @@ function slick_get_options() {
     'options' => drupal_map_assoc(array('ondemand', 'progressive')),
   );
 
-  // Play safe to use .slick__slide, rather than problematic anonymous div.
   $options['slide'] = array(
     'title' => t('Slide element'),
     'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers."),
@@ -515,6 +544,9 @@ function slick_get_responsive_options($count = 0) {
     );
 
     // Duplicate main settings.
+    // Clean up problematic dup options, since they have to be available once
+    // for all.
+    unset($slick_options['slide'], $slick_options['lazyLoad'], $slick_options['prevArrow'], $slick_options['nextArrow']);
     foreach ($slick_options as $name => $values) {
       $options[$key]['settings'][$name] = $values;
     }

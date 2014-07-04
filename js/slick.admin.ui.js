@@ -57,6 +57,12 @@
         $(this).parent().removeClass('selected');
       });
 
+      $('.form-type-textfield > .form-text.js-expandable', context).focus(function () {
+        $(this).parent().addClass('js-on-focus');
+      }).blur(function () {
+        $(this).parent().removeClass('js-on-focus');
+      })
+
     }
   };
 

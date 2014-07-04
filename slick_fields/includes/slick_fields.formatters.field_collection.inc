@@ -81,10 +81,15 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           if (!empty($settings['thumbnail_style'])) {
             $image['path'] = $image['uri'];
             $image['style_name'] = $settings['thumbnail_style'];
-            $item['thumbnail'] = theme('image_style', $image);
+
+            $thumbnail = theme('image_style', $image);
+
             if ($settings['thumbnail_hover']) {
-              $item['thumbnail'] = '<div class="slide__thumbnail__box">' . $item['thumbnail'] . '</div>';
-              $item['thumbnail'] .= '<button type="button">' . ($key + 1) . '</button>';
+              $item['slide'] .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+              $item['slide'] .= '<button type="button">' . ($key + 1) . '</button></div>';
+            }
+            else {
+              $item['slide'] .= '<div class="slide__thumbnail">' . $thumbnail . '</div>';
             }
           }
         }
@@ -141,13 +146,16 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               $media  = file_view_file($file, $view_mode, $langcode);
               $scheme = file_uri_scheme($uri);
 
-              $settings['scheme']    = $scheme;
-              $settings['type']      = $item_type;
-              $settings['has_media'] = TRUE;
+              $settings['scheme']         = $scheme;
+              $settings['type']           = $item_type;
+              $settings['has_media']      = TRUE;
+              $settings['media_uri']      = $uri;
+              $settings['media_fid']      = $file->fid;
+              $settings['media_filename'] = $file->filename;
 
               // Get audio/video thumbnail uri.
-              if ($media_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
-                $overlay['uri'] = $media_uri;
+              if ($media_image_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
+                $overlay['uri'] = $media_image_uri;
               }
 
               break;
@@ -161,8 +169,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             $wrapper = file_stream_wrapper_get_instance_by_uri($media['#uri']);
             $settings['is_media'] = TRUE;
             if (isset($media['#options'])) {
-              $settings['media_height'] = $media['#options']['height'];
-              $settings['media_width']  = $media['#options']['width'];
+              $settings['media_height'] = $media['#options']['height'] ?: 640;
+              $settings['media_width']  = $media['#options']['width'] ?: 360;
             }
 
             $rendered_media = render($media);
@@ -179,6 +187,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
             if ($safe) {
               $media_url = slick_get_media_url($rendered_media);
+              $settings['url'] = $media_url;
             }
           }
 

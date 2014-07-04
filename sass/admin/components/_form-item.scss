@@ -165,8 +165,21 @@
       .form-text--int {
         max-width: 50px;
       }
+      
+      .js-expandable {
+        @include transition($transition-width);
+      }
+      
+      &.js-on-focus {
+        .js-expandable {
+          max-width: 280px;
+          position: absolute;
+          width: 280px;
+          z-index: 2;
+        }
+      }
     }
-
+  
     .fieldset--responsive {
       .form-item {
         input,

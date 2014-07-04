@@ -6,7 +6,7 @@
 
   Drupal.slickColorbox = Drupal.slickColorbox || {};
   var $window = $(window),
-    resizeTimer;
+    cboxResizeTimer;
 
   Drupal.behaviors.slickColorbox = {
     attach: function (context, settings) {
@@ -51,9 +51,8 @@
               Drupal.slickColorbox.resize(context, Drupal.settings);
             },
             onClosed: function () {
-              if ($('#' + id).length) {
-                Drupal.slickColorbox.jumpScroll(id, 120);
-              }
+              // 120 offset is to play safe for possible fixed header.
+              Drupal.slickColorbox.jumpScroll('#' + id, 120);
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
               $slider.slickGoTo(curr);
@@ -61,7 +60,7 @@
             }
           };
 
-        // Force autoplay, if not provided which should not.
+        // Force autoplay, if not provided, which should not.
         if (isMedia) {
           if (media.scheme === 'soundcloud') {
             if (url.indexOf('auto_play') < 0 || url.indexOf('auto_play') === false) {
@@ -71,10 +70,10 @@
           else if (url.indexOf('autoplay') < 0 || url.indexOf('autoplay') === 0) {
             url = url + '&amp;autoplay=1';
           }
+          t.attr('href', url);
         }
 
-        t.attr('href', url)
-         .colorbox($.extend({}, settings.colorbox, runtimeOptions));
+        t.colorbox($.extend({}, settings.colorbox, runtimeOptions));
       });
 
       $window.bind('resize', function() {
@@ -97,24 +96,26 @@
     }
   };
 
+  // Colorbox has no responsive support so far.
+  // @todo drop this when it is.
   Drupal.slickColorbox.resize = function (context, settings) {
-    if (resizeTimer) {
-      clearTimeout(resizeTimer);
+    if (cboxResizeTimer) {
+      clearTimeout(cboxResizeTimer);
     }
 
-    var mW = settings.colorbox.maxWidth,
-      mH = settings.colorbox.maxHeight,
+    var mw = settings.colorbox.maxWidth,
+      mh = settings.colorbox.maxHeight,
       o = {
         width: '98%',
         height: '98%',
-        maxWidth: mW.indexOf('px') > 0 ? parseInt(mW) : mW,
-        maxHeight: mH.indexOf('px') > 0 ? parseInt(mH) : mH
+        maxWidth: mw.indexOf('px') > 0 ? parseInt(mw) : mw,
+        maxHeight: mh.indexOf('px') > 0 ? parseInt(mh) : mh
       };
 
-    resizeTimer = setTimeout(function () {
+    cboxResizeTimer = setTimeout(function () {
       if ($('#cboxOverlay').is(':visible')) {
         var $container = $('#cboxLoadedContent'),
-        $content = $('> img, > iframe, > .node', $container);
+          $content = $('> img, > iframe, > .node', $container);
 
         $.colorbox.resize({
           width: window.innerWidth > o.maxWidth ? o.maxWidth : o.width

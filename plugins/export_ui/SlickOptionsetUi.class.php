@@ -20,7 +20,7 @@ class SlickOptionsetUi extends ctools_export_ui {
 
     $form['#attached']['css'][] = $module_path . '/css/admin/slick.admin--ui.css';
     $form['#attached']['css'][] = $module_path . '/css/admin/slick.admin--vertical-tabs.css';
-    $form['#attached']['js'][] = $module_path . '/js/slick.admin.ui.js';
+    $form['#attached']['js'][]  = $module_path . '/js/slick.admin.ui.js';
     $form['#attributes']['class'][] = 'no-js';
     $form['#attributes']['class'][] = 'form--slick';
     $form['#attributes']['class'][] = 'form--compact';
@@ -39,7 +39,7 @@ class SlickOptionsetUi extends ctools_export_ui {
       '#title' => t('Skin'),
       '#options' => $skins,
       '#default_value' => $optionset->skin,
-      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. Some default complex layout skins applied to desktop only, adjust for the mobile accordingly. Use the Slick API hook_slick_skins_info() to add your own skins here.'),
+      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README.txt</a> for details on Skins.', array('@skin' => url($module_path . '/README.txt'))),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -172,10 +172,12 @@ class SlickOptionsetUi extends ctools_export_ui {
         $form['options']['settings'][$name]['#size'] = 20;
         $form['options']['settings'][$name]['#maxlength'] = 255;
       }
+
       if (!isset($values['field_suffix']) && $values['cast'] == 'bool') {
         $form['options']['settings'][$name]['#field_suffix'] = '';
         $form['options']['settings'][$name]['#title_display'] = 'before';
       }
+
       if ($values['cast'] == 'int') {
         $form['options']['settings'][$name]['#maxlength'] = 60;
         $form['options']['settings'][$name]['#attributes']['class'][] = 'form-text--int';
@@ -188,13 +190,17 @@ class SlickOptionsetUi extends ctools_export_ui {
       if (isset($values['options'])) {
         $form['options']['settings'][$name]['#options'] = $values['options'];
       }
+
+      if (in_array($name, array('prevArrow', 'nextArrow'))) {
+        $form['options']['settings'][$name]['#attributes']['class'][] = 'js-expandable';
+      }
     }
 
     // Responsive options.
     $form['options']['responsives'] = array(
       '#title' => t('Responsive display'),
       '#type' => 'fieldset',
-      '#description' => t('Containing breakpoints and settings objects. Enables settings sets at given screen width. Currently only supports Desktop first: starts breakpoint from the largest to smallest.'),
+      '#description' => t('Containing breakpoints and settings objects. Settings set at a given breakpoint/screen width is self-contained and does not inherit the main settings, but defaults. Currently only supports Desktop first: starts breakpoint from the largest to smallest.'),
       '#collapsible' => FALSE,
       '#tree' => TRUE,
     );
@@ -208,10 +214,10 @@ class SlickOptionsetUi extends ctools_export_ui {
       '#suffix' => '</div>',
     );
 
-  $breakpoints_count = isset($form_state['values']['breakpoints']) ? $form_state['values']['breakpoints'] : $optionset->breakpoints;
-  $form_state['breakpoints_count'] = $breakpoints_count;
+    $breakpoints_count = isset($form_state['values']['breakpoints']) ? $form_state['values']['breakpoints'] : $optionset->breakpoints;
+    $form_state['breakpoints_count'] = $breakpoints_count;
 
-   if ($form_state['breakpoints_count'] > 0) {
+    if ($form_state['breakpoints_count'] > 0) {
       $slick_options = slick_get_responsive_options($form_state['breakpoints_count']);
       foreach ($slick_options as $i => $values) {
         if ($values['type'] == 'fieldset') {
