@@ -12,7 +12,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
   $build = array();
   $field_type = $field['type'];
   $image_style = $settings['image_style'];
-
+  $css = array();
   foreach ($items as $key => $item) {
     $tmp = $item;
     $item = array(
@@ -35,7 +35,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       $settings['type'] = $item['item']['type'];
 
       // Customize display to tame Field collection.
-      // Main background dimage.
+      // Main background image.
       if ($settings['slide_image']) {
         if (isset($fc_fields[$settings['slide_image']])) {
           $slide_image = $fc_fields[$settings['slide_image']];
@@ -73,7 +73,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           $settings['type']         = $field_type;
           $settings['media_height'] = $image['height'];
           $settings['media_width']  = $image['width'];
-
+          $settings['image_style']  = $image_style;
           // Image with picture supports.
           $item['slide'] = _slick_fields_get_picture($settings, $image, $key);
 
@@ -109,7 +109,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           switch ($field_type) {
             case 'image':
               $file              = $slide_overlay[0]['#item'];
-              $image_style       = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
+              $overlay_style     = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
               $overlay['uri']    = $file['uri'];
               $overlay['width']  = $file['width'];
               $overlay['height'] = $file['height'];
@@ -125,7 +125,9 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               $item_type  = $file['type'];
               $file_style = $slide_overlay[0]['file'];
 
-              $image_style       = isset($file_style['#style_name']) ? $file_style['#style_name'] : $image_style;
+              // Make sure view mode to enable image for the overlay, and they
+              // should come first before actual video.
+              $overlay_style     = isset($file_style['#style_name']) ? $file_style['#style_name'] : $image_style;
               $overlay['uri']    = $file['uri'];
               $overlay['width']  = isset($file_style['#width']) ? $file_style['#width'] : NULL;
               $overlay['height'] = isset($file_style['#height']) ? $file_style['#height'] : NULL;
@@ -154,16 +156,14 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               $settings['media_filename'] = $file->filename;
 
               // Get audio/video thumbnail uri.
-              if ($media_image_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
+              if ($media_image_uri = _slick_fields_get_media_thumbnail($settings, $uri, $overlay_style)) {
                 $overlay['uri'] = $media_image_uri;
               }
 
               break;
           }
 
-          $settings['image_style'] = $image_style;
-
-          // If has Media fields.
+          // If has Media fields for sure.
           $media_url = '';
           if ($media && isset($media['#uri'])) {
             $wrapper = file_stream_wrapper_get_instance_by_uri($media['#uri']);
@@ -191,6 +191,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             }
           }
 
+          $settings['image_style'] = $overlay_style;
+
           // Image with picture supports, but disabled for small overlay, since
           // we don't provide UI to manage small pictures, and picture is only
           // reasonale for large images.
@@ -206,6 +208,43 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           // If has Media fields.
           if ($settings['is_media']) {
             $item['caption']['overlay']['#media'] = $media;
+          }
+        }
+      }
+
+      // Color.
+      if ($settings['color_field']) {
+        if (isset($fc_fields[$settings['color_field']])) {
+          $color_field = $fc_fields[$settings['color_field']];
+          $field_type  = $color_field['#field_type'];
+
+          switch ($field_type) {
+            case 'text':
+              $color = $color_field['#items'][0]['safe_value'];
+              break;
+
+            case 'color_field_rgb':
+              $color = strip_tags($color_field['#items'][0]['rgb']);
+              // color_field_css_declaration
+              break;
+          }
+
+          if ($color) {
+            $item_id = $settings['attributes']['id'];
+            $dark  = slick_color_brightness($color, -42);
+            $light = slick_color_brightness($color, 42);
+            $hover = slick_color_brightness($color, 62);
+            $rgb   = slick_hex2rgb($color);
+
+            $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
+            $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";
+            $css[] = "#{$item_id} .slide--{$key} .read-more::before, #{$item_id} .slide--{$key} .read-more::after {background-color: {$color}}";
+
+            if ($color != '#fff' || $color != '#ffffff') {
+              $css[] = "#{$item_id} .slide--{$key} .read-more {color: {$color}}";
+              $css[] = "#{$item_id} .slide--{$key} .read-more:hover {color: {$hover}}";
+              $css[] = "#{$item_id} .slide--{$key} .slide__caption {color: {$light}}";
+            }
           }
         }
       }
@@ -248,6 +287,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       $build[$key] = $item;
     }
   }
+
+  $settings['color'] = $css ? $css : '';
 
   return $build;
 }

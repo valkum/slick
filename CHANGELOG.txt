@@ -1,6 +1,19 @@
 
+
+Slick 7.x-1.0-dev, 2014-07-13
+-----------------------------
+Added color_field support to Field Collection to colorize the slide text.
+Fixed for Strict warning: Declaration of SlickViewsPluginStyleSlick::render()
+  should be compatible with views_plugin_style::render() in
+  _registry_check_code() (line 3139 ..., neglecting coder sniffs: "No scope
+  modifier specified   for function "render"
+  [sniffer_squiz_scope_methodscope_missing]"
+Added settings variables to template_preprocess_slick_item
+Limit colorbox resize to non-images at slick.colorbox.js under onComplete.
+
 Slick 7.x-1.0-dev, 2014-07-05
 -----------------------------
+Separated rules for slick.colorbox.css from slick.media.css
 Started integration with Scald module as a separate project Scald Slick module.
 
 Slick 7.x-1.0-dev, 2014-06-26

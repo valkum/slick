@@ -115,7 +115,6 @@
   z-index: 9;
 }
 
-.media-icon--colorbox,
 .media-icon--play,
 .media-icon--close,
 .media-icon--spinner {
@@ -126,8 +125,6 @@
   width: 80px;
 }
 
-.media-icon--colorbox:before,
-.media-icon--colorbox:after,
 .media-icon--close:before,
 .media-icon--close:after,
 .media-icon--play:before {
@@ -137,9 +134,7 @@
   pointer-events: none;
 }
 
-.media-icon--colorbox:before, .media-icon--colorbox:after,
-.media-icon--close:before,
-.media-icon--close:after {
+.media-icon--close:before, .media-icon--close:after {
   background: white;
   border-radius: 4px;
   height: 8px;
@@ -153,7 +148,6 @@
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.media-icon--colorbox:after,
 .media-icon--close:after {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -161,36 +155,12 @@
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
-.media-icon--colorbox:hover:before, .media-icon--colorbox:hover:after,
-.media-icon--close:hover:before,
-.media-icon--close:hover:after {
+.media-icon--close:hover:before, .media-icon--close:hover:after {
   background-color: #ff6d2c;
 }
 
 .is-playing .media-icon--close {
   visibility: hidden;
-}
-
-.media-icon--colorbox {
-  z-index: 9;
-}
-.media-icon--colorbox:before, .media-icon--colorbox:after {
-  height: 2px;
-  margin-top: -1px;
-}
-.media-icon--colorbox:before {
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-.media-icon--colorbox:after {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  transform: rotate(-90deg);
 }
 
 .media-icon--play {
@@ -212,15 +182,13 @@
   border-left-color: #ff6d2c;
 }
 
-.is-playing:hover .media-icon,
-.media:hover .media-icon--colorbox {
+.is-playing:hover .media-icon {
   -webkit-transition-delay: 0s;
   -moz-transition-delay: 0s;
   -o-transition-delay: 0s;
   transition-delay: 0s;
 }
 
-.media:hover .media-icon--colorbox,
 .media--switch .slick__image,
 .media-icon--play,
 .is-playing .media__iframe,

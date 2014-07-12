@@ -28,7 +28,7 @@
             }
           };
 
-        // Got no free coffee, customs not inherited by breakpoints.
+        // Got no free Bacon, customs not inherited by breakpoints.
         // @todo drop if inheritance gets in some day.
         // Latest 1.3.6 is still buggy with responsiveness.
         if (typeof configs.responsive !== 'undefined') {
@@ -98,6 +98,7 @@
    *
    * @todo drop all this trick if any new related option available, e.g.:
    * controlsContainer: '.slick__arrow'.
+   * @todo it is in with appendArrows.
    */
   Drupal.theme.prototype.slickArrows = function (t) {
     // Do not process if arrows disabled.

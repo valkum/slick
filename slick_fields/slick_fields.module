@@ -37,6 +37,9 @@ function slick_fields_field_formatter_info() {
     }
     if (module_exists('field_collection')) {
       $formatters['slick']['field types'][] = 'field_collection';
+      $formatters['slick']['settings'] += array(
+        'color_field' => '',
+      );
     }
 
     $formatters['slick']['settings'] += array(
@@ -96,6 +99,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
   $caption_options = array();
   $title_options   = array();
   $link_options    = array();
+  $color_options   = array();
   $optionsets = slick_optionset_options();
 
   $is_views_ui = '';
@@ -215,6 +219,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
         'text',
       ));
 
+      $color_options  = _slick_fields_get_fc_fields($instance, array('text', 'color_field_rgb'));
       $layout_options = _slick_fields_get_fc_fields($instance, array('list_text'));
       $image_options  = _slick_fields_get_fc_fields($instance, array('image', 'file'));
       $title_options  = _slick_fields_get_fc_fields($instance, array('text', 'text_long'));
@@ -231,7 +236,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     // break;
 
     default:
-      break;
+     break;
   }
 
   // Layout to all supported fields.
@@ -390,6 +395,16 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
         ),
         '#description' => t('Apply aspect ratio to overlay media only, excluding main/background image.'),
         '#attributes' => array('class' => array('is-tooltip')),
+      );
+
+      $element['color_field'] = array(
+        '#type' => 'select',
+        '#title' => t('Color field'),
+        '#options' => $color_options,
+        '#default_value' => $settings['color_field'],
+        '#description' => t('Color text field or <a href="@lick">color_field</a>.', array('@link' => 'http://drupal.org/project/color_field')),
+        '#attributes' => array('class' => array('is-tooltip')),
+        '#empty_option' => t('- None -'),
       );
     }
   }
@@ -620,6 +635,11 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
       $summary[] = t('Caption: None');
     }
 
+    if (isset($settings['color_field'])) {
+      $color_field = $settings['color_field'] ?: t('None');
+      $summary[] = t('Color: @color_field', array('@color_field' => $color_field));
+    }
+
     // Picture supports.
     if (isset($settings['picture'])) {
       $picture_style = $settings['picture_style'] ?: t('None (original image)');
@@ -665,6 +685,7 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       'media_switch' => FALSE,
       'picture' => FALSE,
 			'mousewheel' => FALSE,
+      'color' => '',
     );
 
     $settings = array_merge($settings, $display['settings']);
@@ -707,6 +728,10 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
         $attach['attach_media'] = TRUE;
         module_load_include('inc', 'slick_fields', 'includes/slick_fields.formatters.field_collection');
         $build = _slick_fields_format_field_collection($settings, $items, $field, $view_mode, $langcode);
+        if ($settings['color']) {
+          $css = implode("\n", $settings['color']);
+          drupal_add_css($css, array('type' => 'inline', 'group' => CSS_THEME + 1));
+        }
         break;
     }
 

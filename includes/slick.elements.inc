@@ -343,6 +343,15 @@ function slick_get_options() {
     'default' => TRUE,
   );
 
+  $options['appendArrows'] = array(
+    'title' => t('Append arrows'),
+    'description' => t("Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object)."),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => '$(element)',
+    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
+  );
+
   $options['prevArrow'] = array(
     'title' => t('Previous arrow'),
     'description' => t("Customize the previous arrow markups. Make sure to keep the expected class."),
@@ -553,6 +562,73 @@ function slick_get_responsive_options($count = 0) {
   }
 
   return $options;
+}
+
+/**
+ * Adjusts colors by step/number (0-255).
+ *
+ * @param string $hex
+ *   A string hex value.
+ *
+ * @param int $steps
+ *   An int step between -255 and 255 where negative means darker, and positive
+ *   lighter.
+ *
+ * @return string
+ *   A new hex color string value dependent on steps.
+ */
+function slick_color_brightness($hex, $steps) {
+  // Steps should be -255 and 255.
+  $steps = max(-255, min(255, $steps));
+
+  // Format the hex color string.
+  $hex = str_replace('#', '', $hex);
+  if (strlen($hex) == 3) {
+    $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
+  }
+
+  // Get decimal values.
+  $r = hexdec(substr($hex, 0, 2));
+  $g = hexdec(substr($hex, 2, 2));
+  $b = hexdec(substr($hex, 4, 2));
+
+  // Adjust number of steps and keep it inside 0 to 255.
+  $r = max(0, min(255, $r + $steps));
+  $g = max(0, min(255, $g + $steps));
+  $b = max(0, min(255, $b + $steps));
+
+  $r_hex = str_pad(dechex($r), 2, '0', STR_PAD_LEFT);
+  $g_hex = str_pad(dechex($g), 2, '0', STR_PAD_LEFT);
+  $b_hex = str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
+
+  return '#' . $r_hex . $g_hex . $b_hex;
+}
+
+/**
+ * Converts hex to RGB.
+ *
+ * @param string $hex
+ *   A string hex value.
+ *
+ * @return string
+ *   A comma separated RGB color string value.
+ */
+function slick_hex2rgb($hex) {
+  $hex = str_replace("#", "", $hex);
+
+  if (strlen($hex) == 3) {
+    $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+    $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+    $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
+  }
+  else {
+    $r = hexdec(substr($hex, 0, 2));
+    $g = hexdec(substr($hex, 2, 2));
+    $b = hexdec(substr($hex, 4, 2));
+  }
+  $rgb = array($r, $g, $b);
+
+  return implode(",", $rgb);
 }
 
 /**

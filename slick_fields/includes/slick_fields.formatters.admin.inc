@@ -52,18 +52,20 @@ function _slick_fields_view_modes($entity_type, $exclude = TRUE) {
  * Gets a list of fields in the Field Collection item.
  */
 function _slick_fields_get_fc_fields($instance, $field_types) {
-  $fc_options = &drupal_static(__FUNCTION__);
+  $fc_options = array();
+  $fields = field_info_fields();
+  $bundle = 'field_collection_item';
+  $bundle_instance = $instance['field_name'];
 
-  if (!isset($fc_options)) {
-    $fields = field_info_fields();
-    $bundle = 'field_collection_item';
-    $bundle_instance = $instance['field_name'];
-
-    foreach ($fields as $name => $field) {
-      if (!empty($bundle) && in_array($bundle, array_keys($field['bundles']))
-              && in_array($bundle_instance, $field['bundles'][$bundle])
-              && in_array($field['type'], $field_types)) {
-        $infos = field_info_instance($bundle, $name, $bundle_instance);
+  foreach ($fields as $name => $field) {
+    $infos = field_info_instance($bundle, $name, $bundle_instance);
+    if ($field_types == '_all') {
+      $fc_options[$name] = $infos['label'];
+    }
+    else {
+      if (in_array($bundle, array_keys($field['bundles']))
+          && in_array($bundle_instance, $field['bundles'][$bundle])
+          && in_array($field['type'], $field_types)) {
         $fc_options[$name] = $infos['label'];
       }
     }
@@ -76,23 +78,19 @@ function _slick_fields_get_fc_fields($instance, $field_types) {
  * Gets a list of fields in the Media file field.
  */
 function _slick_fields_get_media_fields($instance, $widget_types = NULL) {
-  $media_options = &drupal_static(__FUNCTION__);
+  $media_options = array();
+  $types  = drupal_map_assoc(array('audio', 'image', 'video'));
 
-  if (!isset($media_options)) {
-    $types  = drupal_map_assoc(array('audio', 'image', 'video'));
-    $fields = array();
-
-    // Expose all media sub-fields, and merge them as available options.
-    foreach ($types as $media_type) {
-      $fields = field_info_instances('file', $media_type);
-      foreach ($fields as $key => $media_field) {
-        $type = $media_field['widget']['type'];
-        if ($widget_types && in_array($type, $widget_types)) {
-          $media_options[$key] = $media_field['label'];
-        }
-        else {
-          $media_options[$key] = $media_field['label'];
-        }
+  // Expose all media sub-fields, and merge them as available options.
+  foreach ($types as $media_type) {
+    $fields = field_info_instances('file', $media_type);
+    foreach ($fields as $key => $media_field) {
+      $type = $media_field['widget']['type'];
+      if ($widget_types && in_array($type, $widget_types)) {
+        $media_options[$key] = $media_field['label'];
+      }
+      else {
+        $media_options[$key] = $media_field['label'];
       }
     }
   }

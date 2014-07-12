@@ -48,7 +48,9 @@
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
             },
             onComplete: function() {
-              Drupal.slickColorbox.resize(context, Drupal.settings);
+              if (media.type !== 'image') {
+                Drupal.slickColorbox.resize(context, Drupal.settings);
+              }
             },
             onClosed: function () {
               // 120 offset is to play safe for possible fixed header.

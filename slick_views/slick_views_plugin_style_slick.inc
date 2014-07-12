@@ -254,7 +254,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
   /**
    * Render the display in this style.
    */
-  function render($values) {
+  function render() {
 
     // Group the rows according to the grouping field, if specified.
     $sets = $this->render_grouping(
@@ -264,10 +264,6 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     // Render each group separately and concatenate.
     $output = '';
-    // $rendered = $this->view->render();
-    // $style_plugin = $this->view->style_plugin;
-
-
     foreach ($sets as $title => $rows) {
       // Add main image field if so configured.
       if (!empty($this->options['slide_image'])) {

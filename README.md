@@ -30,6 +30,7 @@ Slick supports enhancements and more complex layouts.
 - Picture, to get truly responsive image using art direction technique.
 - Media, including media_youtube, media_vimeo, and media_soundcloud.
 - Field collection, to add Overlay image/audio/video over the main stage.
+- Color field module within Field Collection to colorize the slide individually.
 - Mousewheel, download from https://github.com/brandonaaron/jquery-mousewheel,
   so it is available at sites/.../libraries/mousewheel/jquery.mousewheel.min.js
 
@@ -49,40 +50,7 @@ which supports core and contrib fields: core Image, Media, Field collection.
 See README.txt on slick_views.module for more info on Views integration.
 
 ## Programmatically
-
-  <?php
-    // Add items, may collect from field, FC or Views rows.
-    $items = array();
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/One.gif" />');
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/Two.gif" />');
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/Three.gif" />');
-
-    // Add custom JS options, this is related to core Slick JS options.
-    $options = array(
-      'autoplay' => TRUE,
-      'dots' => TRUE,
-      'arrows' => FALSE,
-    );
-
-    // Or altenatively load a machine-readable optionset name.
-    $options['optionset'] = 'optionset_name';
-
-    // Or provide "supported" Layout settings, see theme_slick.
-    $settings = array(
-      'skin' => 'skin_name', // Supported skin name.
-      'media_switch' => 'iframe-switch', // Or, colorbox-switch.
-      'has_pattern' => TRUE, // Provide overlay pattern per image.
-      'has_arrow_down' => TRUE, // Shows arrow down on the main slide.
-      'arrow_down_target' => '#main', // Valid CSS selector ID.
-      'arrow_down_offset' => 120, // Offset from the #main.
-    );
-
-    print theme('slick', array(
-		  'items' => $items,
-			'options' => $options,
-			'settings' => $settings
-		));
-  ?>
+Use renderable arrays, see slick_fields.module.
 
 ## Skins
 Skins allow swappable layouts like next/prev links, split image and caption, etc.

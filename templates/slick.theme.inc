@@ -320,6 +320,8 @@ function template_preprocess_slick_item(&$variables) {
   if ($settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
     $variables['slide_pattern'] = '<div class="slide__pattern"></div>';
   }
+
+  $variables['settings'] = $settings;
   $variables['attributes_array'] = $attributes;
 }
 
