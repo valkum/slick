@@ -213,13 +213,14 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       }
 
       // Color.
-      if ($settings['color_field']) {
+      if (isset($settings['color_field']) && $settings['color_field']) {
         if (isset($fc_fields[$settings['color_field']])) {
           $color_field = $fc_fields[$settings['color_field']];
           $field_type  = $color_field['#field_type'];
 
           switch ($field_type) {
             case 'text':
+              // @todo recheck this.
               $color = $color_field['#items'][0]['safe_value'];
               break;
 
@@ -238,11 +239,11 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
             $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
             $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";
-            $css[] = "#{$item_id} .slide--{$key} .read-more::before, #{$item_id} .slide--{$key} .read-more::after {background-color: {$color}}";
+            $css[] = "#{$item_id} .slide--{$key} .slide__link a::before, #{$item_id} .slide--{$key} .slide__link a::after {background-color: {$color}}";
 
             if ($color != '#fff' || $color != '#ffffff') {
-              $css[] = "#{$item_id} .slide--{$key} .read-more {color: {$color}}";
-              $css[] = "#{$item_id} .slide--{$key} .read-more:hover {color: {$hover}}";
+              $css[] = "#{$item_id} .slide--{$key} .slide__link a {color: {$color}}";
+              $css[] = "#{$item_id} .slide--{$key} .slide__link a:hover {color: {$hover}}";
               $css[] = "#{$item_id} .slide--{$key} .slide__caption {color: {$light}}";
             }
           }
