@@ -6,7 +6,7 @@ Added color_field support to Field Collection to colorize the slide text.
 Fixed for Strict warning: Declaration of SlickViewsPluginStyleSlick::render()
   should be compatible with views_plugin_style::render() in
   _registry_check_code() (line 3139 ..., neglecting coder sniffs: "No scope
-  modifier specified   for function "render"
+  modifier specified for function "render"
   [sniffer_squiz_scope_methodscope_missing]"
 Added settings variables to template_preprocess_slick_item
 Limit colorbox resize to non-images at slick.colorbox.js under onComplete.

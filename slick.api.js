@@ -40,7 +40,7 @@ Drupal.slick.callbacks.onBeforeChange = function (slider, index) {
 };
 
 /**
- * E.g.: Applies a css border to a apecific #my-slick onInit.
+ * E.g.: Applies a css border to a specific #my-slick onInit.
  */
 Drupal.slick.callbacks.onInit = function (slider) {
   $('#my-slick').css({'border': '10px solid red'});

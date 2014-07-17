@@ -82,7 +82,7 @@
         Drupal.slickColorbox.resize(context, Drupal.settings);
       });
 
-      window.addEventListener("orientationchange", Drupal.slickColorbox.resize(context, Drupal.settings), false);
+      // window.addEventListener("orientationchange", Drupal.slickColorbox.resize(context, Drupal.settings), false);
 
       $(context).bind('cbox_complete', function () {
         Drupal.attachBehaviors('#cboxLoadedContent');

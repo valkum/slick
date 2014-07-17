@@ -220,13 +220,11 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
           switch ($field_type) {
             case 'text':
-              // @todo recheck this.
               $color = $color_field['#items'][0]['safe_value'];
               break;
 
             case 'color_field_rgb':
               $color = strip_tags($color_field['#items'][0]['rgb']);
-              // color_field_css_declaration
               break;
           }
 

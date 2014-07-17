@@ -18,21 +18,27 @@ Make sure to run update, when upgrading from 7.x-1.x to 7.x-2.x to allow
 creating database table to store option sets.
 
 ## Requirements
+- Slick library:
+  * Download archive from https://github.com/kenwheeler/slick/,
+  * Extract it as is, so the needed assets available at:
+    sites/../libraries/slick/slick/slick.css
+    sites/../libraries/slick/slick/slick.min.js
 - CTools, for exportable optionsets -- only the main "Chaos tools" is needed.
 - libraries (>=2.x)
 - jquery_update with jQuery >= 1.7
-- jqeasing, or use drush make to download the easing libraries, remove versions
-  from the file name (jquery.easing.1.3.min.js to jquery.easing.min.js)
+- jqeasing, so available at:
+  sites/../libraries/easing/jquery.easing.min.js
 
 ## Optional integration
 Slick supports enhancements and more complex layouts.
 - Colorbox
 - Picture, to get truly responsive image using art direction technique.
 - Media, including media_youtube, media_vimeo, and media_soundcloud.
-- Field collection, to add Overlay image/audio/video over the main stage.
+- Field Collection, to add Overlay image/audio/video over the main image stage.
 - Color field module within Field Collection to colorize the slide individually.
 - Mousewheel, download from https://github.com/brandonaaron/jquery-mousewheel,
-  so it is available at sites/.../libraries/mousewheel/jquery.mousewheel.min.js
+  so it is available at:
+  sites/.../libraries/mousewheel/jquery.mousewheel.min.js
 
 See README.txt on slick_fields.module for more info on slide layouts and fields
 integration.
@@ -40,6 +46,7 @@ integration.
 ## Optionsets
 To create your option sets, go to:
 "admin/config/media/slick"
+These will be available at Manage display field format, and Views UI.
 
 ## Views and Fields
 Slick works with Views and as field display formatters.
@@ -65,7 +72,7 @@ not the module job to match your design requirements.
 Tips:
 ----
 - Use the Slick API hook_slick_skins_info() to add your own skins.
-- Use the provided Wrapper class to have a custom context as needed.
+- Use the provided Wrapper class option to have a unique context as needed.
 
 Available skins:
 ---------------
@@ -87,3 +94,6 @@ Available skins:
 ## Read more
 
 See the project page on drupal.org: http://drupal.org/project/slick.
+See the Slick docs at:
+- http://kenwheeler.github.io/slick/
+- https://github.com/kenwheeler/slick/
