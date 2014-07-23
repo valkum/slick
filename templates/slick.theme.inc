@@ -98,7 +98,6 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'] = array_diff($attributes['class'], array('slick'));
   }
   else {
-    // $attributes['class'][] = 'slick';
     $settings['is_carousel'] = $js_settings['slidesToShow'] > 1;
     $attributes['class'][] = $settings['is_carousel'] ? 'slick--carousel' : 'slick--slider';
   }
@@ -198,7 +197,6 @@ function template_preprocess_slick(&$variables) {
 
   // Process individual item.
   $build = array();
-  $thumbnails = array();
   foreach ($items as $delta => $item) {
     if (isset($item['settings'])) {
       $settings = is_array($item['settings']) ? array_merge($settings, $item['settings']) : $settings;
@@ -289,7 +287,7 @@ function template_preprocess_slick_item(&$variables) {
     $stage['alt'] = $captions['alt'];
   }
 
-  // Captions.
+  // Captions, can any multiple fields.
   if (!empty($captions['data'])) {
     $stage['data'] = $captions['data'];
   }
@@ -398,7 +396,7 @@ function template_preprocess_slick_media(&$variables) {
         $attributes['class'][] = 'media--' . $scheme . '-player';
       }
 
-      // Gets consistent with colorbox to share codes.
+      // Gets consistent with colorbox to share JS manipulation.
       $data_media = array('type' => $settings['type']);
       $data_media['player'] = TRUE;
       $data_media['scheme'] = $scheme;
@@ -457,7 +455,7 @@ function theme_slick_image_lazy($variables) {
     $variables['path'] = image_style_url($variables['style_name'], $variables['path']);
     $count = $variables['count'];
 
-    // Provide SRC attribute if a single image or lazyLoad disabled.
+    // Provide SRC attribute if a single image, or lazyLoad disabled.
     if ($count == 1 || !$variables['lazy']) {
       $attributes['src'] = file_create_url($variables['path']);
     }
@@ -548,36 +546,4 @@ function theme_slick_image_formatter_lazy($variables) {
   }
 
   return $output;
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- *
- * @todo drop, deprecated by theme_slick.
- */
-function template_preprocess_slick_carousel(&$variables) {
-  $items = $variables['items'];
-  $options = $variables['options'];
-
-  // Add item classes.
-  foreach ($items as $index => $item) {
-    $item_classes = array('item', 'item-' . $index);
-    $variables['item_classes'][$index] = implode(" ", $item_classes);
-  }
-
-  // Add slick attributes.
-  $variables['classes_array'][] = 'slick';
-
-  // Make use of defaults.
-  $optionset = slick_optionset_load('default');
-
-  // Set settings as data attributes.
-  $options['settings'] = $options;
-  _slick_typecast_optionset($options['settings']);
-  $configs = _slick_remove_default_optionset_options($optionset, $options['settings']);
-
-  $variables['attributes_array']['data-config'] = drupal_json_encode($configs);
-
-  // Add libraries.
-  slick_add();
 }

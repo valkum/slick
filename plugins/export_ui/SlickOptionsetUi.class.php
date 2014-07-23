@@ -257,7 +257,32 @@ class SlickOptionsetUi extends ctools_export_ui {
                       $form['options']['responsives']['responsive'][$i][$key][$k]['#default_value'] = isset($options['responsives']['responsive'][$i][$key][$k]) ? $options['responsives']['responsive'][$i][$key][$k] : $value['default'];
                     }
                     if (isset($value['states'])) {
-                      $form['options']['responsives']['responsive'][$i][$key][$k]['#states'] = $value['states'];
+                      // Specify proper states for the clone of breakpoints.
+                      $states = '';
+                      switch ($k) {
+                        case 'pauseOnHover':
+                        case 'pauseOnDotsHover':
+                        case 'autoplaySpeed':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][autoplay]"]' => array('checked' => TRUE)));
+                          break;
+
+                        case 'appendArrows':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][arrows]"]' => array('checked' => TRUE)));
+                          break;
+
+                        case 'centerPadding':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][centerMode]"]' => array('checked' => TRUE)));
+                          break;
+
+                        case 'touchThreshold':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][touchMove]"]' => array('checked' => TRUE)));
+                          break;
+
+                      }
+
+                      if ($states) {
+                        $form['options']['responsives']['responsive'][$i][$key][$k]['#states'] = $states;
+                      }
                     }
                     if (isset($value['options'])) {
                       $form['options']['responsives']['responsive'][$i][$key][$k]['#options'] = $value['options'];
@@ -273,6 +298,7 @@ class SlickOptionsetUi extends ctools_export_ui {
                 }
               }
               // Breakpoints.
+              // @todo simplify this if no other features added.
               else {
                 $form['options']['responsives']['responsive'][$i][$key] = array(
                   '#title' => $vals['title'],

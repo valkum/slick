@@ -91,7 +91,7 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
       unset($config['centerPadding']);
     }
     if (isset($config['arrows']) && !$config['arrows']) {
-      unset($config['prevArrow'], $config['nextArrow']);
+      unset($config['prevArrow'], $config['nextArrow'], $config['appendArrows']);
     }
   }
 
@@ -108,13 +108,26 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
       }
     }
     if ($cleaned_responsives) {
-      $cleaned_responsive_settings = array();
+      $cleaned = array();
       foreach ($cleaned_responsives as $key => $responsive) {
-        $cleaned_responsive_settings[$key]['breakpoint'] = $cleaned_responsives[$key]['breakpoint'];
-        $cleaned_responsive_settings[$key]['settings'] = array_diff_assoc($cleaned_responsives[$key]['settings'], $defaults['settings']);
+        $cleaned[$key]['breakpoint'] = $cleaned_responsives[$key]['breakpoint'];
+        $cleaned[$key]['settings'] = array_diff_assoc($cleaned_responsives[$key]['settings'], $defaults['settings']);
+
+        // Remove wasted breakpoint dependent options if disabled, even if not empty.
+        if (empty($cleaned[$key]['settings']['autoplay'])) {
+          unset(
+            $cleaned[$key]['settings']['pauseOnHover'],
+            $cleaned[$key]['settings']['pauseOnDotsHover'],
+            $cleaned[$key]['settings']['autoplaySpeed']
+          );
+        }
+        if (empty($cleaned[$key]['settings']['centerMode'])) {
+          unset($cleaned[$key]['settings']['centerPadding']);
+        }
       }
+
       // Make sure to follow JS array.
-      $config['responsive'] = $cleaned_responsive_settings;
+      $config['responsive'] = $cleaned;
     }
   }
 
@@ -314,7 +327,7 @@ function slick_get_options() {
     'type' => 'checkbox',
     'cast' => 'bool',
     'default' => TRUE,
-    'states' => array('visible' => array(':input[name*="autoplay"]' => array('checked' => TRUE))),
+    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
   );
 
   $options['pauseOnDotsHover'] = array(
@@ -323,7 +336,7 @@ function slick_get_options() {
     'type' => 'checkbox',
     'cast' => 'bool',
     'default' => FALSE,
-    'states' => array('visible' => array(':input[name*="autoplay"]' => array('checked' => TRUE))),
+    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
   );
 
   $options['autoplaySpeed'] = array(
@@ -332,7 +345,7 @@ function slick_get_options() {
     'type' => 'textfield',
     'cast' => 'int',
     'default' => 3000,
-    'states' => array('visible' => array(':input[name*="autoplay"]' => array('checked' => TRUE))),
+    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
   );
 
   $options['arrows'] = array(
@@ -384,7 +397,7 @@ function slick_get_options() {
     'type' => 'textfield',
     'cast' => 'string',
     'default' => '50px',
-    'states' => array('visible' => array(':input[name*="centerMode"]' => array('checked' => TRUE))),
+    'states' => array('visible' => array(':input[name*="options[settings][centerMode]"]' => array('checked' => TRUE))),
   );
 
   $options['cssEase'] = array(
@@ -500,7 +513,7 @@ function slick_get_options() {
     'type' => 'textfield',
     'cast' => 'int',
     'default' => 5,
-    'states' => array('visible' => array(':input[name*="touchMove"]' => array('checked' => TRUE))),
+    'states' => array('visible' => array(':input[name*="options[settings][touchMove]"]' => array('checked' => TRUE))),
   );
 
   $options['useCSS'] = array(
@@ -555,7 +568,7 @@ function slick_get_responsive_options($count = 0) {
     // Duplicate main settings.
     // Clean up problematic dup options, since they have to be available once
     // for all.
-    unset($slick_options['slide'], $slick_options['lazyLoad'], $slick_options['prevArrow'], $slick_options['nextArrow']);
+    unset($slick_options['slide'], $slick_options['lazyLoad'], $slick_options['prevArrow'], $slick_options['nextArrow'], $slick_options['appendArrows']);
     foreach ($slick_options as $name => $values) {
       $options[$key]['settings'][$name] = $values;
     }

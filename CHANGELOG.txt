@@ -1,5 +1,19 @@
 
 
+Slick 7.x-1.0-dev, 2014-07-24
+-----------------------------
+Issue #2308591 by jmuzz:
+- Fixed for specificity of breakpoints states.
+- Remove wasted breakpoint dependent options if disabled, even if not empty.
+- Fixed CSS overriden checkboxes for admin settings.
+
+Slick 7.x-1.0-dev, 2014-07-18
+-----------------------------
+Dropped slick-carousel.tpl.php, template_preprocess_slick_carousel() from
+  slick.theme.inc
+Dropped deprecated theme_slick_carousel() in favor of the unified theme_slick()
+  for custom coded, Field formatter and Views for easy maintenance.
+
 Slick 7.x-1.0-dev, 2014-07-13
 -----------------------------
 Added color_field support to Field Collection to colorize the slide text.

@@ -56,11 +56,6 @@ function slick_theme($existing, $type, $theme, $path) {
         'options' => array(),
       ),
     ),
-    // @todo drop by the main theme_slick.
-    'slick_carousel' => $base + array(
-      'variables' => array('items' => NULL, 'options' => NULL),
-      'template' => 'slick-carousel',
-    ),
   );
 }
 

@@ -782,6 +782,9 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 .form--slick .vertical-tabs .fieldset--responsive .form-item select {
   max-width: 100px;
 }
+.form--slick .vertical-tabs .fieldset--responsive .form-item .form-checkbox {
+  max-width: 100%;
+}
 
 /**
  * Overrides
