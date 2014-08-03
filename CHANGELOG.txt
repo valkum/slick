@@ -1,8 +1,11 @@
 
+Slick 7.x-1.0-dev, 2014-08-4
+----------------------------
+Fixed for duplicated .slick__arrow on resizing.
 
 Slick 7.x-1.0-dev, 2014-08-2
 ----------------------------
-Added support for Omega 3 expecting classes_array.
+issue #2309681 by immoreel: Added support for Omega 3 expecting classes_array.
 Do not output slide__media wrapper if no main image and caption available. The
   case, e.g., main image left empty, and overlay image/media filled out.
 

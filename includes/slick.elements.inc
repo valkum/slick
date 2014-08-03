@@ -383,6 +383,8 @@ function slick_get_options() {
     'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
   );
 
+  // @todo asNavFor
+
   $options['centerMode'] = array(
     'title' => t('Center mode'),
     'description' => t('Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts.'),
@@ -418,7 +420,7 @@ function slick_get_options() {
 
   $options['dotsClass'] = array(
     'title' => t('Dot class'),
-    'description' => t('Class for slide indicator dots container, if you are customizing things, maybe you need putting dots somewhere on the page outside the slideshow.'),
+    'description' => t('Class for slide indicator dots container. Do not prefix with dot. If you change this, edit its CSS accordingly.'),
     'type' => 'textfield',
     'cast' => 'string',
     'default' => 'slick-dots',
@@ -449,6 +451,8 @@ function slick_get_options() {
     'cast' => 'bool',
     'default' => FALSE,
   );
+
+  // @todo focusOnSelect
 
   $options['infinite'] = array(
     'title' => t('Infinite'),

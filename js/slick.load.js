@@ -88,7 +88,8 @@
     if (!$('.slick__slide:first .slide__thumbnail', t).length) {
       return;
     }
-    $('.slick-dots', t)
+    var dotClass = t.data('config').dotClass || 'slick-dots';
+    $('.' + dotClass, t)
       .addClass('slick__thumbnail')
       .addClass($('.slick__slide:first .slide__thumbnail--hover', t).length ? 'slick__thumbnail--hover' : '');
   };
@@ -101,21 +102,17 @@
    * @todo it is in with appendArrows.
    */
   Drupal.theme.prototype.slickArrows = function (t) {
-    // Do not process if arrows disabled.
+    // Do not process if arrows disabled, or appended somewhere else.
     if (!t.find('> .slick-prev').length) {
        return;
     }
-    var $down = $('.slick-down', t);
 
     // Wrap arrows for easy and variant CSS stylings.
+    if (!t.find('> .slick__arrow').length) {
+      t.append('<nav class="slick__arrow" />');
+    }
     if (!t.find('> .slick__arrow .slick-prev').length) {
-      t.find('> .slick-prev, > .slick-next')
-        .wrapAll('<nav class="slick__arrow" />');
-
-      // Custom jump down arrow.
-      if ($down.length) {
-        $('.slick__arrow', t).append($down);
-      }
+      t.find('> .slick-prev, > .slick-next, .slick-down').appendTo($('.slick__arrow', t));
 
       // Remove placeholder and original arrows since the new one in place.
       t.find('> .slick__arrow--placeholder, > .slick-prev, > .slick-next, > .slick__arrow:empty').remove();
