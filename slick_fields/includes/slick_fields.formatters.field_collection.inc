@@ -49,8 +49,9 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               // Large background video is not supported, any taker?
               $file            = $slide_image[0]['file'];
               $fallback        = $slide_image['#items'][0];
-              $image_style     = isset($file['#style_name']) ? $file['#style_name'] : $image_style;
-              $image['uri']    = isset($file['#path']) ? $file['#path'] : $fallback['uri'];
+              // @todo recheck versions, #image_style vs #style_name
+              $image_style     = isset($file['#style_name']) ? $file['#style_name'] : (isset($file['#image_style']) ? $file['#image_style'] : $image_style);
+              $image['uri']    = isset($file['#path']) && $file['#path'] ? $file['#path'] : $fallback['uri'];
               $image['width']  = isset($file['#width']) ? $file['#width'] : NULL;
               $image['height'] = isset($file['#height']) ? $file['#height'] : NULL;
               $image['alt']    = isset($file['#alt']) ? $file['#alt'] : $fallback['alt'];

@@ -184,6 +184,10 @@ function template_preprocess_slick(&$variables) {
   $js_settings['mousewheel'] = $settings['mousewheel'] ? TRUE : FALSE;
 
   // Add the configuration as JSON object into slick container.
+  // @todo use data-slick to store the object:
+  // https://github.com/kenwheeler/slick/issues/91
+  // https://github.com/kenwheeler/slick/pull/407
+  // https://github.com/AndreSteenveld/slick/commit/b9b59e8c01b7d7fb3fcc2962140991a7f190c617
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
     // Do not pass arrows HTML to JSON object, as we process separately.
@@ -213,6 +217,10 @@ function template_preprocess_slick(&$variables) {
 
   $variables['items'] = $build;
   $variables['settings'] = $settings;
+
+  // Fill out classes_array expected by Omega 3.
+  // @todo drop it when Omega3/5 has a better preperocess like Omega 4.
+  $variables['classes_array'] = $variables['attributes_array']['class'];
 
   // Add the library. More fine grained control on the loaded library should use
   // attached instead. Also D8 recommended.
@@ -299,8 +307,9 @@ function template_preprocess_slick_item(&$variables) {
 
   $variables['caption'] = $stage;
 
-  // We split image from captions with a wrapper if we do have captions.
-  if (!empty($stage)) {
+  // We split image from captions with a wrapper if we do have captions and main
+  // image.
+  if (!empty($stage) && !empty($item)) {
     $variables['item_prefix'] = '<div class="slide__media">';
     $variables['item_suffix'] = '</div>';
   }
@@ -321,6 +330,10 @@ function template_preprocess_slick_item(&$variables) {
 
   $variables['settings'] = $settings;
   $variables['attributes_array'] = $attributes;
+
+  // Fill out classes_array expected by Omega 3.
+  // @todo drop it when Omega3/5 has a better preperocess like Omega 4.
+  $variables['classes_array'] = $variables['attributes_array']['class'];
 }
 
 /**
@@ -416,6 +429,10 @@ function template_preprocess_slick_media(&$variables) {
 
   $variables['settings'] = $settings;
   $variables['attributes_array'] = $attributes;
+
+  // Fill out classes_array expected by Omega 3.
+  // @todo drop it when Omega3/5 has a better preperocess like Omega 4.
+  $variables['classes_array'] = $variables['attributes_array']['class'];
 }
 
 /**
@@ -470,6 +487,8 @@ function theme_slick_image_lazy($variables) {
       $build .= '<div class="slide__pattern"></div>';
     }
 
+    // Only provide noscript to the first image, since the rest of the slides
+    // always want JS.
     if ($count > 1 && $variables['delta'] == 0) {
       $build .= '<noscript>' . theme_image($variables) . '</noscript>';
     }
@@ -530,6 +549,7 @@ function theme_slick_image_formatter_lazy($variables) {
   $image['count'] = isset($variables['count']) ? $variables['count'] : 0;
 
   // Optionset determines lazyLoad obligatory, hence only applies to images > 1.
+  // @todo disable lazyLoad by empty_option set by slick_fields.
   $image['lazy'] = $image['count'] > 1;
   $image['options']['type']     = $variables['options']['type'];
   $image['options']['colorbox'] = isset($variables['options']['colorbox']) && $variables['options']['colorbox'];

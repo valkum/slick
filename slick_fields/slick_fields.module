@@ -511,7 +511,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     else {
       $element['picture_style'] += array(
         '#type' => 'item',
-        '#markup' => t("There're no picture mappings defined, you'll have to <a href='@create'>create</a> them first.", array('@create' => url('admin/config/media/picture'))),
+        '#markup' => t("<a href='@create'>No picture mappings</a> defined.", array('@create' => url('admin/config/media/picture'))),
       );
     }
 

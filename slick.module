@@ -371,7 +371,6 @@ function slick_attach(array $attach) {
  * @param array $settings
  *   An array of conditions to load the relevant assets, or libraries.
  *
- * Global base JS settings is added once for all instances at hook_init().
  * Individual JS settings are stored as JSON object via inline HTML5 data
  * attributes at individual slide instance when optionset is provided.
  * This approach is much more efficient than regular head JS settings which
@@ -382,7 +381,7 @@ function slick_attach(array $attach) {
  * array.
  *
  * Notes: This is not used since the sub modules implements #attached property
- * instead. It is here to load library for custom works as needed.
+ * instead. It is here to load library for custom works as needed, or fallback.
  *
  * @see slick_attach()
  *

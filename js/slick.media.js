@@ -30,11 +30,11 @@
             // Force autoplay, if not provided, which should not.
             if (media.scheme === 'soundcloud') {
               if (url.indexOf('auto_play') < 0 || url.indexOf('auto_play') === false) {
-                url = url + '&amp;auto_play=true';
+                url = url.indexOf('?') < 0 ? url + '?auto_play=true' : url + '&amp;auto_play=true';
               }
             }
             else if (url.indexOf('autoplay') < 0 || url.indexOf('autoplay') === 0) {
-              url = url + '&amp;autoplay=1';
+              url = url.indexOf('?') < 0 ? url + '?autoplay=1' : url + '&amp;autoplay=1';
             }
 
           // First, reset any video to avoid multiple videos from playing.

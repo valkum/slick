@@ -191,6 +191,11 @@ class SlickOptionsetUi extends ctools_export_ui {
         $form['options']['settings'][$name]['#options'] = $values['options'];
       }
 
+      if (isset($values['empty_option'])) {
+        $form['options']['settings'][$name]['#empty_option'] = $values['empty_option'];
+      }
+
+      // Expand textfield for easy edit.
       if (in_array($name, array('prevArrow', 'nextArrow'))) {
         $form['options']['settings'][$name]['#attributes']['class'][] = 'js-expandable';
       }
@@ -257,7 +262,7 @@ class SlickOptionsetUi extends ctools_export_ui {
                       $form['options']['responsives']['responsive'][$i][$key][$k]['#default_value'] = isset($options['responsives']['responsive'][$i][$key][$k]) ? $options['responsives']['responsive'][$i][$key][$k] : $value['default'];
                     }
                     if (isset($value['states'])) {
-                      // Specify proper states for the clone of breakpoints.
+                      // Specify proper states for the breakpoint form elements.
                       $states = '';
                       switch ($k) {
                         case 'pauseOnHover':
@@ -286,6 +291,9 @@ class SlickOptionsetUi extends ctools_export_ui {
                     }
                     if (isset($value['options'])) {
                       $form['options']['responsives']['responsive'][$i][$key][$k]['#options'] = $value['options'];
+                    }
+                    if (isset($value['empty_option'])) {
+                      $form['options']['responsives']['responsive'][$i][$key][$k]['#empty_option'] = $value['empty_option'];
                     }
                     if (isset($value['field_suffix'])) {
                       $form['options']['responsives']['responsive'][$i][$key][$k]['#field_suffix'] = $value['field_suffix'];

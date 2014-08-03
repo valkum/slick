@@ -416,6 +416,15 @@ function slick_get_options() {
     'default' => FALSE,
   );
 
+  $options['dotsClass'] = array(
+    'title' => t('Dot class'),
+    'description' => t('Class for slide indicator dots container, if you are customizing things, maybe you need putting dots somewhere on the page outside the slideshow.'),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => 'slick-dots',
+    'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
+  );
+
   $options['draggable'] = array(
     'title' => t('Draggable'),
     'description' => t('Enable mouse dragging'),
@@ -456,6 +465,7 @@ function slick_get_options() {
     'cast' => 'string',
     'default' => 'ondemand',
     'options' => drupal_map_assoc(array('ondemand', 'progressive')),
+    'empty_option' => t('- None -'),
   );
 
   $options['slide'] = array(
@@ -568,7 +578,14 @@ function slick_get_responsive_options($count = 0) {
     // Duplicate main settings.
     // Clean up problematic dup options, since they have to be available once
     // for all.
-    unset($slick_options['slide'], $slick_options['lazyLoad'], $slick_options['prevArrow'], $slick_options['nextArrow'], $slick_options['appendArrows']);
+    unset(
+      $slick_options['slide'],
+      $slick_options['lazyLoad'],
+      $slick_options['prevArrow'],
+      $slick_options['nextArrow'],
+      $slick_options['appendArrows'],
+      $slick_options['dotsClass']
+    );
     foreach ($slick_options as $name => $values) {
       $options[$key]['settings'][$name] = $values;
     }

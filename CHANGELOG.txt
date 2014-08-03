@@ -1,5 +1,16 @@
 
 
+Slick 7.x-1.0-dev, 2014-08-2
+----------------------------
+Added support for Omega 3 expecting classes_array.
+Do not output slide__media wrapper if no main image and caption available. The
+  case, e.g., main image left empty, and overlay image/media filled out.
+
+Slick 7.x-1.0-dev, 2014-07-25
+-----------------------------
+Added empty_option to Lazyload to allow sharing to Pinterest for small slides,
+  since current Lazyload is a must, and img SRC attributes is always empty.
+
 Slick 7.x-1.0-dev, 2014-07-24
 -----------------------------
 Issue #2308591 by jmuzz:
