@@ -85,6 +85,30 @@
       font-weight: 400;
       line-height: 1;
     }
+    
+    &.form-type-textfield {
+      input {
+        width: auto;
+        max-width: 140px;
+      }
+      .form-text--int {
+        max-width: 50px;
+      }
+
+      .js-expandable {
+        @include transition($transition-width);
+      }
+
+      &.js-on-focus {
+        z-index: 3;
+        .js-expandable {
+          max-width: 280px;
+          position: absolute;
+          width: 280px;
+          z-index: 2;
+        }
+      }
+    }    
   }
 
   .form-type-checkbox input {
@@ -157,6 +181,7 @@
      * applied to override hardcoded cols or size attributes and used in conjunction
      * with "box-sizing" to prevent box model issues from occurring in most browsers.
      */
+    /*
     .form-type-textfield {
       input {
         width: auto;
@@ -165,11 +190,11 @@
       .form-text--int {
         max-width: 50px;
       }
-      
+
       .js-expandable {
         @include transition($transition-width);
       }
-      
+
       &.js-on-focus {
         .js-expandable {
           max-width: 280px;
@@ -179,7 +204,8 @@
         }
       }
     }
-  
+    */
+
     .fieldset--responsive {
       .form-item {
         input,

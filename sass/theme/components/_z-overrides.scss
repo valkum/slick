@@ -16,9 +16,10 @@ supports no-js */
   position: relative;
 }
 
-.slick-slide img {
-  @include transform(none);
-}
+// Leave it to core now.
+// .slick-slide img {
+// @include transform(none);
+// }
 
 .slick-loading {
   // background: white url(./ajax-loader.gif) center center no-repeat;

@@ -104,3 +104,6 @@ Notes:
 Current slick do not support variable height, so even short slides will have the
 tallest heights, so use consistent relevant Slide layout options above, e.g.:
 Mixing "Caption below the slide" with others will result inconsistent heights.
+  
+More info relevant to each option is available at their form display by hovering
+over them, and click a dark question mark.

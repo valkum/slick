@@ -8,10 +8,10 @@
 /**
  * Format core image data.
  */
-function _slick_fields_format_image(&$settings, $items, $field, $view_mode, $langcode) {
+function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FALSE) {
   $build = array();
-  $media = '';
   $field_type = $field['type'];
+
   foreach ($items as $key => $item) {
     $tmp = $item;
     $item = array(
@@ -20,6 +20,7 @@ function _slick_fields_format_image(&$settings, $items, $field, $view_mode, $lan
       'caption' => array(),
     );
 
+    // Once media.module enabled, it populates type.
     $item_type = isset($item['item']['type']) ? $item['item']['type'] : $field_type;
     $settings['type'] = $item_type;
 
@@ -33,33 +34,54 @@ function _slick_fields_format_image(&$settings, $items, $field, $view_mode, $lan
     $settings['media_height'] = $image['height'];
     $settings['media_width']  = $image['width'];
 
-    // Slide captions.
-    if (!empty($settings['slide_caption'])) {
-      $item['caption']['title']['#markup'] = !empty($image['title']) ? filter_xss($image['title']) : '';
-      $item['caption']['alt']['#markup'] = !empty($image['alt']) ? filter_xss($image['alt']) : '';
-    }
+    $thumbnail = '';
+    $thumbnail_hover = '';
+    $image_slide = '';
 
-    // Slide layouts.
-    if (!empty($settings['slide_layout'])) {
-      $item['caption']['layout'] = check_plain($settings['slide_layout']);
-    }
-
-    // Image with picture supports.
-    $image_slide = _slick_fields_get_picture($settings, $image, $key);
-
-    // Provide thumbnail pagers if so configured.
-    if (!empty($settings['thumbnail_style'])) {
+    if (isset($settings['thumbnail_style']) && $settings['thumbnail_style']) {
       $image['path'] = $image['uri'];
       $image['style_name'] = $settings['thumbnail_style'];
 
       $thumbnail = theme('image_style', $image);
 
       if ($settings['thumbnail_hover']) {
-        $image_slide .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
-        $image_slide .= '<button type="button">' . ($key + 1) . '</button></div>';
+        $thumbnail_hover = '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+        $thumbnail_hover .= '<button type="button" data-role="none">' . ($key + 1) . '</button></div>';
       }
-      else {
-        $image_slide .= '<div class="slide__thumbnail">' . $thumbnail . '</div>';
+    }
+
+    if (!$thumb_nav) {
+      // Slide captions.
+      if (!empty($settings['slide_caption'])) {
+        if (!empty($image['title'])) {
+          $item['caption']['title']['#markup'] = filter_xss($image['title']);
+        }
+        if (!empty($image['alt'])) {
+          $item['caption']['alt']['#markup'] = filter_xss($image['alt']);
+        }
+      }
+
+      // Slide layouts.
+      if (!empty($settings['slide_layout'])) {
+        $item['caption']['layout'] = check_plain($settings['slide_layout']);
+      }
+
+      // Image with picture and colorbox supports.
+      $image_slide = _slick_fields_get_picture($settings, $image, $key);
+
+      // Thumbnail static.
+      if ($settings['dots_main'] && $thumbnail_hover) {
+        $image_slide .= $thumbnail_hover;
+      }
+    }
+    else {
+      // Thumbnail slider if so configured.
+      $image_slide = $thumbnail;
+      $settings['type'] = 'image';
+
+      // Thumbnail static.
+      if ($settings['dots_thumbnail'] && $thumbnail_hover) {
+        $image_slide .= $thumbnail_hover;
       }
     }
 
@@ -70,6 +92,7 @@ function _slick_fields_format_image(&$settings, $items, $field, $view_mode, $lan
       '#settings' => $settings,
     );
 
+    // @todo drop, or keep it.
     $item['settings'] = $settings;
 
     $build[$key] = $item;

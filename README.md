@@ -10,7 +10,7 @@ See http://kenwheeler.github.io/slick.
 * Desktop mouse dragging.
 * Fully accessible with arrow key navigation.
 * Autoplay, pagers, arrows, etc...
-* Works with Views and core and contrib fields: Image, Media or Field collection.
+* Works with Views, core and contrib fields: Image, Media or Field collection.
 * Exportable via CTools.
 
 ## Versions
@@ -72,7 +72,8 @@ not the module job to match your design requirements.
 Tips:
 ----
 - Use the Slick API hook_slick_skins_info() to add your own skins.
-- Use the provided Wrapper class option to have a unique context as needed.
+- Use the provided Wrapper class option to have a unique context as needed,
+  useful to build asNavFor aka thumbnail navigation.
 
 Available skins:
 ---------------
@@ -84,12 +85,25 @@ Available skins:
 - Split
   Caption and image/media are split half, and placed side by side.
 - Box carousel
-  Added box-shadow to the carousel slides.
+  Added box-shadow to the carousel slides, multiple visible slides. Use
+  slideToShow option > 2.
 - Boxed split
   Caption and image/media are split half, and have edge margin 0 60px.
 - Rounded
   This will round the main image display, reasonable for small carousels, maybe
   with a small caption below to make it nice. Use slideToShow option > 2.
+
+## Troubleshooting
+When upgrading from Slick v1.3.6 to v1.3.7, try to resave options at:
+- admin/config/media/slick
+- admin/structure/types/manage/CONTENT_TYPE/display
+only if trouble to see the new options, or when options don't apply properly.
+This is most likely true specific to the new appendArrows, the old thumbnail
+options, or new thumbnail navigation options. Other existing options don't change.
+Always clear the cache when updating the module.
+
+More info relevant to each option is available at their form display by hovering
+over them, and click a dark question mark.
 
 ## Read more
 

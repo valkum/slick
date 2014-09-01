@@ -698,6 +698,29 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
   font-weight: 400;
   line-height: 1;
 }
+.form--slick .form-item.form-type-textfield input {
+  width: auto;
+  max-width: 140px;
+}
+.form--slick .form-item.form-type-textfield .form-text--int {
+  max-width: 50px;
+}
+.form--slick .form-item.form-type-textfield .js-expandable {
+  -webkit-transition: width 0.6s ease-out, max-width 0.5s linear;
+  -webkit-transition-delay: 0.8s, 0s;
+  -moz-transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
+  -o-transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
+  transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
+}
+.form--slick .form-item.form-type-textfield.js-on-focus {
+  z-index: 3;
+}
+.form--slick .form-item.form-type-textfield.js-on-focus .js-expandable {
+  max-width: 280px;
+  position: absolute;
+  width: 280px;
+  z-index: 2;
+}
 .form--slick .form-type-checkbox input {
   min-height: 100%;
   left: 0;
@@ -729,6 +752,30 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
    * applied to override hardcoded cols or size attributes and used in conjunction
    * with "box-sizing" to prevent box model issues from occurring in most browsers.
    */
+    /*
+    .form-type-textfield {
+      input {
+        width: auto;
+        max-width: 140px;
+      }
+      .form-text--int {
+        max-width: 50px;
+      }
+
+      .js-expandable {
+        @include transition($transition-width);
+      }
+
+      &.js-on-focus {
+        .js-expandable {
+          max-width: 280px;
+          position: absolute;
+          width: 280px;
+          z-index: 2;
+        }
+      }
+    }
+    */
 }
 .form--slick .vertical-tabs .form-item {
   border-left: 1px solid #e7e7e7;
@@ -757,26 +804,6 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 }
 .form--slick .vertical-tabs .fieldset--responsive > .fieldset-wrapper {
   padding: 0 15px;
-}
-.form--slick .vertical-tabs .form-type-textfield input {
-  width: auto;
-  max-width: 140px;
-}
-.form--slick .vertical-tabs .form-type-textfield .form-text--int {
-  max-width: 50px;
-}
-.form--slick .vertical-tabs .form-type-textfield .js-expandable {
-  -webkit-transition: width 0.6s ease-out, max-width 0.5s linear;
-  -webkit-transition-delay: 0.8s, 0s;
-  -moz-transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
-  -o-transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
-  transition: width 0.6s ease-out 0.8s, max-width 0.5s linear 0s;
-}
-.form--slick .vertical-tabs .form-type-textfield.js-on-focus .js-expandable {
-  max-width: 280px;
-  position: absolute;
-  width: 280px;
-  z-index: 2;
 }
 .form--slick .vertical-tabs .fieldset--responsive .form-item input,
 .form--slick .vertical-tabs .fieldset--responsive .form-item select {

@@ -23,7 +23,7 @@
   <?php endforeach; ?>
 
   <?php if (count($items) > 1 && $settings['arrows']): ?>
-    <nav class="slick__arrow--placeholder">
+    <nav class="slick__arrow">
       <?php $settings['prev_arrow'] && print $settings['prev_arrow']; ?>
       <?php if ($settings['has_arrow_down']): ?>
         <?php

@@ -1,34 +1,45 @@
 
-Slick 7.x-1.0-dev, 2014-08-4
+
+Slick 7.x-2.0-dev, 2014-09-2
+----------------------------
+Updated slick.colorbox.js to work with asNavFor.
+Added new theme slick_wrapper to hold asNavFor, two slicks with thumbnail
+  navigation.
+Issue #2325225 by scottalan: Added Slider as Nav for as the only last option
+  left for version 1.3.7.
+
+Updated from v1.3.6 to v1.3.7
+
+Slick 7.x-2.0-dev, 2014-08-4
 ----------------------------
 Fixed for duplicated .slick__arrow on resizing.
 
-Slick 7.x-1.0-dev, 2014-08-2
+Slick 7.x-2.0-dev, 2014-08-2
 ----------------------------
 issue #2309681 by immoreel: Added support for Omega 3 expecting classes_array.
 Do not output slide__media wrapper if no main image and caption available. The
   case, e.g., main image left empty, and overlay image/media filled out.
 
-Slick 7.x-1.0-dev, 2014-07-25
+Slick 7.x-2.0-dev, 2014-07-25
 -----------------------------
 Added empty_option to Lazyload to allow sharing to Pinterest for small slides,
   since current Lazyload is a must, and img SRC attributes is always empty.
 
-Slick 7.x-1.0-dev, 2014-07-24
+Slick 7.x-2.0-dev, 2014-07-24
 -----------------------------
 Issue #2308591 by jmuzz:
 - Fixed for specificity of breakpoints states.
 - Remove wasted breakpoint dependent options if disabled, even if not empty.
 - Fixed CSS overriden checkboxes for admin settings.
 
-Slick 7.x-1.0-dev, 2014-07-18
+Slick 7.x-2.0-dev, 2014-07-18
 -----------------------------
 Dropped slick-carousel.tpl.php, template_preprocess_slick_carousel() from
   slick.theme.inc
 Dropped deprecated theme_slick_carousel() in favor of the unified theme_slick()
   for custom coded, Field formatter and Views for easy maintenance.
 
-Slick 7.x-1.0-dev, 2014-07-13
+Slick 7.x-2.0-dev, 2014-07-13
 -----------------------------
 Added color_field support to Field Collection to colorize the slide text.
 Fixed for Strict warning: Declaration of SlickViewsPluginStyleSlick::render()
@@ -39,12 +50,12 @@ Fixed for Strict warning: Declaration of SlickViewsPluginStyleSlick::render()
 Added settings variables to template_preprocess_slick_item
 Limit colorbox resize to non-images at slick.colorbox.js under onComplete.
 
-Slick 7.x-1.0-dev, 2014-07-05
+Slick 7.x-2.0-dev, 2014-07-05
 -----------------------------
 Separated rules for slick.colorbox.css from slick.media.css
 Started integration with Scald module as a separate project Scald Slick module.
 
-Slick 7.x-1.0-dev, 2014-06-26
+Slick 7.x-2.0-dev, 2014-06-26
 -----------------------------
 Marked this feature complete for 1.3.6.
 Added new options for future 1.3.7:
@@ -56,7 +67,7 @@ Added new options for future 1.3.7:
 
 Added compatibility with Omega 4 which declares attributes_array already.
 
-Slick 7.x-1.0-dev, 2014-06-24
+Slick 7.x-2.0-dev, 2014-06-24
 -----------------------------
 Added JS callbacks, see slick.api.js. Modules and themes may implement any of
   the Slick methods to interact with the Slick using Drupal.slick.callbacks
@@ -67,7 +78,7 @@ Removed the thumbnail markups from slick.tpl.php, and its related leftover
   elsewhere.
 Moved thumbnails inside slides, rather than separate list.
 
-Slick 7.x-1.0-dev, 2014-06-23
+Slick 7.x-2.0-dev, 2014-06-23
 -----------------------------
 Removed two dup and useless problematic options from responsive options: slide
   and lazyLoad, since both _must inherit from the main settings.
@@ -83,18 +94,18 @@ Changed <div class="slick__arrow"> to <nav class="slick__arrow"> at slick.tpl
 	the template and creating a custom theme without being aware of the issue will
 	break the slide.
 
-Slick 7.x-1.0-dev, 2014-06-16
+Slick 7.x-2.0-dev, 2014-06-16
 -----------------------------
 Fixed broken arrows due to problematic default anonymous DIV by forcing specific
   class .slick__slide to slide option.
 Renamed and reorganized all CSS files to match Drupal 8 file organization, see
   https://drupal.org/node/1887922
 
-Slick 7.x-1.0-dev, 2014-06-13
+Slick 7.x-2.0-dev, 2014-06-13
 -----------------------------
 Added slick-views.tpl.php to satisfy Views UI template discovery.
 
-Slick 7.x-1.0-dev, 2014-06-11
+Slick 7.x-2.0-dev, 2014-06-11
 -----------------------------
 Added thumbnail pager option.
 Changed _slick_fields_get_media_thumbnail() to be reusable for thumbnail pagers.
@@ -102,17 +113,17 @@ Fixed Youtube URL not playing inside Colorbox due to missing external params.
 Fixed checkboxes states with checked attributes at admin pages.
 Added autoplay to Colorbox audio/video.
 
-Slick 7.x-1.0-dev, 2014-06-09
+Slick 7.x-2.0-dev, 2014-06-09
 -----------------------------
 Added API file containing skin information.
 Added more Views options to have consistent markups with the Field version.
 
-Slick 7.x-1.0-dev, 2014-06-08
+Slick 7.x-2.0-dev, 2014-06-08
 -----------------------------
 Added optional Colorbox intergration to display image or video inside Colorbox,
   or as an image to iframe switcher.
 
-Slick 7.x-1.0-dev, 2014-06-07
+Slick 7.x-2.0-dev, 2014-06-07
 -----------------------------
 
 Added Sass versions for slick.skin.css and slick.media.css.

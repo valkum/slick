@@ -5,7 +5,7 @@
  * Default theme implementation for the Slick media template.
  *
  * The Slick media support core image, vimeo, youtube and soundcloud.
- * If iframe switcher is enabled, audio/video iframe whill be hidden below image
+ * If iframe switcher is enabled, audio/video iframe will be hidden below image
  * overlay, and only visible when toggled.
  *
  * Available variables:
@@ -16,14 +16,16 @@
  */
 ?>
 <div<?php print $attributes; ?>>
-  <?php if (in_array($settings['type'], array('video', 'audio'))): ?>
-    <?php if ($settings['media_switch'] != 'colorbox-switch'): ?>
-      <iframe<?php print $content_attributes; ?> allowfullscreen><?php print $alternative_content; ?></iframe>
-    <?php endif; ?>
-    <?php if ($settings['media_switch'] == 'iframe-switch'): ?>
-      <i class="media-icon media-icon--close"></i>
-      <i class="media-icon media-icon--play"></i>
-      <i class="media-icon media-icon--spinner"></i>
+  <?php if ($settings['current_display'] == 'main'): ?>
+    <?php if (in_array($settings['type'], array('video', 'audio'))): ?>
+      <?php if ($settings['media_switch'] != 'colorbox-switch'): ?>
+        <iframe<?php print $content_attributes; ?> allowfullscreen><?php print $alternative_content; ?></iframe>
+      <?php endif; ?>
+      <?php if ($settings['media_switch'] == 'iframe-switch'): ?>
+        <i class="media-icon media-icon--close"></i>
+        <i class="media-icon media-icon--play"></i>
+        <i class="media-icon media-icon--spinner"></i>
+      <?php endif; ?>
     <?php endif; ?>
   <?php endif; ?>
 

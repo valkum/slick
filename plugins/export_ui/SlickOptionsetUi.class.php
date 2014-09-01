@@ -32,14 +32,15 @@ class SlickOptionsetUi extends ctools_export_ui {
 
     $form['info']['label']['#prefix'] = '<div class="form--slick__header has-tooltip clearfix">';
 
-    // Skins.
+    // Skins. We don't provide skin_thumbnail as each optionset may be deployed
+    // as main or thumbnail navigation.
     $skins = slick_skins(TRUE);
     $form['skin'] = array(
       '#type' => 'select',
       '#title' => t('Skin'),
       '#options' => $skins,
       '#default_value' => $optionset->skin,
-      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README.txt</a> for details on Skins.', array('@skin' => url($module_path . '/README.txt'))),
+      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README.txt</a> for details on Skins. Keep it simple for thumbnail navigation skin.', array('@skin' => url($module_path . '/README.txt'))),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -74,10 +75,20 @@ class SlickOptionsetUi extends ctools_export_ui {
     $form['options']['general']['normal'] = array(
       '#type' => 'select',
       '#title' => t('Image style'),
-      '#description' => t('Image style for the main/background image, overriden by field. Thumbnails are defined per field basis.'),
+      '#description' => t('Image style for the main/background image, overriden by field formatter.'),
       '#empty_option' => t('None (original image)'),
       '#options' => $image_styles,
       '#default_value' => isset($options['general']['normal']) ? $options['general']['normal'] : '',
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+    // More useful for custom work, overriden by sub-modules.
+    $form['options']['general']['thumbnail'] = array(
+      '#type' => 'select',
+      '#title' => t('Thumbnail style'),
+      '#description' => t('Image style for the thumbnail image if using asNavFor, overriden by field formatter.'),
+      '#empty_option' => t('None (original image)'),
+      '#options' => $image_styles,
+      '#default_value' => isset($options['general']['thumbnail']) ? $options['general']['thumbnail'] : '',
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -96,7 +107,7 @@ class SlickOptionsetUi extends ctools_export_ui {
     $form['options']['general']['template_class'] = array(
       '#type' => 'textfield',
       '#title' => t('Wrapper class'),
-      '#description' => t('Additional template wrapper classes separated by spaces to gain more control per optionset.'),
+      '#description' => t('Additional template wrapper classes separated by spaces. No need to prefix it with a dot (.). Use it in conjunction with asNavFor as needed, e.g.: <em>slick--for</em> for the main display, and <em>slick--nav</em> for thumbnail navigation.'),
       '#default_value' => isset($options['general']['template_class']) ? $options['general']['template_class'] : '',
       '#attributes' => array('class' => array('is-tooltip')),
     );
@@ -109,7 +120,7 @@ class SlickOptionsetUi extends ctools_export_ui {
         'pattern' => t('Use pattern overlay'),
         'arrow-down' => t('Use arrow down'),
       ),
-      '#description' => t('<ol><li>Pattern overlay is background image with pattern placed over the main stage.</li><li>Arrow down to scroll down into a certain page section, make sure to provide target selector.</li></ol>'),
+      '#description' => t('Applies to main display, not thumbnail pager. <ol><li>Pattern overlay is background image with pattern placed over the main stage.</li><li>Arrow down to scroll down into a certain page section, make sure to provide target selector.</li></ol>'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 

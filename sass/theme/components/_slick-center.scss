@@ -8,6 +8,11 @@
     padding-top: 32px;
   }
 
+  &.slick--display--thumbnail .slick-track {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
   .slide__content {
     margin: 2px;
   }

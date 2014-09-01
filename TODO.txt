@@ -1,4 +1,17 @@
 
+  http://kenwheeler.github.io/slick/
+
+  // @todo use data-slick to store the object:
+  // https://github.com/kenwheeler/slick/issues/91
+  // https://github.com/kenwheeler/slick/pull/407
+  // https://github.com/AndreSteenveld/slick/commit/b9b59e8c01b7d7fb3fcc2962140991a7f190c617
+
+
+ // @done at slick.elements.inc
+ - asNavFor string 	null 	Set the slider to be the navigation of other slider (Class or ID Name)
+ - appendArrows	string 	$(element) 	Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object)
+ - focusOnSelect boolean 	false 	Enable focus on selected element (click)
+ - rtl boolean 	false 	Change the slider's direction to become right-to-left
 
   // @done at slick_fields.
 	// @todo at slick.elements.inc when mousewheel gets in.

@@ -12,35 +12,52 @@
 
       $('.slick', context).once('slick', function () {
         var t = $(this),
+          defaults = settings.slick || {},
           configs = t.data('config') || {},
+          merged = $.extend({}, defaults, configs),
           index = t.closest('.slick__slide:not(.slick-cloned)').index(),
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
-          customs = {
+          $prevArrow = $('.slick__arrow .slick-prev', t),
+          $nextArrow = $('.slick__arrow .slick-next', t),
+
+          // Declare global options explicitly copy into responsives.
+          globals = {
+            asNavFor: merged.asNavFor,
+            slide: merged.slide,
+            lazyLoad: merged.lazyLoad,
+            dotsClass: merged.dotsClass,
+            rtl: merged.rtl,
+            appendArrows: merged.appendArrows,
+            prevArrow: $prevArrow,
+            nextArrow: $nextArrow,
             customPaging: function (slider, i) {
-              return slider.$slides.eq(i).find('.slide__thumbnail').html() || '<button type="button">' + (i + 1) + '</button>';
+              return slider.$slides.eq(i).find('.slide__thumbnail').html() || '<button type="button" data-role="none">' + (i + 1) + '</button>';
             },
-            prevArrow: $('.slick__arrow--placeholder .slick-prev', t).prop('outerHTML'),
-            nextArrow: $('.slick__arrow--placeholder .slick-next', t).prop('outerHTML'),
             onInit: function (slider) {
-              // Rebuild arrows and thumbnails based on new options.
               Drupal.theme('slickThumbnails', t);
-              Drupal.theme('slickArrows', t);
             }
           };
 
-        // Got no free Bacon, customs not inherited by breakpoints.
-        // @todo drop if inheritance gets in some day.
-        // Latest 1.3.6 is still buggy with responsiveness.
+        // Got no free Bacon, globals not inherited by breakpoints.
         if (typeof configs.responsive !== 'undefined') {
           $.map(configs.responsive, function (v, i) {
             if (typeof configs.responsive[i].settings !== 'undefined') {
-              configs.responsive[i].settings = $.extend(configs.responsive[i].settings, customs);
+              configs.responsive[i].settings = $.extend({}, defaults, configs.responsive[i].settings, globals);
             }
           });
         }
 
         // Build the Slick.
-        t.slick($.extend(configs, customs, callbacks));
+        t.slick($.extend(configs, globals, callbacks));
+
+        // @todo drop when appendArrows works on resize.
+        // @see https://github.com/kenwheeler/slick/issues/480
+        $(window).bind('resize', function () {
+          var a = $('.slick__arrow', t);
+          if (a.length) {
+            a.append($prevArrow).append($nextArrow);
+          }
+        });
 
 			  // @todo drop when mousewheel does get in.
 				// @see https://github.com/kenwheeler/slick/issues/122
@@ -64,7 +81,7 @@
   };
 
   /**
-   * Provide custom callbacks.
+   * Provides custom callbacks.
    * @see slick.api.js.
    * @see slick.media.js.
    */
@@ -84,7 +101,7 @@
    * Theme function to update slick-dots to use thumbnail classes if available.
    */
   Drupal.theme.prototype.slickThumbnails = function (t) {
-    // Do not proceed if thumbnails disabled.
+    // Do not proceed if thumbnails not available.
     if (!$('.slick__slide:first .slide__thumbnail', t).length) {
       return;
     }
@@ -92,31 +109,8 @@
     $('.' + dotClass, t)
       .addClass('slick__thumbnail')
       .addClass($('.slick__slide:first .slide__thumbnail--hover', t).length ? 'slick__thumbnail--hover' : '');
-  };
 
-  /**
-   * Theme function to manipulate arrows and wrap them for easy placement.
-   *
-   * @todo drop all this trick if any new related option available, e.g.:
-   * controlsContainer: '.slick__arrow'.
-   * @todo it is in with appendArrows.
-   */
-  Drupal.theme.prototype.slickArrows = function (t) {
-    // Do not process if arrows disabled, or appended somewhere else.
-    if (!t.find('> .slick-prev').length) {
-       return;
-    }
-
-    // Wrap arrows for easy and variant CSS stylings.
-    if (!t.find('> .slick__arrow').length) {
-      t.append('<nav class="slick__arrow" />');
-    }
-    if (!t.find('> .slick__arrow .slick-prev').length) {
-      t.find('> .slick-prev, > .slick-next, .slick-down').appendTo($('.slick__arrow', t));
-
-      // Remove placeholder and original arrows since the new one in place.
-      t.find('> .slick__arrow--placeholder, > .slick-prev, > .slick-next, > .slick__arrow:empty').remove();
-    }
+    $('.slick__slide .slide__thumbnail', t).remove();
   };
 
 })(jQuery);

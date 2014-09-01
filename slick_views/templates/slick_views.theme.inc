@@ -18,8 +18,15 @@ function template_preprocess_slick_views(&$variables) {
     $handler      = $view->style_plugin;
     $settings     = $variables['options'];
     $row_plugin   = $view->style_plugin->row_plugin;
-    $attach       = array('attach_media' => FALSE, 'attach_skin' => NULL);
     $items        = array();
+    $thumbs       = array();
+    $indexes      = array();
+    $attach       = array(
+      'attach_media' => FALSE,
+      'attach_colorbox' => FALSE,
+      'attach_skin' => NULL,
+      'attach_skin_thumbnail' => NULL,
+    );
 
     foreach ($variables['rows'] as $id => $row) {
       // Sets row_index to get the rendered fields.
@@ -34,10 +41,11 @@ function template_preprocess_slick_views(&$variables) {
         if (isset($row->image) && !empty($row->image)) {
           $attach['attach_media'] = TRUE;
           $item['slide'] = $row->image;
-
+          // @todo refine for asNavFor.
           if (isset($row->thumbnail) && !empty($row->thumbnail)) {
             $settings['thumbnail_style'] = TRUE;
-            $item['thumbnail'] = $row->thumbnail;
+            // $item['thumbnail'] = $row->thumbnail;
+            $thumb['slide'] = $row->thumbnail;
           }
         }
 
@@ -76,11 +84,24 @@ function template_preprocess_slick_views(&$variables) {
       }
 
       $items[] = $item;
+      $indexes[] = $id;
+      if (isset($thumb['slide']) && $thumb['slide']) {
+        $thumb['item']['type'] = 'views';
+        $thumb['item']['view_name'] = $view->name;
+        // @todo thumbnails may have captions, but not now.
+        $thumb['caption'] = array();
+        $thumbs[] = $thumb;
+      }
     }
 
     // Add the settings.
+    $settings['current_display'] = 'main';
     if ($settings['skin']) {
       $attach['attach_skin'] = $settings['skin'];
+    }
+
+    if (isset($settings['skin_thumbnail']) && $settings['skin_thumbnail']) {
+      $attach['attach_skin_thumbnail'] = $settings['skin_thumbnail'];
     }
 
     if ($settings['id']) {
@@ -90,6 +111,8 @@ function template_preprocess_slick_views(&$variables) {
 
     // Just dance with Views provided variables.
     $variables['rows'] = $items;
+    $variables['thumbs'] = $thumbs;
+    $variables['indexes'] = $indexes;
     $variables['options'] = $settings;
     $variables['attach'] = slick_attach($attach);
   }

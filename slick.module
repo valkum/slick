@@ -5,7 +5,7 @@
  * Slick carousel integration, the last carousel you'll ever need.
  */
 
-define('SLICK_VERSION', '1.3.6');
+define('SLICK_VERSION', '1.3.7');
 
 /**
  * Implements hook_theme().
@@ -17,10 +17,14 @@ function slick_theme($existing, $type, $theme, $path) {
   );
 
   return array(
-    // Slick container.
+    // Slick display.
     'slick' => $base + array(
       'render element' => 'element',
       'template' => 'slick',
+    ),
+    // The Slick wrapper to hold displays: main and thumbnail navigation.
+    'slick_wrapper' => $base + array(
+      'render element' => 'element',
     ),
     // Individual slick item.
     'slick_item' => $base + array(
@@ -154,26 +158,10 @@ function slick_library() {
       $slick_library_path . '/slick/slick.min.js' => array('group' => JS_LIBRARY, 'weight' => -4),
     ),
     'css' => array(
-      $slick_library_path . '/slick/slick.css' => array('weight' => -4),
+      $slick_library_path . '/slick/slick.css',
     ),
     'dependencies' => array(
       array('system', 'jquery'),
-    ),
-  );
-
-  // Slick colorbox libraries.
-  $libraries['drupal.slick.colorbox'] = $common + array(
-    'title' => 'Slick colorbox',
-    'js' => array(
-      $slick_module_path . '/js/slick.colorbox.js' => array('group' => JS_DEFAULT, 'weight' => 0),
-    ),
-    'css' => array(
-      $slick_module_path . '/css/components/slick.colorbox.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
-    ),
-    'dependencies' => array(
-      array('system', 'jquery.once'),
-      array('slick', 'slick'),
-      array('slick', 'drupal.slick'),
     ),
   );
 
@@ -181,14 +169,30 @@ function slick_library() {
   $libraries['drupal.slick'] = $common + array(
     'title' => 'Slick module',
     'js' => array(
-      $slick_module_path . '/js/slick.load.js' => array('group' => JS_DEFAULT, 'weight' => 1),
+      $slick_module_path . '/js/slick.load.js' => array('group' => JS_DEFAULT, 'weight' => 0),
     ),
     'css' => array(
-      $slick_module_path . '/css/theme/slick.theme.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
+      $slick_module_path . '/css/theme/slick.theme.css',
     ),
     'dependencies' => array(
       array('system', 'jquery.once'),
       array('slick', 'slick'),
+    ),
+  );
+
+  // Slick colorbox libraries.
+  $libraries['drupal.slick.colorbox'] = $common + array(
+    'title' => 'Slick colorbox',
+    'js' => array(
+      $slick_module_path . '/js/slick.colorbox.js' => array('group' => JS_DEFAULT, 'weight' => 1),
+    ),
+    'css' => array(
+      $slick_module_path . '/css/components/slick.colorbox.css',
+    ),
+    'dependencies' => array(
+      array('system', 'jquery.once'),
+      array('slick', 'slick'),
+      array('slick', 'drupal.slick'),
     ),
   );
 
@@ -199,7 +203,7 @@ function slick_library() {
       $slick_module_path . '/js/slick.media.js' => array('group' => JS_DEFAULT, 'weight' => 2),
     ),
     'css' => array(
-      $slick_module_path . '/css/components/slick.media.css' => array('group' => CSS_DEFAULT, 'weight' => 0),
+      $slick_module_path . '/css/components/slick.media.css',
     ),
     'dependencies' => array(
       array('system', 'jquery.once'),
@@ -223,7 +227,7 @@ function slick_libraries_info() {
     'version' => SLICK_VERSION,
     'version arguments' => array(
       'file' => 'slick/slick.js',
-      // 1.x.x: Version 1.3.6
+      // 1.x.x: Version 1.3.7
       'pattern' => '/Version: (\d+\.\d+\.\d+)/',
     ),
     'files' => array(
@@ -297,20 +301,20 @@ function slick_libraries_info() {
  *   Array formatted for the '#attached' property.
  */
 function slick_attach(array $attach) {
-  $module_path = drupal_get_path('module', 'slick');
-  $skins       = slick_skins();
-
+  $skins = slick_skins();
   $load = array();
   $defaults = array(
-    'attach_default'    => FALSE,
-    'attach_easing'     => TRUE,
-    'attach_mousewheel' => FALSE,
-    'attach_slick'      => TRUE,
-    'attach_module'     => TRUE,
-    'attach_media'      => FALSE,
-    'attach_colorbox'   => FALSE,
-    'attach_skin'       => NULL,
+    'attach_default'        => TRUE,
+    'attach_easing'         => TRUE,
+    'attach_mousewheel'     => FALSE,
+    'attach_slick'          => TRUE,
+    'attach_module'         => TRUE,
+    'attach_media'          => FALSE,
+    'attach_colorbox'       => FALSE,
+    'attach_skin'           => NULL,
+    'attach_skin_thumbnail' => NULL,
   );
+
   $attach = array_merge($defaults, $attach);
 
   if ($attach['attach_easing']) {
@@ -352,8 +356,22 @@ function slick_attach(array $attach) {
     }
   }
 
-  // Attach default JS settings only if required, no actual need with the HTML5
-  // data attributes approach.
+  if ($skin_thumbnail = $attach['attach_skin_thumbnail']) {
+    if (isset($skins[$skin_thumbnail]['css'])) {
+      foreach ($skins[$skin_thumbnail]['css'] as $c => $css) {
+        $load['css'][] = $css;
+      }
+    }
+    if (isset($skins[$skin_thumbnail]['js'])) {
+      foreach ($skins[$skin_thumbnail]['js'] as $j => $js) {
+        $load['js'][] = $js;
+      }
+    }
+  }
+
+  // Attach default JS settings to allow responsive options have a lookup and
+  // avoid dup options in the markups. This is the only JS head injection we
+  // have since responsives got no inheritance and no context without, pity.
   if ($attach['attach_default']) {
     $defaults = _slick_optionset_defaults(NULL, 'settings');
     $load['js'][] = array(
@@ -385,7 +403,7 @@ function slick_attach(array $attach) {
  *
  * @see slick_attach()
  *
- * @todo refine by $settings.
+ * @todo drop unsupported functions.
  */
 function slick_add(array $settings) {
   static $already_added = FALSE;
@@ -434,6 +452,8 @@ function slick_add(array $settings) {
  * This is only needed if you want to use regular JS <head> injection outside
  * theme_slick(). In this case you have to load/ call it accordingly.
  * However it is recommended to use #attached property passed to theme_slick().
+ *
+ * @todo drop unsupported functions.
  */
 function _slick_add_settings($settings = NULL) {
   static $already_added = FALSE;

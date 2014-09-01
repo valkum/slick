@@ -23,6 +23,7 @@ Usage #1
 --------
 Displaying multiple (rendered) entities for the slides.
 - Choose "Slick carousel" under the Format.
+- Choose available optionsets you have created at "admin/config/media/slick"
 - Choose "Rendered entity" or "Content" under "Show" under "Format", and its
   View mode.
 
@@ -68,3 +69,6 @@ make sure to:
 - Choose "Slick carousel" for the field when configuring the field instead.
 - Check "Use field template" under "Style Settings"so that the Slick field
   themeing is picked-up.
+  
+More info relevant to each option is available at their form display by hovering
+over them, and click a dark question mark.

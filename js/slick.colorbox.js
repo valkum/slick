@@ -29,8 +29,8 @@
           $body = $('body'),
           media = t.data('media') || {},
           $slider = t.closest('.slick', context),
+          $sliderObj = $slider.getSlick() || null,
           isMedia = media.type !== 'image' ? true : false,
-          curr = t.closest('.slick__slide:not(.slick-cloned)').index(),
           runtimeOptions = {
             iframe: isMedia,
             rel: media.rel || null,
@@ -42,7 +42,6 @@
               if (media.type !== 'image') {
                 $body.data('mediaHeight', media.height);
               }
-              $slider.slickGoTo(curr);
             },
             onCleanup: function () {
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
@@ -57,8 +56,10 @@
               Drupal.slickColorbox.jumpScroll('#' + id, 120);
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
-              $slider.slickGoTo(curr);
-              $slider.slickPause();
+
+              // Rebuild the slick.
+              $slider.unslick();
+              $slider.slick($sliderObj.options);
             }
           };
 

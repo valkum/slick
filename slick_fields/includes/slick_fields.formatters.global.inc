@@ -7,13 +7,16 @@
 
 /**
  * Gets the rendered image based on the Picture mapping, or Slick lazy.
+ *
+ * It is reasonable to have picture for large images only, while medium to small
+ * use lazyLoad instead.
  */
 function _slick_fields_get_picture(&$settings, $image, $key, $media_url = NULL) {
-  $slick_module_path = drupal_get_path('module', 'slick');
   $build = '';
 
   $id = $settings['type'] . '-' . $settings['attributes']['id'];
-  // && function_exists('picture_mapping_load')
+
+  // We are safe to load picture, without relying on function_exists.
   if ($settings['picture_ready'] && $settings['picture'] && $settings['picture_style']) {
     $picture_path     = drupal_get_path('module', 'picture');
     $picture_fallback = $settings['picture_fallback'];
@@ -99,6 +102,7 @@ function _slick_fields_get_picture(&$settings, $image, $key, $media_url = NULL) 
         $data_media['scheme'] = $settings['scheme'];
       }
 
+      // Video/audio has special attributes for JS interaction.
       if ($settings['type'] != 'image') {
         $data_media['player'] = TRUE;
         $data_media['height'] = $settings['media_height'];
@@ -110,7 +114,7 @@ function _slick_fields_get_picture(&$settings, $image, $key, $media_url = NULL) 
       $image_variables['options']['colorbox'] = TRUE;
     }
 
-    // Render the configured slide.
+    // Render the configured slide using lazyLoad.
     $build = theme('slick_image_formatter_lazy', $image_variables);
   }
 

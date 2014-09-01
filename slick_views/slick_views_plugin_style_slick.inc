@@ -17,7 +17,11 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $options = parent::option_definition();
     $options += array(
       'optionset' => array('default' => 'default'),
+      'optionset_thumbnail' => array('default' => ''),
       'skin' => array('default' => ''),
+      'skin_thumbnail' => array('default' => ''),
+      'asnavfor_main' => array('default' => ''),
+      'asnavfor_thumbnail' => array('default' => ''),
       'slide_field_wrapper' => array('default' => ''),
       'slide_title' => array('default' => ''),
       'slide_image' => array('default' => ''),
@@ -49,7 +53,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     }
 
     $element['optionset'] = array(
-      '#title' => t('Option set'),
+      '#title' => t('Option set main'),
       '#type' => 'select',
       '#options' => $optionsets,
       '#default_value' => $settings['optionset'],
@@ -59,10 +63,46 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     $element['skin'] = array(
       '#type' => 'select',
-      '#title' => t('Skin'),
+      '#title' => t('Skin main'),
       '#options' => $skins,
       '#default_value' => $settings['skin'],
       '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['optionset_thumbnail'] = array(
+      '#title' => t('Option set thumbnail'),
+      '#type' => 'select',
+      '#options' => $optionsets,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['optionset_thumbnail'],
+      '#description' => t('If provided, asNavFor aka thumbnail navigation applies. Provide each optionset a unique asNavFor class at <a href="@link">Slick carousel admin page</a>, or use the provided ID where Slick thumbnail navigation ID is suffixed with "-thumbnail". Leave empty to not use thumbnail navigation.', array('@link' => url('admin/config/media/slick'))),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['skin_thumbnail'] = array(
+      '#type' => 'select',
+      '#title' => t('Skin thumbnail'),
+      '#options' => $skins,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['skin_thumbnail'],
+      '#description' => t('Thumbnail navigation skin. Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. Leave empty to not use thumbnail navigation.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['asnavfor_main'] = array(
+      '#type' => 'textfield',
+      '#title' => t('asNavFor main'),
+      '#default_value' => $settings['asnavfor_main'],
+      '#description' => t('Valid CSS selector (with "." or "#") to override asNavFor target for the main display, e.g.: #slick-main-thumbnail or .slick--nav. This should address the thumbnail display class or ID attributes. Slick thumbnail navigation ID is suffixed with "-thumbnail".'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['asnavfor_thumbnail'] = array(
+      '#type' => 'textfield',
+      '#title' => t('asNavFor thumbnail'),
+      '#default_value' => $settings['asnavfor_thumbnail'],
+      '#description' => t('Valid CSS selector (with "." or "#") to override asNavFor target for the thumbnail display, e.g.: #slick-main or .slick--for. This should address the main display class or ID attributes.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -146,14 +186,15 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-    // Thumbnail field, also changing dots pager into thumbnail one if provided.
+    // Thumbnail field relevant to asNavFor.
     $element['slide_thumbnail'] = array(
       '#title' => t('Thumbnail image field'),
       '#type' => 'select',
       '#empty_option' => t('- None -'),
       '#options' => $image_options,
       '#default_value' => $settings['slide_thumbnail'],
-      '#description' => t('If provided, dots pager will be replaced with thumbnails. Leave empty to use dots instead. Make sure your Optionset keeps "dots" option enabled.'),
+      // If provided, dots pager will be replaced with thumbnails. Leave empty to use dots instead. Make sure your Optionset keeps "dots" option enabled
+      '#description' => t('Oly needed if you provide <em>Option set thumbnail</em> to have thumbnail navigation. Make sure the size is smaller than the main image. It may be the same field as the main image, only different instance/ variant dedicated for thumbnails.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -200,7 +241,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $element['id'] = array(
       '#type' => 'textfield',
       '#title' => t('Element ID'),
-      '#description' => t("Manually define the Slick carousel container ID attribute <em>Ensure you don't display similar ID elements on the same page</em>."),
+      '#description' => t("Manually define the Slick carousel container ID attribute <em>Ensure you don't display similar ID elements on the same page</em>. If you provide Option set thumbnail and asNavFor, slick thumbnail navigation ID is suffixed with '-thumbnail'."),
       '#size' => 40,
       '#maxlength' => 255,
       '#default_value' => $settings['id'],
@@ -329,8 +370,16 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       // Add layout field if so configured.
       if (!empty($this->options['slide_layout'])) {
         $slide_layout = $this->options['slide_layout'];
-        foreach ($rows as $index => $row) {
-          $rows[$index]->layout = $this->rendered_fields[$index][$slide_layout];
+        // Slide layout may be a list field, or builtin layout options.
+        if (strpos('field_', $slide_layout) !== FALSE) {
+          foreach ($rows as $index => $row) {
+            $rows[$index]->layout = $this->rendered_fields[$index][$slide_layout];
+          }
+        }
+        else {
+          foreach ($rows as $index => $row) {
+            $rows[$index]->layout = $slide_layout;
+          }
         }
       }
 

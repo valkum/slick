@@ -1,17 +1,13 @@
 /**
  * Thumbnails.
  */
-.slick--has-thumbnail {
-  margin-bottom: 120px;
-}
-
 .slide__thumbnail {
   @include visually-hidden;
 }
 
 // Default to anything but full width.
 .slick__thumbnail {
-  bottom: -120px;
+  bottom: -60px; // -120px;
   left: 0;
   list-style: none;
   margin: 10px 0;
@@ -115,20 +111,22 @@
 }
 
 // With centerMode, or carousel mode, we need to pull down the thumbnails.
-.slick--has-thumbnail {
-  &.slick--skin--fulllwidth {
-    margin-bottom: 0;
-    .slick__thumbnail {
-      bottom: 10px;
-    }
-  }
-}
+// @deprecated by asNavFor.
+// .slick--has-thumbnail {
+// margin-bottom: 120px;
+// }
+// .slick--has-thumbnail {
+// &.slick--skin--fulllwidth {
+// margin-bottom: 0;
+// .slick__thumbnail {
+// bottom: 10px;// 
+// }
+// }
+// }
 
-.slick--has-thumbnail--hover {
-  margin-bottom: 40px;
-  .slick__thumbnail {
-    bottom: -40px;
-  }
-}
-
-
+// .slick--has-thumbnail--hover {
+// margin-bottom: 40px;
+// .slick__thumbnail {
+//  bottom: -40px;
+// }
+// }

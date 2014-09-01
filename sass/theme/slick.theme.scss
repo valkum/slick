@@ -89,7 +89,7 @@
 @include breakpoint($ipad-up, true) {
   .slide__caption {
     width: 42%;
-    
+
     .slide--caption--center &,
     .slide--caption--center-top & {
       margin-left: -21%;
@@ -111,7 +111,7 @@
 .slide__link {
   margin: $vert-spacing-unit auto;
   text-transform: uppercase;
-    
+
   .field-item {
     display: inline-block;
     vertical-align: top;
@@ -149,6 +149,17 @@
 }
 
 /**
+ * asNavFor.
+ * Main display has class "slick--display--main".
+ * Thumbnail has class "slick--display--thumbnail".
+ */
+.slick--display--thumbnail {
+  .slide__content {
+    float: left;
+  }
+}
+
+/**
  * @todo drop, temp Bartik overrides.
  */
 #content .slide__title {
@@ -159,4 +170,8 @@
 
 #content .slick--carousel .slide__title {
   @include font-size(22px);
+}
+
+.slick .field-type-image img {
+  margin-bottom: 0;
 }

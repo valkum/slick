@@ -95,7 +95,9 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
     }
   }
 
-  // Clean up responsive options if similar to main defaults.
+  // Clean up responsive options if similar to main defaults. JS takes care of
+  // the copy based on defaults. This way we can avoid dup options in the
+  // markups.
   $cleaned_responsives = array();
   if (isset($options['responsives']['responsive'])) {
     $responsives = $options['responsives'];
@@ -113,7 +115,8 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
         $cleaned[$key]['breakpoint'] = $cleaned_responsives[$key]['breakpoint'];
         $cleaned[$key]['settings'] = array_diff_assoc($cleaned_responsives[$key]['settings'], $defaults['settings']);
 
-        // Remove wasted breakpoint dependent options if disabled, even if not empty.
+        // Remove wasted breakpoint dependent options if disabled, even if not
+        // empty.
         if (empty($cleaned[$key]['settings']['autoplay'])) {
           unset(
             $cleaned[$key]['settings']['pauseOnHover'],
@@ -153,7 +156,6 @@ function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
       foreach ($slick_responsive_options as $i => $items) {
         foreach ($items as $name => $groups) {
           if (is_array($groups)) {
-
             if ($name == 'breakpoint' && isset($groups['cast'])) {
               settype($options['responsives']['responsive'][$i][$name], $groups['cast']);
             }
@@ -215,7 +217,6 @@ function slick_layouts() {
       'stage-left'  => t('Caption right, stage left'),
       'split-right' => t('Caption left, stage right, split half'),
       'split-left'  => t('Caption right, stage left, split half'),
-      // Zebras are for less flexible like core image.
       'stage-zebra' => t('Stage zebra'),
       'split-zebra' => t('Split half zebra'),
     );
@@ -305,6 +306,14 @@ function slick_get_media_url($rendered_media) {
 function slick_get_options() {
   $options = array();
 
+  $options['asNavFor'] = array(
+    'title' => t('asNavFor target'),
+    'description' => t('Set the slider to be the navigation of other slider (Class or ID Name). Use selector identifier ("." or "#") accordingly. If class, use the provided Wrapper class under General as needed, e.g.: if the main display has class "slick--for", and the thumbnail navigation "slick--nav", place the opposite here as its target. Or use existing classes based on optionsets, e.g.: .slick--optionset--main, or .slick--optionset--main-nav. Overriden per field formatter.'),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => '',
+  );
+
   $options['accessibility'] = array(
     'title' => t('Accessibility'),
     'description' => t('Enables tabbing and arrow key navigation'),
@@ -358,7 +367,7 @@ function slick_get_options() {
 
   $options['appendArrows'] = array(
     'title' => t('Append arrows'),
-    'description' => t("Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object)."),
+    'description' => t("Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object). Leave it to default to wrap it within .slick__arrow container, otherwise change its markups accordingly."),
     'type' => 'textfield',
     'cast' => 'string',
     'default' => '$(element)',
@@ -370,7 +379,7 @@ function slick_get_options() {
     'description' => t("Customize the previous arrow markups. Make sure to keep the expected class."),
     'type' => 'textfield',
     'cast' => 'string',
-    'default' => '<button type="button" class="slick-prev">Previous</button>',
+    'default' => '<button type="button" data-role="none" class="slick-prev">Previous</button>',
     'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
   );
 
@@ -379,11 +388,9 @@ function slick_get_options() {
     'description' => t("Customize the next arrow markups. Make sure to keep the expected class"),
     'type' => 'textfield',
     'cast' => 'string',
-    'default' => '<button type="button" class="slick-next">Next</button>',
+    'default' => '<button type="button" data-role="none" class="slick-next">Next</button>',
     'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
   );
-
-  // @todo asNavFor
 
   $options['centerMode'] = array(
     'title' => t('Center mode'),
@@ -452,7 +459,13 @@ function slick_get_options() {
     'default' => FALSE,
   );
 
-  // @todo focusOnSelect
+  $options['focusOnSelect'] = array(
+    'title' => t('Focus on select'),
+    'description' => t('Enable focus on selected element (click)'),
+    'type' => 'checkbox',
+    'cast' => 'bool',
+    'default' => FALSE,
+  );
 
   $options['infinite'] = array(
     'title' => t('Infinite'),
@@ -472,6 +485,14 @@ function slick_get_options() {
     'empty_option' => t('- None -'),
   );
 
+  $options['rtl'] = array(
+    'title' => t('RTL'),
+    'description' => t("Change the slider's direction to become right-to-left"),
+    'type' => 'checkbox',
+    'cast' => 'bool',
+    'default' => FALSE,
+  );
+
   $options['slide'] = array(
     'title' => t('Slide element'),
     'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers."),
@@ -482,7 +503,7 @@ function slick_get_options() {
 
   $options['slidesToShow'] = array(
     'title' => t('Slides to show'),
-    'description' => t('Number of slides to show. If 1, it will behave like slideshow, more than 1 a carousel.'),
+    'description' => t('Number of slides to show. If 1, it will behave like slideshow, more than 1 a carousel. Provide more if it is a thumbnail navigation with asNavFor.'),
     'type' => 'textfield',
     'cast' => 'int',
     'default' => 1,
@@ -581,14 +602,16 @@ function slick_get_responsive_options($count = 0) {
 
     // Duplicate main settings.
     // Clean up problematic dup options, since they have to be available once
-    // for all.
+    // for all. JS takes care of the copy on each responsive settings.
     unset(
+      $slick_options['asNavFor'],
       $slick_options['slide'],
       $slick_options['lazyLoad'],
       $slick_options['prevArrow'],
       $slick_options['nextArrow'],
       $slick_options['appendArrows'],
-      $slick_options['dotsClass']
+      $slick_options['dotsClass'],
+      $slick_options['rtl']
     );
     foreach ($slick_options as $name => $values) {
       $options[$key]['settings'][$name] = $values;
