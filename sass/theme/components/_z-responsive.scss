@@ -10,8 +10,8 @@
 }
 
 @include breakpoint($ipad-up, true) {
-  /* Fixed FireFox draggable issue. */
-  .slick__slide img {
+  /* Fixed FireFox draggable issue, avoid asNavFor thumbnails. */
+  .slick--display--main .slick__slide img {
     pointer-events: none;
   }
 

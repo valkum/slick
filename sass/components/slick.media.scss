@@ -181,9 +181,7 @@
   &:hover:after {
     background-color: $color-2;
   }
-}
-
-.media-icon--close {
+  
   .is-playing & {
     visibility: hidden;
   }

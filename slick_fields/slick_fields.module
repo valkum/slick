@@ -178,7 +178,6 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     '#default_value' => isset($optionset->options['settings']['dots']) ? $optionset->options['settings']['dots'] : '',
   );
 
-  // This is to avoid loading optionset till needed at theme_slick.
   $element['dots_thumbnail'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($optionset_thumbnail->options['settings']['dots']) ? $optionset_thumbnail->options['settings']['dots'] : '',
@@ -780,6 +779,7 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       'current_display' => 'main',
       'dots_main' => '',
       'dots_thumbnail' => '',
+      'lazy' => '',
     );
 
     $settings = array_merge($settings, $display['settings']);
@@ -787,6 +787,14 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
     $settings['attach_colorbox'] = $settings['media_switch'] == 'colorbox-switch';
     $field_name = $settings['field_name'];
     $view_mode = !empty($settings['view_mode']) ? $settings['view_mode'] : 'full';
+
+    // Willy-nilly, still have to load the optionset to check for lazyLoad.
+    $optionset = $settings['optionset'];
+    if (!empty($optionset)) {
+      $optionset = slick_optionset_load($optionset);
+    }
+
+    $settings['lazy'] = $optionset->options['settings']['lazyLoad'];
 
     $attach                          = array();
     $attach['attach_media']          = FALSE;

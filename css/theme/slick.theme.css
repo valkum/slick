@@ -345,7 +345,8 @@ supports no-js */
   }
 }
 @media (min-width: 48.063em) {
-  .slick__slide img {
+  /* Fixed FireFox draggable issue, avoid asNavFor thumbnails. */
+  .slick--display--main .slick__slide img {
     pointer-events: none;
   }
 

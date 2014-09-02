@@ -477,7 +477,7 @@ function slick_get_options() {
 
   $options['lazyLoad'] = array(
     'title' => t('Lazy load'),
-    'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'"),
+    'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
     'type' => 'select',
     'cast' => 'string',
     'default' => 'ondemand',

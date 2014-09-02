@@ -74,6 +74,7 @@ function _slick_fields_get_picture(&$settings, $image, $key, $media_url = NULL) 
       'options' => array(
         'colorbox' => FALSE,
         'type' => $settings['type'],
+        'lazy' => $settings['lazy'],
       ),
     );
 

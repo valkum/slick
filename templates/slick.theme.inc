@@ -31,8 +31,6 @@ function template_preprocess_slick(&$variables) {
     'is_carousel'          => FALSE,
     'has_pattern'          => FALSE,
     'has_arrow_down'       => FALSE,
-    'thumbnail_style'      => FALSE,
-    'thumbnail_hover'      => FALSE,
     'mousewheel'           => FALSE,
     'arrows'               => FALSE,
     'aspect_ratio_overlay' => FALSE,
@@ -184,14 +182,6 @@ function template_preprocess_slick(&$variables) {
       }
       $settings['arrow_down_offset'] = $general['arrow_down_offset'] ?: 125;
     }
-
-    // @deprecated by asNavFor.
-    // if ($settings['thumbnail_style']) {
-    // $attributes['class'][] = 'slick--has-thumbnail';
-    // if ($settings['thumbnail_hover']) {
-    // $attributes['class'][] = 'slick--has-thumbnail--hover';
-    // }
-    // }
   }
   else {
     $attributes['class'][] = 'slick--display--thumbnail';
@@ -371,6 +361,7 @@ function template_preprocess_slick_item(&$variables) {
 
     // $settings['attach_colorbox'] has its own pattern DIV within A tag, so
     // exclude it.
+    // @see theme_slick_image_lazy.
     if ($settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
       $variables['slide_pattern'] = '<div class="slide__pattern"></div>';
     }
@@ -553,9 +544,7 @@ function theme_slick_wrapper($variables) {
 /**
  * Overrides theme_image with lazy loading.
  *
- * @see https://github.com/kenwheeler/slick/pull/223
  * @todo https://github.com/BBC-News/Imager.js as fallback for a single image?
- * 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
  *
  * @ingroup themeable
  */
@@ -565,7 +554,7 @@ function theme_slick_image_lazy($variables) {
   $path = $variables['path'];
   $variables['attributes']['class'][] = 'slick__image';
 
-  // Make sure to avoid images with breakpoints and without image_style.
+  // Make sure to avoid images with breakpoints and without image style.
   if (!isset($variables['breakpoints']) && isset($variables['style_name'])) {
     $attributes = $variables['attributes'];
     foreach (array('width', 'height', 'alt', 'title') as $key) {
@@ -574,24 +563,40 @@ function theme_slick_image_lazy($variables) {
       }
     }
 
-    // @todo add SRC alternative, SRC not supported by 1.3.6, and HTML5 invalid.
-    // https://github.com/kenwheeler/slick/pull/223
-    // $attributes['src'] = 'some alt image, maybe preloader';
     $variables['path'] = image_style_url($variables['style_name'], $variables['path']);
     $count = $variables['count'];
 
-    // Slick v1.3.7 up always wants data-lazy, or never, otherwise hidden.
     // Provide SRC attribute if a single image, or lazyLoad disabled.
     if ($count == 1 || !$variables['lazy']) {
       $attributes['src'] = file_create_url($variables['path']);
     }
     else {
       $attributes['class'][] = 'lazy';
+
       // @fixme
-      // @todo drop src when image derivatives are generated properly.
-      // No generated image now, I guess data-lazy is removed before having a
-      // chance to generate one at v1.3.7.
-      $attributes['src'] = file_create_url($variables['path']);
+      // v1.3.7 allows dummy/ placeholder image:
+      // https://github.com/kenwheeler/slick/pull/223
+      // However lazyLoad ondemand has issue failing to generate _newly created
+      // image derivatives, causing 403. It has no issue if derivatives are in
+      // place already. Only _new images fail.
+      // lazyLoad progressive has no issue with it.
+
+      // Maybe data-lazy is removed before having a chance to generate one.
+      // ondemand also has issue with dummy image excessive height, so only
+      // progressive can have dummy image as of now.
+      // Dummy image is for valid HTML5.
+
+      // @todo drop ondemand part, when ondemand is fixed somewhere.
+      // Maybe lazyLoadAhead solves it:
+      // https://github.com/kenwheeler/slick/issues/466
+      if ($variables['lazy'] == 'progressive') {
+        $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+      }
+      elseif ($variables['lazy'] == 'ondemand') {
+        // Temp fix for failing image derivatives, negating lazyLoad at all.
+        $attributes['src'] = file_create_url($variables['path']);
+      }
+
       $attributes['data-lazy'] = file_create_url($variables['path']);
     }
 
@@ -603,7 +608,7 @@ function theme_slick_image_lazy($variables) {
     }
 
     // Only provide noscript to the first image, since the rest of the slides
-    // always want JS.
+    // always want JS with all this lazyLoad.
     if ($count > 1 && $variables['delta'] == 0) {
       $build .= '<noscript>' . theme_image($variables) . '</noscript>';
     }
@@ -663,9 +668,11 @@ function theme_slick_image_formatter_lazy($variables) {
   $image['delta'] = $variables['delta'];
   $image['count'] = isset($variables['count']) ? $variables['count'] : 0;
 
-  // Optionset determines lazyLoad obligatory, hence only applies to images > 1.
-  // @todo disable lazyLoad by empty_option set by slick_fields.
-  $image['lazy'] = $image['count'] > 1;
+  // Optional lazyLoad.
+  $image['lazy'] = FALSE;
+  if ($image['count'] > 1) {
+    $image['lazy'] = $variables['options']['lazy'];
+  }
   $image['options']['type']     = $variables['options']['type'];
   $image['options']['colorbox'] = isset($variables['options']['colorbox']) && $variables['options']['colorbox'];
 

@@ -20,7 +20,7 @@
           $prevArrow = $('.slick__arrow .slick-prev', t),
           $nextArrow = $('.slick__arrow .slick-next', t),
 
-          // Declare global options explicitly copy into responsives.
+          // Declare global options explicitly to copy into responsives.
           globals = {
             asNavFor: merged.asNavFor,
             slide: merged.slide,
@@ -38,7 +38,7 @@
             }
           };
 
-        // Got no free Bacon, globals not inherited by breakpoints.
+        // Got no free Bacon, defaults + globals not inherited by breakpoints.
         if (typeof configs.responsive !== 'undefined') {
           $.map(configs.responsive, function (v, i) {
             if (typeof configs.responsive[i].settings !== 'undefined') {
@@ -101,7 +101,7 @@
    * Theme function to update slick-dots to use thumbnail classes if available.
    */
   Drupal.theme.prototype.slickThumbnails = function (t) {
-    // Do not proceed if thumbnails not available.
+    // Do not proceed if no thumbnails available.
     if (!$('.slick__slide:first .slide__thumbnail', t).length) {
       return;
     }

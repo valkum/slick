@@ -109,24 +109,3 @@
     }
   }
 }
-
-// With centerMode, or carousel mode, we need to pull down the thumbnails.
-// @deprecated by asNavFor.
-// .slick--has-thumbnail {
-// margin-bottom: 120px;
-// }
-// .slick--has-thumbnail {
-// &.slick--skin--fulllwidth {
-// margin-bottom: 0;
-// .slick__thumbnail {
-// bottom: 10px;// 
-// }
-// }
-// }
-
-// .slick--has-thumbnail--hover {
-// margin-bottom: 40px;
-// .slick__thumbnail {
-//  bottom: -40px;
-// }
-// }

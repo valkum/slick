@@ -47,6 +47,7 @@ function slick_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'lazy' => FALSE,
         'attributes' => array(),
+        'options' => array(),
       ),
     ),
     // Slick lazy load image formatter.

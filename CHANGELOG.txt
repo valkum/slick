@@ -1,7 +1,11 @@
 
 
-Slick 7.x-2.0-dev, 2014-09-2
+Slick 7.x-2.0-dev, 2014-09-3
 ----------------------------
+Added dummy/placeholder image to lazyLoad progressive.
+Fixed for when lazyLoad is disabled, to allow sharing to Pinterest for small
+  slides.
+
 Updated slick.colorbox.js to work with asNavFor.
 Added new theme slick_wrapper to hold asNavFor, two slicks with thumbnail
   navigation.
@@ -18,7 +22,7 @@ Slick 7.x-2.0-dev, 2014-08-2
 ----------------------------
 issue #2309681 by immoreel: Added support for Omega 3 expecting classes_array.
 Do not output slide__media wrapper if no main image and caption available. The
-  case, e.g., main image left empty, and overlay image/media filled out.
+  case, e.g., main image left empty, and overlay image/media populated.
 
 Slick 7.x-2.0-dev, 2014-07-25
 -----------------------------

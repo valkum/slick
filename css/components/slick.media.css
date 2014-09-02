@@ -158,7 +158,6 @@
 .media-icon--close:hover:before, .media-icon--close:hover:after {
   background-color: #ff6d2c;
 }
-
 .is-playing .media-icon--close {
   visibility: hidden;
 }
