@@ -15,8 +15,10 @@
  *  - $settings: An array containing cherry-picked settings.
  */
 ?>
-<div<?php print $attributes; ?>>
-  <?php if ($settings['current_display'] == 'main'): ?>
+<?php if ($asnavfor == 'thumbnail'): ?>
+  <?php print render($item); ?>
+<?php else: ?>
+  <div<?php print $attributes; ?>>
     <?php if (in_array($settings['type'], array('video', 'audio'))): ?>
       <?php if ($settings['media_switch'] != 'colorbox-switch'): ?>
         <iframe<?php print $content_attributes; ?> allowfullscreen><?php print $alternative_content; ?></iframe>
@@ -27,11 +29,11 @@
         <i class="media-icon media-icon--spinner"></i>
       <?php endif; ?>
     <?php endif; ?>
-  <?php endif; ?>
 
-  <?php if ($item): ?>
-    <?php print render($item_prefix); ?>
-    <?php print render($item); ?>
-    <?php print render($item_suffix); ?>
-  <?php endif; ?>
-</div>
+    <?php if ($item): ?>
+      <?php print render($item_prefix); ?>
+      <?php print render($item); ?>
+      <?php print render($item_suffix); ?>
+    <?php endif; ?>
+  </div>
+<?php endif; ?>

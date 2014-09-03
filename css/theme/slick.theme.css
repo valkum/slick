@@ -171,8 +171,6 @@ img {
 .slick--center .slick__slide {
   opacity: 0.2;
   -webkit-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
   transition: all 300ms ease;
 }
 .slick--center .slick__slide.slick-active {
@@ -237,16 +235,12 @@ img {
   display: block;
   opacity: .6;
   -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
   transition: 0.3s;
 }
 .slick__thumbnail li:hover img, .slick__thumbnail li.slick-active img {
   border: 2px solid #ff6d2c;
   opacity: 1;
   -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
   transition-delay: 0s;
 }
 
@@ -269,8 +263,6 @@ img {
   width: 120px;
   z-index: -1;
   -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
   transition: 0.3s;
 }
 .slick__thumbnail--hover li .slide__thumbnail__box img {
@@ -295,8 +287,6 @@ img {
   opacity: 1;
   visibility: visible;
   -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
   transition-delay: 0s;
   z-index: 3;
 }
@@ -527,13 +517,14 @@ supports no-js */
   font-size: 0.75rem;
 }
 
-/**
- * asNavFor.
- * Main display has class "slick--display--main".
- * Thumbnail has class "slick--display--thumbnail".
- */
-.slick--display--thumbnail .slide__content {
-  float: left;
+/* Overrides .slick-slider to make caption text selectable. */
+.slide__caption {
+  cursor: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 /**

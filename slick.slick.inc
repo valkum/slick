@@ -33,6 +33,12 @@ function slick_slick_skins_info() {
         $module_path . '/css/theme/slick.theme--default.css',
       ),
     ),
+    'asnavfor' => array(
+      'name' => t('asNavFor'),
+      'css' => array(
+        $module_path . '/css/theme/slick.theme--asnavfor.css',
+      ),
+    ),
     'classic' => array(
       'name' => t('Classic'),
       'description' => t('Adds dark background color over white caption, only good for slider (single slide visible), not carousel (multiple slides visible), where small captions are placed over images.'),

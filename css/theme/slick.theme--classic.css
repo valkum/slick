@@ -64,10 +64,7 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: all 0.4s ease-in-out;
-  -webkit-transition-delay: 0s;
-  -moz-transition: all 0.4s ease-in-out 0s;
-  -o-transition: all 0.4s ease-in-out 0s;
+  -webkit-transition: all 0.4s ease-in-out 0s;
   transition: all 0.4s ease-in-out 0s;
   -webkit-backface-visibility: hidden;
 }
@@ -88,9 +85,7 @@
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   min-height: 80px;
-  -webkit-transition: -webkit-transform 1s ease-in-out 0.2s;
-  -moz-transition: -moz-transform 1s ease-in-out 0.2s;
-  -o-transition: -o-transform 1s ease-in-out 0.2s;
+  -webkit-transition: transform 1s ease-in-out 0.2s;
   transition: transform 1s ease-in-out 0.2s;
 }
 .slick--skin--classic .slide--caption--stage-zebra.slick-active .slide__caption,
@@ -107,8 +102,6 @@
   -o-transform: translateY(0);
   transform: translateY(0);
   -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
   transition-delay: 0s;
 }
 .slick--skin--classic .slide--caption--stage-zebra,

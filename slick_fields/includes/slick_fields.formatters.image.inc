@@ -50,6 +50,7 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       }
     }
 
+    $asnavfor = 'main';
     if (!$thumb_nav) {
       // Slide captions.
       if (!empty($settings['slide_caption'])) {
@@ -78,6 +79,7 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       // Thumbnail slider if so configured.
       $image_slide = $thumbnail;
       $settings['type'] = 'image';
+      $asnavfor = 'thumbnail';
 
       // Thumbnail static.
       if ($settings['dots_thumbnail'] && $thumbnail_hover) {
@@ -90,10 +92,11 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       '#theme' => 'slick_media',
       '#item' => $image_slide,
       '#settings' => $settings,
+      '#asnavfor' => $asnavfor,
     );
 
     // @todo drop, or keep it.
-    $item['settings'] = $settings;
+    // $item['settings'] = $settings;
 
     $build[$key] = $item;
   }

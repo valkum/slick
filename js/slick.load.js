@@ -50,6 +50,20 @@
         // Build the Slick.
         t.slick($.extend(configs, globals, callbacks));
 
+        // .slick-active can be as many as visible slides.
+        // @todo drop when .slick-active has a special class for the current.
+        if (t.hasClass('slick--display--thumbnail')) {
+          $('.slick__slide > img', t).on('click.img-current', function () {
+            $('.slide--current', t).removeClass('slide--current');
+            $(this).parent().addClass('slide--current');
+          });
+
+          $('.slick-prev, .slick-next', t).on('click.arrow-current', function () {
+            $('.slide--current', t).removeClass('slide--current');
+            $('.slick__slide[index="' + (t.slickCurrentSlide()) + '"]', t).addClass('slide--current');
+          });
+        }
+
         // @todo drop when appendArrows works on resize.
         // @see https://github.com/kenwheeler/slick/issues/480
         $(window).bind('resize', function () {

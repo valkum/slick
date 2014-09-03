@@ -17,6 +17,7 @@ $transition              : all .4s ease-in-out 0s;
 // Usage: @include transition(transform $transition...)
 $transition-transform-slow    : 8s ease-in-out 1s;
 $transition-transform-1  : 1s ease-in-out .2s;
+$transition-transform-2  : .4s ease-in-out .2s;
 $transition-bg           : background-color .2s ease-in-out 0s;
 $transition-position     : background-position .2s ease-in-out 0s;
 $transition-all          : all .4s ease-in-out 0.2s;

@@ -148,15 +148,10 @@
   font-size: 0.75rem;
 }
 
-/**
- * asNavFor.
- * Main display has class "slick--display--main".
- * Thumbnail has class "slick--display--thumbnail".
- */
-.slick--display--thumbnail {
-  .slide__content {
-    float: left;
-  }
+/* Overrides .slick-slider to make caption text selectable. */
+.slide__caption {
+  cursor: text;
+  @include user-select(text);
 }
 
 /**

@@ -183,7 +183,7 @@ function template_preprocess_slick(&$variables) {
       $settings['arrow_down_offset'] = $general['arrow_down_offset'] ?: 125;
     }
   }
-  else {
+  elseif ($settings['current_display'] == 'thumbnail') {
     $attributes['class'][] = 'slick--display--thumbnail';
   }
 
@@ -232,12 +232,13 @@ function template_preprocess_slick(&$variables) {
   // Process individual item.
   $build = array();
   foreach ($items as $delta => $item) {
-
+    // @todo recheck, and drop all references if no need at all.
     if (isset($item['settings'])) {
       $settings = is_array($item['settings']) ? array_merge($settings, $item['settings']) : $settings;
       // Done with particular settings per item.
       unset($item['settings']);
     }
+    $settings['current_item'] = $settings['current_display'];
 
     $build[] = array(
       '#theme' => 'slick_item',
@@ -308,7 +309,7 @@ function template_preprocess_slick_item(&$variables) {
   $variables['slide_pattern'] = '';
 
   // @todo, thumbnails may also have captions, but not now.
-  if ($settings['current_display'] == 'main') {
+  if ($settings['current_item'] == 'main') {
     // Add layout/ caption position classes if so configured.
     if (!empty($captions['layout'])) {
       $layout = drupal_clean_css_identifier($captions['layout']);
@@ -389,6 +390,8 @@ function template_preprocess_slick_media(&$variables) {
   $element = $variables['element'];
   $settings = $element['#settings'];
   $variables['item'] = $element['#item'];
+  // Views has no support for #asnavfor since it has no raw to work with yet.
+  $variables['asnavfor'] = isset($element['#asnavfor']) ? $element['#asnavfor'] : 'main';
 
   $type = isset($settings['type']) ? $settings['type'] : 'image';
 
@@ -404,7 +407,7 @@ function template_preprocess_slick_media(&$variables) {
   $variables['alternative_content'] = '';
 
   // Only reasonable for the main display, not thumbnail navigation.
-  if ($settings['current_display'] == 'main') {
+  if ($variables['asnavfor'] == 'main') {
     // Specific to Media integration.
     $media = isset($element['#media']) ? $element['#media'] : '';
 

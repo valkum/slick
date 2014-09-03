@@ -21,42 +21,47 @@
  */
 ?>
 <div<?php print $attributes; ?>>
-  <div class="slide__content">
-
-    <?php print render($item_prefix); ?>
+  <?php if ($settings['current_item'] == 'thumbnail'): ?>
     <?php print render($item); ?>
-    <?php $slide_pattern && print $slide_pattern; ?>
-    <?php print render($item_suffix); ?>
+  <?php else: ?>
 
-    <?php if (!empty($caption)): ?>
-      <?php print render($title_prefix); ?>
+    <div class="slide__content">
 
-      <div class="slide__caption">
-        <?php if (isset($caption['overlay'])): ?>
-          <div class="slide__overlay"><?php print render($caption['overlay']); ?></div>
-        <?php endif; ?>
+      <?php print render($item_prefix); ?>
+      <?php print render($item); ?>
+      <?php $slide_pattern && print $slide_pattern; ?>
+      <?php print render($item_suffix); ?>
 
-        <?php if (isset($caption['data']) || isset($caption['title'])): ?>
-          <div class="slide__data">
-            <?php if (!empty($caption['title'])): ?>
-              <h2 class="slide__title"><?php print render($caption['title']); ?></h2>
-            <?php endif; ?>
+      <?php if (!empty($caption)): ?>
+        <?php print render($title_prefix); ?>
 
-            <?php if (!empty($caption['alt'])): ?>
-              <p class="slide__description"><?php print render($caption['alt']); ?></p>
-            <?php endif; ?>
+        <div class="slide__caption">
+          <?php if (isset($caption['overlay'])): ?>
+            <div class="slide__overlay"><?php print render($caption['overlay']); ?></div>
+          <?php endif; ?>
 
-            <?php print render($caption['data']); ?>
+          <?php if (isset($caption['data']) || isset($caption['title'])): ?>
+            <div class="slide__data">
+              <?php if (!empty($caption['title'])): ?>
+                <h2 class="slide__title"><?php print render($caption['title']); ?></h2>
+              <?php endif; ?>
 
-            <?php if (isset($caption['link'])): ?>
-              <div class="slide__link"><?php print render($caption['link']); ?></div>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-      </div>
+              <?php if (!empty($caption['alt'])): ?>
+                <p class="slide__description"><?php print render($caption['alt']); ?></p>
+              <?php endif; ?>
 
-      <?php print render($title_suffix); ?>
-    <?php endif; ?>
+              <?php print render($caption['data']); ?>
 
-  </div>
+              <?php if (isset($caption['link'])): ?>
+                <div class="slide__link"><?php print render($caption['link']); ?></div>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <?php print render($title_suffix); ?>
+      <?php endif; ?>
+
+    </div>
+  <?php endif; ?>
 </div>

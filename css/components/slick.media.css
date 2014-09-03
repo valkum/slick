@@ -99,10 +99,7 @@
 
 .media--switch .media__iframe,
 .media-icon {
-  -webkit-transition: visibility 0s linear, opacity 0.5s linear;
-  -webkit-transition-delay: 0.5s, 0s;
-  -moz-transition: visibility 0s linear 0.5s, opacity 0.5s linear;
-  -o-transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+  -webkit-transition: visibility 0s linear 0.5s, opacity 0.5s linear;
   transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
@@ -183,8 +180,6 @@
 
 .is-playing:hover .media-icon {
   -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
   transition-delay: 0s;
 }
 

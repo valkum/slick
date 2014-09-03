@@ -2,6 +2,14 @@
 
 Slick 7.x-2.0-dev, 2014-09-3
 ----------------------------
+Added skin asNavFor.
+Updated slick.load.js to have proper .slide--current classes for the thumbnail
+  navigation since core don't provide one. With no centerMode .slick-active can
+  be as many as visible slides, and the current slide has no special class.
+Temp tips till core fix: Avoid centerMode for the thumbnails slideToShow > 3.
+
+Updated slick-media.tpl and slick-item.tpl to have no markups for thumbnails.
+
 Added dummy/placeholder image to lazyLoad progressive.
 Fixed for when lazyLoad is disabled, to allow sharing to Pinterest for small
   slides.
