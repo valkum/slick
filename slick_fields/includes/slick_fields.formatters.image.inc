@@ -11,7 +11,7 @@
 function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FALSE) {
   $build = array();
   $field_type = $field['type'];
-
+  $asnavfor = 'main';
   foreach ($items as $key => $item) {
     $tmp = $item;
     $item = array(
@@ -50,7 +50,6 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       }
     }
 
-    $asnavfor = 'main';
     if (!$thumb_nav) {
       // Slide captions.
       if (!empty($settings['slide_caption'])) {
@@ -94,9 +93,6 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       '#settings' => $settings,
       '#asnavfor' => $asnavfor,
     );
-
-    // @todo drop, or keep it.
-    // $item['settings'] = $settings;
 
     $build[$key] = $item;
   }

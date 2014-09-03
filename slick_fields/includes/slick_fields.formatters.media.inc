@@ -69,6 +69,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     // Provide thumbnail pagers if so configured.
     $thumbnail = '';
     $thumbnail_hover = '';
+    $asnavfor = 'main';
 
     if (isset($settings['thumbnail_style']) && $settings['thumbnail_style']) {
       $image['path'] = $image['uri'];
@@ -134,6 +135,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     else {
       $image_slide = $thumbnail;
       $settings['type'] = 'image';
+      $asnavfor = 'thumbnail';
 
       // Thumbnail static.
       if ($settings['dots_thumbnail'] && $thumbnail_hover) {
@@ -146,14 +148,13 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       '#theme' => 'slick_media',
       '#item' => $image_slide,
       '#settings' => $settings,
+      '#asnavfor' => $asnavfor,
     );
 
     // If has Media fields.
     if ($settings['is_media'] && !$thumb_nav) {
       $item['slide']['#media'] = $media;
     }
-
-    $item['settings'] = $settings;
 
     $build[$key] = $item;
   }

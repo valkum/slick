@@ -2,6 +2,7 @@
 
 Slick 7.x-2.0-dev, 2014-09-3
 ----------------------------
+Added fixes for asNavFor to Media and Field Collection.
 Added skin asNavFor.
 Updated slick.load.js to have proper .slide--current classes for the thumbnail
   navigation since core don't provide one. With no centerMode .slick-active can

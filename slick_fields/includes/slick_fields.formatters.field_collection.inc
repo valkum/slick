@@ -13,6 +13,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
   $field_type = $field['type'];
   $image_style = $settings['image_style'];
   $css = array();
+  $asnavfor = 'main';
   foreach ($items as $key => $item) {
     $tmp = $item;
     $item = array(
@@ -21,14 +22,14 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       'caption' => array(),
     );
 
-    if ($field_collection = field_collection_field_get_entity($item['item'])) {
-      $field_collection_view = $field_collection->view($view_mode);
-      $field_collection = (array) $field_collection;
+    if ($fc = field_collection_field_get_entity($item['item'])) {
+      $fc_view = $fc->view($view_mode);
+      $fc = (array) $fc;
 
       // Get field collection ID.
-      $id = array_keys($field_collection_view['field_collection_item']);
+      $id = array_keys($fc_view['field_collection_item']);
       $id = reset($id);
-      $fc_fields = $field_collection_view['field_collection_item'][$id];
+      $fc_fields = $fc_view['field_collection_item'][$id];
 
       // Manually insert type for theme to get the context.
       $item['item']['type'] = 'field_collection';
@@ -103,6 +104,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           else {
             $item['slide'] = $thumbnail;
             $settings['type'] = 'image';
+            $asnavfor = 'thumbnail';
 
             // Thumbnail static.
             if ($settings['dots_thumbnail'] && $thumbnail_hover) {
@@ -115,10 +117,6 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             $item['slide'] .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
             $item['slide'] .= '<button type="button">' . ($key + 1) . '</button></div>';
           }
-          // @dropped in favor for asNavFor, and only keep thumbnail_hover.
-          // else {
-          // $item['slide'] .= '<div class="slide__thumbnail">' . $thumbnail . '</div>';
-          // }
         }
       }
 
@@ -242,8 +240,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
         }
 
         // Title, if so configured.
-        if (!empty($settings['slide_title'])) {
-          $layout = $field_collection[$settings['slide_title']][$langcode][0]['safe_value'];
+        if (!empty($settings['slide_title']) && isset($fc[$settings['slide_title']][$langcode][0]['safe_value'])) {
+          $layout = $fc[$settings['slide_title']][$langcode][0]['safe_value'];
           $item['caption']['title'] = $layout;
         }
 
@@ -262,15 +260,13 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
         }
 
         // Link, if so configured.
-        if (!empty($settings['slide_link'])) {
-          if (isset($fc_fields[$settings['slide_link']])) {
-            $item['caption']['link'] = $fc_fields[$settings['slide_link']];
-          }
+        if (!empty($settings['slide_link']) && isset($fc_fields[$settings['slide_link']])) {
+          $item['caption']['link'] = $fc_fields[$settings['slide_link']];
         }
 
         // Layout, if so configured.
-        if (!empty($settings['slide_layout'])) {
-          $layout = $field_collection[$settings['slide_layout']][$langcode][0]['value'];
+        if (!empty($settings['slide_layout']) && isset($fc[$settings['slide_layout']][$langcode][0]['value'])) {
+          $layout = $fc[$settings['slide_layout']][$langcode][0]['value'];
           $item['caption']['layout'] = check_plain($layout);
         }
 
@@ -311,8 +307,6 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           }
         }
       }
-
-      $item['settings'] = $settings;
 
       $build[$key] = $item;
     }

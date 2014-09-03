@@ -232,12 +232,6 @@ function template_preprocess_slick(&$variables) {
   // Process individual item.
   $build = array();
   foreach ($items as $delta => $item) {
-    // @todo recheck, and drop all references if no need at all.
-    if (isset($item['settings'])) {
-      $settings = is_array($item['settings']) ? array_merge($settings, $item['settings']) : $settings;
-      // Done with particular settings per item.
-      unset($item['settings']);
-    }
     $settings['current_item'] = $settings['current_display'];
 
     $build[] = array(
