@@ -34,10 +34,11 @@ function slick_slick_skins_info() {
       ),
     ),
     'asnavfor' => array(
-      'name' => t('asNavFor'),
+      'name' => t('Thumbnail: asNavFor'),
       'css' => array(
         $module_path . '/css/theme/slick.theme--asnavfor.css',
       ),
+      'description' => t('Affected thumbnail navigation only.'),
     ),
     'classic' => array(
       'name' => t('Classic'),

@@ -16,7 +16,7 @@
  */
 // Workaround tips: as of now, 9/3/14, avoid centerMode for slideToShow > 3.
 $thumbnail-spacing: 30px !default;
-.slick--display--thumbnail {
+.slick--display--thumbnail.slick--skin--asnavfor {
   margin: 0 auto;
   padding: 0;
   width: 96%;

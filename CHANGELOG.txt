@@ -1,4 +1,7 @@
 
+Slick 7.x-2.0-dev, 2014-09-4
+----------------------------
+Added missing slick.theme--asnavfor.css
 
 Slick 7.x-2.0-dev, 2014-09-3
 ----------------------------

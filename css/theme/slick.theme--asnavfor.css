@@ -4,16 +4,16 @@
  * Main display has class "slick--display--main".
  * Thumbnail has class "slick--display--thumbnail".
  */
-.slick--display--thumbnail {
+.slick--display--thumbnail.slick--skin--asnavfor {
   margin: 0 auto;
   padding: 0;
   width: 96%;
 }
-.slick--display--thumbnail .slick-list {
+.slick--display--thumbnail.slick--skin--asnavfor .slick-list {
   margin: -30px;
   padding: 30px;
 }
-.slick--display--thumbnail .slick__slide {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide {
   margin: 0 2px;
   opacity: 0;
   -webkit-backface-visibility: hidden;
@@ -24,16 +24,16 @@
   -o-transition: -o-transform 0.4s ease-in-out 0.2s;
   transition: transform 0.4s ease-in-out 0.2s;
 }
-.slick--display--thumbnail .slick__slide img {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide img {
   border: 6px solid transparent;
   cursor: pointer;
   position: relative;
   width: 100%;
 }
-.slick--display--thumbnail .slick__slide.slick-active {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-active {
   opacity: 1;
 }
-.slick--display--thumbnail .slick__slide.slick-center, .slick--display--thumbnail .slick__slide.slide--current {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   -webkit-transform: scale(1.3);
@@ -45,7 +45,7 @@
   transition-delay: 0s;
   z-index: 3;
 }
-.slick--display--thumbnail .slick__slide.slick-center:before, .slick--display--thumbnail .slick__slide.slide--current:before {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center:before, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current:before {
   content: '';
   display: block;
   border: 8px solid transparent;
@@ -59,23 +59,23 @@
   width: 0;
   z-index: 1;
 }
-.slick--display--thumbnail .slick__slide.slick-center img, .slick--display--thumbnail .slick__slide.slide--current img {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center img, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current img {
   border-color: white;
 }
-.slick--display--thumbnail.slick--center .slick-track {
+.slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick-track {
   padding-bottom: 60px;
   padding-top: 60px;
 }
-.slick--display--thumbnail.slick--center .slick__slide {
+.slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick__slide {
   opacity: 1;
 }
-.slick--display--thumbnail .slick__arrow .slick-disabled {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-disabled {
   pointer-events: none;
   opacity: 0;
 }
-.slick--display--thumbnail .slick__arrow .slick-prev {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-prev {
   left: -30px;
 }
-.slick--display--thumbnail .slick__arrow .slick-next {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-next {
   right: -30px;
 }

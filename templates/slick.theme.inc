@@ -488,7 +488,7 @@ function template_process_slick_media(&$variables) {
  */
 function template_preprocess_slick_wrapper(&$variables) {
   $element = $variables['element'];
-
+  $settings = $element['#settings'] ? $element['#settings'] : array();
   $variables['items'] = array();
   foreach ($element['#items'] as $delta => $item) {
     if (!empty($element[$delta])) {
@@ -497,6 +497,10 @@ function template_preprocess_slick_wrapper(&$variables) {
   }
 
   $variables['attributes_array'] = array('class' => array('slick-wrapper'));
+
+  if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
+    $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--asnavfor');
+  }
 
   // Populate classes_array expected by Omega 3.
   // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
