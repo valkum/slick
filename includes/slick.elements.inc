@@ -503,7 +503,7 @@ function slick_get_options() {
 
   $options['slidesToShow'] = array(
     'title' => t('Slides to show'),
-    'description' => t('Number of slides to show. If 1, it will behave like slideshow, more than 1 a carousel. Provide more if it is a thumbnail navigation with asNavFor.'),
+    'description' => t('Number of slides to show at a time. If 1, it will behave like slideshow, more than 1 a carousel. Provide more if it is a thumbnail navigation with asNavFor. Only works with odd number slidesToShow counts when using centerMode.'),
     'type' => 'textfield',
     'cast' => 'int',
     'default' => 1,
@@ -511,7 +511,7 @@ function slick_get_options() {
 
   $options['slidesToScroll'] = array(
     'title' => t('Slides to scroll'),
-    'description' => t('Number of slides to scroll, or steps at each scroll.'),
+    'description' => t('Number of slides to scroll at a time, or steps at each scroll.'),
     'type' => 'textfield',
     'cast' => 'int',
     'default' => 1,
@@ -565,6 +565,14 @@ function slick_get_options() {
     'type' => 'checkbox',
     'cast' => 'bool',
     'default' => FALSE,
+  );
+
+  $options['waitForAnimate'] = array(
+    'title' => t('waitForAnimate'),
+    'description' => t('Ignores requests to advance the slide while animating.'),
+    'type' => 'checkbox',
+    'cast' => 'bool',
+    'default' => TRUE,
   );
 
   return $options;

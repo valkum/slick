@@ -1,57 +1,12 @@
 /**
  * Arrows contained/wrapped within slick__arrow for easy moves.
  */
-.slick-prev,
-.slick-next,
-.slick-down {
-  border: 0;
-  border-radius: 50%;
-  display: block;
-  font-size: 0;
-  height: 42px;
-  margin-top: -21px;
-  top: 50%;
-  width: 42px;
-  &:active,
-  &:focus {
-    box-shadow: none;
-    outline: 0;
-  }
-  &:before,
-  &:after {
-    pointer-events: none;
-  }
-}  
-  
-/* Overrides problematic hidden arrows by core slick.css */
-.slick-prev {
-  left: 0;
-}
-
-.slick-next {
-  right: 0;
-}
-
-.slick-prev,
-.slick-next {
-  &:before {
-    color: $color-2;
-    @include font-size(36px);      
-  }  
-  &:hover:before {
-    color: $color-1;
-  }
-}
-
-.slick__arrow--placeholder {
-  @include visually-hidden;
-}
-  
 .slick__arrow {
   bottom: auto;
   height: 2px;
   left: 0;
   margin-top: -1px;
+  pointer-events: none;
   position: absolute;
   top: 50%;
   width: 100%;
@@ -65,7 +20,50 @@
     top: auto;
     width: 180px;
   }
-}  
+}
+
+.slick-prev,
+.slick-next,
+.slick-down {
+  border: 0;
+  border-radius: 50%;
+  display: block;
+  font-size: 0;
+  height: 42px;
+  margin-top: -21px;
+  pointer-events: auto;
+  top: 50%;
+  width: 42px;
+  &:active,
+  &:focus {
+    box-shadow: none;
+    outline: 0;
+  }
+  &:before,
+  &:after {
+    pointer-events: none;
+  }
+}
+
+/* Overrides problematic hidden arrows by core slick.css */
+.slick-prev {
+  left: 0;
+}
+
+.slick-next {
+  right: 0;
+}
+
+.slick-prev,
+.slick-next {
+  &:before {
+    color: $color-2;
+    @include font-size(36px);
+  }
+  &:hover:before {
+    color: $color-1;
+  }
+}
 
 .slick-down {
   background: $color-2;

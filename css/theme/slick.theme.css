@@ -31,6 +31,26 @@ img {
 /**
  * Arrows contained/wrapped within slick__arrow for easy moves.
  */
+.slick__arrow {
+  bottom: auto;
+  height: 2px;
+  left: 0;
+  margin-top: -1px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 2;
+}
+.slick--has-arrow-down .slick__arrow {
+  bottom: 20px;
+  height: 62px;
+  left: 50%;
+  margin: 0 0 0 -90px;
+  top: auto;
+  width: 180px;
+}
+
 .slick-prev,
 .slick-next,
 .slick-down {
@@ -40,6 +60,7 @@ img {
   font-size: 0;
   height: 42px;
   margin-top: -21px;
+  pointer-events: auto;
   top: 50%;
   width: 42px;
 }
@@ -77,34 +98,6 @@ img {
 .slick-prev:hover:before,
 .slick-next:hover:before {
   color: #37465b;
-}
-
-.slick__arrow--placeholder {
-  position: absolute !important;
-  clip: rect(1px, 1px, 1px, 1px);
-  overflow: hidden;
-  height: 1px;
-  width: 1px;
-  word-wrap: normal;
-}
-
-.slick__arrow {
-  bottom: auto;
-  height: 2px;
-  left: 0;
-  margin-top: -1px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  z-index: 2;
-}
-.slick--has-arrow-down .slick__arrow {
-  bottom: 20px;
-  height: 62px;
-  left: 50%;
-  margin: 0 0 0 -90px;
-  top: auto;
-  width: 180px;
 }
 
 .slick-down {

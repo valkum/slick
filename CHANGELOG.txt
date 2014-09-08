@@ -1,7 +1,17 @@
 
+Slick 7.x-2.0-dev, 2014-09-8
+----------------------------
+Added new option: waitForAnimate. Only supported by non-minified version now.
+
+
 Slick 7.x-2.0-dev, 2014-09-4
 ----------------------------
+Added fixes for slick.media.js being screwed up after 1.3.7 update.
 Added missing slick.theme--asnavfor.css
+
+Corrected misleading tips: Avoid centerMode for the thumbnails slideToShow > 3.
+It should say: Use odd numbers when centerMode on.
+
 
 Slick 7.x-2.0-dev, 2014-09-3
 ----------------------------

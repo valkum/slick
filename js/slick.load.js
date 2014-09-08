@@ -11,34 +11,25 @@
     attach: function (context, settings) {
 
       $('.slick', context).once('slick', function () {
-        var t = $(this),
+        var that = this,
+          t = $(that),
           defaults = settings.slick || {},
           configs = t.data('config') || {},
           merged = $.extend({}, defaults, configs),
-          index = t.closest('.slick__slide:not(.slick-cloned)').index(),
+          slides = '.slick__slide:not(.slick-cloned)',
+          index = t.closest(slides).index(),
+          total = $(slides, that).length,
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
-          $prevArrow = $('.slick__arrow .slick-prev', t),
-          $nextArrow = $('.slick__arrow .slick-next', t),
+          globals = Drupal.slick.globals(that, merged);
 
-          // Declare global options explicitly to copy into responsives.
-          globals = {
-            asNavFor: merged.asNavFor,
-            slide: merged.slide,
-            lazyLoad: merged.lazyLoad,
-            dotsClass: merged.dotsClass,
-            rtl: merged.rtl,
-            appendArrows: merged.appendArrows,
-            prevArrow: $prevArrow,
-            nextArrow: $nextArrow,
-            customPaging: function (slider, i) {
-              return slider.$slides.eq(i).find('.slide__thumbnail').html() || '<button type="button" data-role="none">' + (i + 1) + '</button>';
-            },
-            onInit: function (slider) {
-              Drupal.theme('slickThumbnails', t);
-            }
-          };
+        // @todo drop if any fix with total < configs.slidesToShow.
+        // @see https://github.com/kenwheeler/slick/issues/497
+        if (total < configs.slidesToShow) {
+          // Leave odd, otherwise make it odd to work properly.
+          configs.slidesToShow = total %2 != 0 ? total : total - 1;
+        }
 
-        // Got no free Bacon, defaults + globals not inherited by breakpoints.
+        // Populate defaults + globals into breakpoints.
         if (typeof configs.responsive !== 'undefined') {
           $.map(configs.responsive, function (v, i) {
             if (typeof configs.responsive[i].settings !== 'undefined') {
@@ -50,31 +41,12 @@
         // Build the Slick.
         t.slick($.extend(configs, globals, callbacks));
 
-        // Without centerMode, .slick-active can be as many as visible slides.
-        // @todo drop when .slick-active has a special class for the current.
-        if (t.hasClass('slick--display--thumbnail')) {
-          var $slide = '.slick__slide',
-            curr = t.slickCurrentSlide();
-          $($slide + '[index="' + curr + '"]', t).addClass('slide--current');
-          $($slide + ' img', t).off('click.img-current').on('click.img-current', function () {
-            $('.slide--current', t).removeClass('slide--current');
-            $(this).closest('.slick__slide').addClass('slide--current');
-          });
-
-          $('.slick-prev, .slick-next', t).off('click.arrow-current').on('click.arrow-current', function () {
-            $('.slide--current', t).removeClass('slide--current');
-            $($slide + '[index="' + curr + '"]', t).addClass('slide--current');
-          });
-
-          // @todo dots sync.
-        }
-
         // @todo drop when appendArrows works on resize.
         // @see https://github.com/kenwheeler/slick/issues/480
         $(window).bind('resize', function () {
-          var a = $('.slick__arrow', t);
+          var a = $('.slick__arrow', that);
           if (a.length) {
-            a.append($prevArrow).append($nextArrow);
+            a.append($('.slick__arrow .slick-prev', that)).append($('.slick__arrow .slick-next', that));
           }
         });
 
@@ -115,6 +87,42 @@
       return methods;
     }
   };
+  
+  /**
+   * Declare global options explicitly to copy into responsives.
+   */
+  Drupal.slick.globals = function(t, merged) {
+    var globals = {
+      asNavFor: merged.asNavFor,
+      slide: merged.slide,
+      lazyLoad: merged.lazyLoad,
+      dotsClass: merged.dotsClass,
+      rtl: merged.rtl,
+      appendArrows: merged.appendArrows,
+      prevArrow: $('.slick__arrow .slick-prev', t),
+      nextArrow: $('.slick__arrow .slick-next', t),
+      customPaging: function (slider, i) {
+        return slider.$slides.eq(i).find('.slide__thumbnail').html() || '<button type="button" data-role="none">' + (i + 1) + '</button>';
+      },
+      onInit: function (slider) {
+        Drupal.theme('slickThumbnails', t);
+        Drupal.slick.setCurrent(t, slider.currentSlide);
+      },
+      onAfterChange: function (slider, index) {
+        Drupal.slick.setCurrent(t, index);
+      }
+    };
+    return globals;
+  };
+  
+  /**
+   * Without centerMode, .slick-active can be as many as visible slides, hence
+   * added a specific class.
+   */
+  Drupal.slick.setCurrent = function(t, index) {
+    $('.slide--current', t).removeClass('slide--current');
+    $('.slick__slide[index="' + index + '"]', t).addClass('slide--current');
+  };
 
   /**
    * Theme function to update slick-dots to use thumbnail classes if available.
@@ -124,7 +132,7 @@
     if (!$('.slick__slide:first .slide__thumbnail', t).length) {
       return;
     }
-    var dotClass = t.data('config').dotClass || 'slick-dots';
+    var dotClass = $(t).data('config').dotClass || 'slick-dots';
     $('.' + dotClass, t)
       .addClass('slick__thumbnail')
       .addClass($('.slick__slide:first .slide__thumbnail--hover', t).length ? 'slick__thumbnail--hover' : '');

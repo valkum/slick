@@ -143,9 +143,7 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'][] = drupal_clean_css_identifier('slick--skin--' . $skin);
   }
 
-  if ($js_settings['centerMode']) {
-    $attributes['class'][] = 'slick--center';
-  }
+  $attributes['class'][] = $js_settings['centerMode'] ? 'slick--center' : 'slick--float';
 
   if (isset($settings['field_type'])) {
     $attributes['class'][] = drupal_clean_css_identifier('slick--' . $settings['field_type']);
@@ -221,6 +219,10 @@ function template_preprocess_slick(&$variables) {
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
     // Do not pass arrows HTML to JSON object, as we process separately above.
+    // Remove empty lazyLoad, or left to default ondemand, to avoid JS error.
+    if (empty($js_data['lazyLoad'])) {
+      unset($js_data['lazyLoad']);
+    }
     unset($js_data['prevArrow'], $js_data['nextArrow']);
     $attributes['data-config'] = drupal_json_encode($js_data);
   }
@@ -306,8 +308,8 @@ function template_preprocess_slick_item(&$variables) {
   if ($settings['current_item'] == 'main') {
     // Add layout/ caption position classes if so configured.
     if (!empty($captions['layout'])) {
-      $layout = drupal_clean_css_identifier($captions['layout']);
-      $attributes['class'][] = 'slide--caption--' . $layout;
+      $layout = drupal_clean_css_identifier('slide--caption--' . $captions['layout']);
+      $attributes['class'][] = $layout;
     }
 
     // Title, caption and overlay, or nested media.
@@ -517,7 +519,7 @@ function template_process_slick_wrapper(&$variables) {
 /**
  * Returns HTML for a slick_wrapper.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
  *   - items: An array of slick items.
  *   - classes: A string containing the classes for the wrapping div.
@@ -590,6 +592,7 @@ function theme_slick_image_lazy($variables) {
       // @todo drop ondemand part, when ondemand is fixed somewhere.
       // Maybe lazyLoadAhead solves it:
       // https://github.com/kenwheeler/slick/issues/466
+      // https://github.com/kenwheeler/slick/issues/358
       if ($variables['lazy'] == 'progressive') {
         $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       }

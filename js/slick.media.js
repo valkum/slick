@@ -3,21 +3,21 @@
  */
 (function ($) {
   "use strict";
+  Drupal.slick = Drupal.slick || {};
 
   Drupal.behaviors.slickMedia = {
     attach: function (context, settings) {
 
-      var $slider = $('.slick', context),
-        player = '.media--switch--player';
+      var player = '.media--switch--player';
 
       $(player, context).once('slick-media', function () {
-        var t = $(this);
+        var t = $(this),
+          $slider = t.closest('.slick');
 
         // Remove SRC attributes to avoid direct autoplay, if mistakenly enabled.
         t.find('iframe').attr('src', '');
 
         t.on('click.media-play', '.media-icon--play', function (e) {
-          e.preventDefault();
           var p = $(this),
             iframe = p.closest(player).find('iframe'),
             url = iframe.data('lazy'),
@@ -45,20 +45,21 @@
 
           // Last, pause the slide, for just in case autoplay is on and
           // pauseOnHover is disabled, and then trigger autoplay.
-          t.closest('.slick').addClass('is-paused').slickPause();
-          t.closest(player).addClass('is-playing').find('iframe').attr('src', url);
+          $slider.addClass('is-paused').slickPause();
 
+          t.closest(player).addClass('is-playing').find('iframe').attr('src', url);
+          return false;
         })
         // Closes the video.
         .on('click.media-close', '.media-icon--close', function (e) {
-          e.preventDefault();
           $(this).closest(player).removeClass('is-playing').find('iframe').attr('src', '');
           $('.is-paused').removeClass('is-paused');
-        })
+          return false;
+        });
+
         // Turns off video if any button clicked.
-        .on('click.media-close-other', '.slick__arrow button, > button', function (e) {
-          e.preventDefault();
-          t.find('.media-icon--close').trigger('click.media-close');
+        $slider.on('click.media-close-other', '.slick__arrow button, > button', function (e) {
+           $slider.find('.media-icon--close').trigger('click.media-close');
         });
       });
     }
@@ -66,7 +67,13 @@
 
   // Turn off current video if the slide changes, e.g. by dragging the slide.
   Drupal.slick.callbacks.onAfterChange = function (slider, index) {
-    $('.media-icon--close', '#' + slider.$slider.attr('id')).trigger('click.media-close');
+    var t = '#' + slider.$slider.attr('id');
+    if ($(t).hasClass('slick--display--main')) {
+      $('.media-icon--close', t).trigger('click.media-close');
+    }
+    // Rebuild slick.load.js onAfterChange, since overriden by this one,
+    // and we only have one onAfterChange.
+    Drupal.slick.setCurrent(t, index);
   };
 
 })(jQuery);

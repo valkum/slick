@@ -10,8 +10,8 @@
   width: 96%;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick-list {
-  margin: -30px;
-  padding: 30px;
+  margin: 0 -20px;
+  padding: 30px 40px;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__slide {
   margin: 0 2px;
@@ -30,10 +30,7 @@
   position: relative;
   width: 100%;
 }
-.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-active {
-  opacity: 1;
-}
-.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   -webkit-transform: scale(1.3);
@@ -45,7 +42,7 @@
   transition-delay: 0s;
   z-index: 3;
 }
-.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center:before, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current:before {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current:before {
   content: '';
   display: block;
   border: 8px solid transparent;
@@ -59,14 +56,20 @@
   width: 0;
   z-index: 1;
 }
-.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-center img, .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current img {
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current img {
   border-color: white;
 }
+.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-active {
+  opacity: 1;
+}
 .slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick-track {
-  padding-bottom: 60px;
-  padding-top: 60px;
+  padding-bottom: 40px;
+  padding-top: 40px;
 }
 .slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick__slide {
+  opacity: 0;
+}
+.slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick-active {
   opacity: 1;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-disabled {
@@ -74,8 +77,8 @@
   opacity: 0;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-prev {
-  left: -30px;
+  left: -20px;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-next {
-  right: -30px;
+  right: -20px;
 }

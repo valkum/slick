@@ -37,6 +37,7 @@
             onOpen: function () {
               $body.addClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
+              $slider.slickPause();
             },
             onLoad: function () {
               if (media.type !== 'image') {
@@ -57,7 +58,12 @@
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
 
-              // Rebuild the slick.
+              // Rebuild the slick, otherwise asnavFor not synched.
+              // @todo figure out a better way than this. unslick removes the
+              // arrows. Change back to slickGoTo() when fixed:
+              // https://github.com/kenwheeler/slick/issues/386
+              // https://github.com/kenwheeler/slick/issues/398
+              // https://github.com/kenwheeler/slick/issues/474
               $slider.unslick();
               $slider.slick($sliderObj.options);
             }
@@ -76,6 +82,7 @@
           t.attr('href', url);
         }
 
+        // @todo fixme, on clicking a colorbox, slick is reset to 0 at v 1.3.7.
         t.colorbox($.extend({}, settings.colorbox, runtimeOptions));
       });
 
