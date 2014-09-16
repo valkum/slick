@@ -1,6 +1,7 @@
 
 Slick 7.x-2.0-dev, 2014-09-16
 -----------------------------
+Issue #2339379 by suldan: Change check_plain into filter_xss_admin.
 Issue #2339379 by suldan: Fixed for Views plugin: Content:title not available.
 
 Slick 7.x-2.0-dev, 2014-09-12

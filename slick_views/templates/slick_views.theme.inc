@@ -63,7 +63,7 @@ function template_preprocess_slick_views(&$variables) {
 
         // Title, if so configured.
         if (isset($row->title) && !empty($row->title)) {
-          $item['caption']['title'] = check_plain($row->title);
+          $item['caption']['title'] = filter_xss_admin($row->title);
         }
 
         // Link, if so configured.
