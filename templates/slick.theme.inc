@@ -566,12 +566,13 @@ function theme_slick_image_lazy($variables) {
       }
     }
 
-    $variables['path'] = image_style_url($variables['style_name'], $variables['path']);
+    $variables['path'] = image_style_url($variables['style_name'], $path);
     $count = $variables['count'];
+    $path = file_create_url($variables['path']);
 
     // Provide SRC attribute if a single image, or lazyLoad disabled.
     if ($count == 1 || !$variables['lazy']) {
-      $attributes['src'] = file_create_url($variables['path']);
+      $attributes['src'] = $path;
     }
     else {
       $attributes['class'][] = 'lazy';
@@ -598,10 +599,10 @@ function theme_slick_image_lazy($variables) {
       }
       elseif ($variables['lazy'] == 'ondemand') {
         // Temp fix for failing image derivatives, negating lazyLoad at all.
-        $attributes['src'] = file_create_url($variables['path']);
+        $attributes['src'] = $path;
       }
 
-      $attributes['data-lazy'] = file_create_url($variables['path']);
+      $attributes['data-lazy'] = $path;
     }
 
     $build .= '<img ' . drupal_attributes($attributes) . ' />';

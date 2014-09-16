@@ -290,11 +290,12 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
         'text',
       ));
 
-      $color_options  = _slick_fields_get_fc_fields($instance, array('text', 'color_field_rgb'));
-      $layout_options = _slick_fields_get_fc_fields($instance, array('list_text'));
-      $image_options  = _slick_fields_get_fc_fields($instance, array('image', 'file'));
-      $title_options  = _slick_fields_get_fc_fields($instance, array('text', 'text_long'));
-      $link_options   = _slick_fields_get_fc_fields($instance, array(
+      $color_options   = _slick_fields_get_fc_fields($instance, array('text', 'color_field_rgb'));
+      $layout_options  = _slick_fields_get_fc_fields($instance, array('list_text'));
+      $image_options   = _slick_fields_get_fc_fields($instance, array('image', 'file'));
+      $overlay_options = _slick_fields_get_fc_fields($instance, array('image', 'file', 'atom_reference'));
+      $title_options   = _slick_fields_get_fc_fields($instance, array('text', 'text_long'));
+      $link_options    = _slick_fields_get_fc_fields($instance, array(
         'text',
         'link_field',
         'url',
@@ -336,7 +337,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
         '#title' => t('Overlay image/video field'),
         '#type' => 'select',
         '#empty_option' => t('None'),
-        '#options' => $image_options,
+        '#options' => $overlay_options,
         '#default_value' => $settings['slide_overlay'],
         '#description' => t('If audio/video, make sure the display is not image display.'),
         '#attributes' => array('class' => array('is-tooltip')),

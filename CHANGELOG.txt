@@ -1,4 +1,15 @@
 
+Slick 7.x-2.0-dev, 2014-09-16
+-----------------------------
+Issue #2339379 by suldan: Fixed for Views plugin: Content:title not available.
+
+Slick 7.x-2.0-dev, 2014-09-12
+-----------------------------
+Updated slick.colorbox.js to avoid unslick(), and use slickGoTo() like before.
+  Tested to work with the latest non-minified version from the master branch.
+
+Added basic Scald atom_reference integration via Field collection overlay.
+
 Slick 7.x-2.0-dev, 2014-09-8
 ----------------------------
 Added new option: waitForAnimate. Only supported by non-minified version now.

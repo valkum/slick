@@ -29,6 +29,7 @@ $thumbnail-horz-spacing: 30px !default;
   .slick__slide {
     margin: 0 2px; // + 6px border = 8px
     opacity: 0;
+    overflow: visible;
     @include backface-visibility(hidden);
     @include transition-transform($transition-transform-2);
 

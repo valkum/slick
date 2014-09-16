@@ -40,36 +40,38 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       if ($settings['slide_image']) {
         if (isset($fc_fields[$settings['slide_image']])) {
           $slide_image = $fc_fields[$settings['slide_image']];
-          $field_type  = $slide_image['#field_type'];
+          $field_type = $slide_image['#field_type'];
 
           // It is un-reasonable to make large image as colorbox, so disable it.
           $settings['colorbox_ready'] = FALSE;
-          $settings['picture_ready']  = TRUE;
+          $settings['picture_ready'] = TRUE;
           switch ($field_type) {
             case 'file':
               // Large background video is not supported, any taker?
-              $file            = $slide_image[0]['file'];
-              $fallback        = $slide_image['#items'][0];
+              $file = $slide_image[0]['file'];
+              $fallback = $slide_image['#items'][0];
               // @todo recheck versions, #image_style vs #style_name
-              $image_style     = isset($file['#style_name']) ? $file['#style_name'] : (isset($file['#image_style']) ? $file['#image_style'] : $image_style);
-              $image['uri']    = isset($file['#path']) && $file['#path'] ? $file['#path'] : $fallback['uri'];
-              $image['width']  = isset($file['#width']) ? $file['#width'] : NULL;
+              $image_style = isset($file['#style_name']) ? $file['#style_name'] : (isset($file['#image_style']) ? $file['#image_style'] : $image_style);
+              $image['uri'] = isset($file['#path']) && $file['#path'] ? $file['#path'] : $fallback['uri'];
+              $image['width'] = isset($file['#width']) ? $file['#width'] : NULL;
               $image['height'] = isset($file['#height']) ? $file['#height'] : NULL;
-              $image['alt']    = isset($file['#alt']) ? $file['#alt'] : $fallback['alt'];
-              $image['title']  = isset($file['#title']) ? $file['#title'] : $fallback['title'];
+              $image['alt'] = isset($file['#alt']) ? $file['#alt'] : $fallback['alt'];
+              $image['title'] = isset($file['#title']) ? $file['#title'] : $fallback['title'];
 
               break;
 
             case 'image':
-              $file            = $slide_image[0]['#item'];
-              $image_style     = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
-              $image['uri']    = $file['uri'];
-              $image['width']  = $file['width'];
+              $file = $slide_image[0]['#item'];
+              $image_style = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
+              $image['uri'] = $file['uri'];
+              $image['width'] = $file['width'];
               $image['height'] = $file['height'];
-              $image['alt']    = $file['alt'];
-              $image['title']  = $file['title'];
+              $image['alt'] = $file['alt'];
+              $image['title'] = $file['title'];
 
               break;
+
+            // @todo scald atom_reference
           }
 
           // Provide thumbnail pagers if so configured.
@@ -89,10 +91,10 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           }
 
           if (!$thumb_nav) {
-            $settings['type']         = $field_type;
+            $settings['type'] = $field_type;
             $settings['media_height'] = $image['height'];
-            $settings['media_width']  = $image['width'];
-            $settings['image_style']  = $image_style;
+            $settings['media_width'] = $image['width'];
+            $settings['image_style'] = $image_style;
             // Image with picture and colorbox supports.
             $item['slide'] = _slick_fields_get_picture($settings, $image, $key);
 
@@ -125,44 +127,48 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
         // Overlay image/video.
         if ($settings['slide_overlay']) {
           if (isset($fc_fields[$settings['slide_overlay']])) {
-            $settings['has_overlay']    = TRUE;
-            $settings['is_media']       = FALSE;
+            $settings['has_overlay'] = TRUE;
+            $settings['is_media'] = FALSE;
             $settings['colorbox_ready'] = TRUE;
-            $settings['picture_ready']  = FALSE;
-            $slide_overlay              = $fc_fields[$settings['slide_overlay']];
-            $field_type                 = $slide_overlay['#field_type'];
+            $settings['picture_ready'] = FALSE;
+            $slide_overlay = $fc_fields[$settings['slide_overlay']];
+            $field_type = $slide_overlay['#field_type'];
+            $formatter = $slide_overlay['#formatter'];
 
+            // Media is a flag to determine that we have iframe to render.
             $media = '';
+            // Media URL is expected by colorbox if so configured.
+            $media_url = '';
             switch ($field_type) {
               case 'image':
-                $file              = $slide_overlay[0]['#item'];
-                $overlay_style     = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
-                $overlay['uri']    = $file['uri'];
-                $overlay['width']  = $file['width'];
+                $file = $slide_overlay[0]['#item'];
+                $overlay_style = isset($file['#image_style']) ? $file['#image_style'] : $image_style;
+                $overlay['uri'] = $file['uri'];
+                $overlay['width'] = $file['width'];
                 $overlay['height'] = $file['height'];
-                $overlay['alt']    = $file['alt'];
-                $overlay['title']  = $file['title'];
-                $settings['type']  = 'image';
+                $overlay['alt'] = $file['alt'];
+                $overlay['title'] = $file['title'];
+                $settings['type'] = 'image';
 
                 break;
 
               case 'file':
-                $fid        = $slide_overlay['#items'][0]['fid'];
-                $file       = $slide_overlay['#items'][0];
-                $item_type  = $file['type'];
+                $fid = $slide_overlay['#items'][0]['fid'];
+                $file = $slide_overlay['#items'][0];
+                $item_type = $file['type'];
                 $file_style = $slide_overlay[0]['file'];
 
                 // Make sure view mode to enable image for the overlay, and they
                 // should come first before actual video.
-                $overlay_style     = isset($file_style['#style_name']) ? $file_style['#style_name'] : $image_style;
-                $overlay['uri']    = $file['uri'];
-                $overlay['width']  = isset($file_style['#width']) ? $file_style['#width'] : NULL;
+                $overlay_style = isset($file_style['#style_name']) ? $file_style['#style_name'] : $image_style;
+                $overlay['uri'] = $file['uri'];
+                $overlay['width'] = isset($file_style['#width']) ? $file_style['#width'] : NULL;
                 $overlay['height'] = isset($file_style['#height']) ? $file_style['#height'] : NULL;
-                $overlay['alt']    = $file['alt'];
-                $overlay['title']  = $file['title'];
+                $overlay['alt'] = $file['alt'];
+                $overlay['title'] = $file['title'];
 
                 $settings['media_height'] = $overlay['height'];
-                $settings['media_width']  = $overlay['width'];
+                $settings['media_width'] = $overlay['width'];
 
                 // Make object for file_view_file().
                 $file = (object) $file;
@@ -172,14 +178,14 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
                   $file->type = file_get_type($file);
                 }
 
-                $media  = file_view_file($file, $view_mode, $langcode);
+                $media = file_view_file($file, $view_mode, $langcode);
                 $scheme = file_uri_scheme($uri);
 
-                $settings['scheme']         = $scheme;
-                $settings['type']           = $item_type;
-                $settings['has_media']      = TRUE;
-                $settings['media_uri']      = $uri;
-                $settings['media_fid']      = $file->fid;
+                $settings['scheme'] = $scheme;
+                $settings['type'] = $item_type;
+                $settings['has_media'] = TRUE;
+                $settings['media_uri'] = $uri;
+                $settings['media_fid'] = $file->fid;
                 $settings['media_filename'] = $file->filename;
 
                 // Get audio/video thumbnail uri.
@@ -187,35 +193,126 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
                   $overlay['uri'] = $media_image_uri;
                 }
 
-                break;
-            }
+                // If has Media fields by media.module for sure.
+                if ($media && isset($media['#uri'])) {
+                  $wrapper = file_stream_wrapper_get_instance_by_uri($media['#uri']);
+                  $settings['is_media'] = TRUE;
+                  if (isset($media['#options'])) {
+                    $settings['media_height'] = $media['#options']['height'] ?: 640;
+                    $settings['media_width'] = $media['#options']['width'] ?: 360;
+                  }
 
-            // If has Media fields for sure.
-            $media_url = '';
-            if ($media && isset($media['#uri'])) {
-              $wrapper = file_stream_wrapper_get_instance_by_uri($media['#uri']);
-              $settings['is_media'] = TRUE;
-              if (isset($media['#options'])) {
-                $settings['media_height'] = $media['#options']['height'] ?: 640;
-                $settings['media_width']  = $media['#options']['width'] ?: 360;
-              }
-
-              $rendered_media = render($media);
-              $safe = TRUE;
-              if ($settings['scheme'] == 'soundcloud') {
-                $safe = FALSE;
-                $soundcloud_url = $wrapper->interpolateUrl();
-                // Prevent fatal error for no internet connection.
-                if ($embed_data = $wrapper->getOEmbed($soundcloud_url)) {
-                  $settings['soundcloud'] = TRUE;
+                  $rendered_media = render($media);
                   $safe = TRUE;
-                }
-              }
+                  if ($settings['scheme'] == 'soundcloud') {
+                    $safe = FALSE;
+                    $soundcloud_url = $wrapper->interpolateUrl();
+                    // Prevent fatal error for no internet connection.
+                    if ($embed_data = $wrapper->getOEmbed($soundcloud_url)) {
+                      $settings['soundcloud'] = TRUE;
+                      $safe = TRUE;
+                    }
+                  }
 
-              if ($safe) {
-                $media_url = slick_get_media_url($rendered_media);
-                $settings['url'] = $media_url;
-              }
+                  if ($safe) {
+                    $media_url = slick_get_media_url($rendered_media);
+                    $settings['url'] = $media_url;
+                  }
+                }
+
+                break;
+
+              case 'atom_reference':
+                $sid = $slide_overlay['#items'][0]['sid'];
+                $atom = scald_atom_load($sid);
+                $config = scald_context_config_load($formatter);
+                $base_id = $atom->base_id;
+                $langcode = isset($atom->language) ? $atom->language : $langcode;
+
+                $overlay['uri'] = $atom->file_source;
+                $overlay_style = $image_style;
+
+                if ($transcoder = $config->transcoder[$atom->type]['*']) {
+                  if ($transcoder != 'passthrough') {
+                    if (preg_match('/^style-(.*)$/', $transcoder, $match)) {
+                      $overlay_style = $match[1];
+                    }
+                  }
+                }
+
+                $settings['scheme'] = $atom->provider;
+                $settings['media_id'] = $base_id;
+                $providers = array(
+                  'scald_youtube',
+                  'scald_vimeo',
+                  'scald_dailymotion',
+                  'video',
+                );
+                if (in_array($atom->provider, $providers)) {
+                  $settings['has_media'] = TRUE;
+                  $settings['is_media'] = TRUE;
+                  // We do have iframe, set it to TRUE.
+                  $media = TRUE;
+                  if (strpos($atom->provider, 'scald_') !== FALSE) {
+                    $settings['scheme'] = substr($atom->provider, -6);
+                  }
+                }
+
+                switch ($atom->provider) {
+                  case 'scald_youtube':
+                    $settings['url'] = '//www.youtube.com/embed/' . $base_id;
+                    break;
+
+                  case 'scald_vimeo':
+                    $settings['url'] = '//player.vimeo.com/video/' . $base_id;
+                    break;
+
+                  case 'scald_dailymotion':
+                    $settings['url'] = '//www.dailymotion.com/embed/video/' . $base_id;
+                    break;
+
+                  case 'video':
+                    $settings['url'] = $atom->file_source;
+                    break;
+
+                  default:
+                    break;
+                }
+
+                $media_url = $settings['url'];
+                $settings['media_fid'] = $sid;
+                $settings['media_filename'] = check_plain($atom->title);
+
+                $overlay_height = '';
+                $overlay_width = '';
+
+                if (isset($atom->scald_thumbnail[$langcode][0]['height'])) {
+                  $overlay_height = $atom->scald_thumbnail[$langcode][0]['height'];
+                }
+                elseif (isset($atom->data['video_height'])) {
+                  $overlay_height = $atom->data['video_height'];
+                }
+
+                if (isset($atom->scald_thumbnail[$langcode][0]['width'])) {
+                  $overlay_width = $atom->scald_thumbnail[$langcode][0]['width'];
+                }
+                elseif (isset($atom->data['video_width'])) {
+                  $overlay_width = $atom->data['video_width'];
+                }
+
+                $dimensions = array(
+                  'width' => $overlay_width,
+                  'height' => $overlay_height,
+                );
+
+                image_style_transform_dimensions($overlay_style, $dimensions);
+
+                $overlay['height'] = $settings['media_height'] = $dimensions['height'];
+                $overlay['width'] = $settings['media_width'] = $dimensions['width'];
+
+                $settings['type'] = $atom->type == 'slick' ? 'image' : $atom->type;
+
+                break;
             }
 
             $settings['image_style'] = $overlay_style;
@@ -274,8 +371,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
         if (isset($settings['color_field']) && $settings['color_field']) {
           if (isset($fc_fields[$settings['color_field']])) {
             $color_field = $fc_fields[$settings['color_field']];
-            $field_type  = $color_field['#field_type'];
-            $color       = '';
+            $field_type = $color_field['#field_type'];
+            $color = '';
 
             switch ($field_type) {
               case 'text':
@@ -289,10 +386,10 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
             if ($color) {
               $item_id = $settings['attributes']['id'];
-              $dark  = slick_color_brightness($color, -42);
+              $dark = slick_color_brightness($color, -42);
               $light = slick_color_brightness($color, 42);
               $hover = slick_color_brightness($color, 62);
-              $rgb   = slick_hex2rgb($color);
+              $rgb = slick_hex2rgb($color);
 
               $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
               $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";

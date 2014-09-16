@@ -144,7 +144,10 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
           $link_options[$field] = $handler->ui_name();
           $title_options[$field] = $handler->ui_name();
           break;
-
+      }
+      // Content: title is not really a field.
+      if (!$title_options && $handler->field == 'title') {
+        $title_options[$field] = $handler->ui_name();
       }
 
       // Caption can be anything to get custom works going.
@@ -193,7 +196,6 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#empty_option' => t('- None -'),
       '#options' => $image_options,
       '#default_value' => $settings['slide_thumbnail'],
-      // If provided, dots pager will be replaced with thumbnails. Leave empty to use dots instead. Make sure your Optionset keeps "dots" option enabled
       '#description' => t('Oly needed if you provide <em>Option set thumbnail</em> to have thumbnail navigation. Make sure the size is smaller than the main image. It may be the same field as the main image, only different instance/ variant dedicated for thumbnails.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );

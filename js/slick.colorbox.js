@@ -22,7 +22,8 @@
         }
       }
 
-      $('.slick__slide:not(.slick-cloned) .slick__colorbox', context).once('slick-colorbox', function () {
+      // Including slick-cloned.
+      $('.slick__slide .slick__colorbox', context).once('slick-colorbox', function () {
         var t = $(this),
           url = t.attr('href'),
           id = t.closest('.slick').attr('id'),
@@ -31,6 +32,7 @@
           $slider = t.closest('.slick', context),
           $sliderObj = $slider.getSlick() || null,
           isMedia = media.type !== 'image' ? true : false,
+          curr,
           runtimeOptions = {
             iframe: isMedia,
             rel: media.rel || null,
@@ -43,6 +45,14 @@
               if (media.type !== 'image') {
                 $body.data('mediaHeight', media.height);
               }
+
+              // @todo partially not working if slides contain mixed media, and
+              // colorbox is closed near the video, and slidesToShow > 1.
+              curr = parseInt(t.closest('.slick__slide').attr('index'));
+              if ($slider.next('.slick').length) {
+                $slider.next('.slick').slickGoTo(curr);
+              }
+              $slider.slickGoTo(curr);
             },
             onCleanup: function () {
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
@@ -57,15 +67,6 @@
               Drupal.slickColorbox.jumpScroll('#' + id, 120);
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
-
-              // Rebuild the slick, otherwise asnavFor not synched.
-              // @todo figure out a better way than this. unslick removes the
-              // arrows. Change back to slickGoTo() when fixed:
-              // https://github.com/kenwheeler/slick/issues/386
-              // https://github.com/kenwheeler/slick/issues/398
-              // https://github.com/kenwheeler/slick/issues/474
-              $slider.unslick();
-              $slider.slick($sliderObj.options);
             }
           };
 
@@ -82,7 +83,6 @@
           t.attr('href', url);
         }
 
-        // @todo fixme, on clicking a colorbox, slick is reset to 0 at v 1.3.7.
         t.colorbox($.extend({}, settings.colorbox, runtimeOptions));
       });
 
