@@ -1,6 +1,11 @@
 
+Slick 7.x-2.0-dev, 2014-09-23
+-----------------------------
+Fixed for Soundcloud fatal error for when no internet connection available.
+
 Slick 7.x-2.0-dev, 2014-09-16
 -----------------------------
+Updated slick.load.js to re-cache arrows to copy into responsives.
 Issue #2339379 by suldan: Change check_plain into filter_xss_admin.
 Issue #2339379 by suldan: Fixed for Views plugin: Content:title not available.
 

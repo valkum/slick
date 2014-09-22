@@ -93,6 +93,9 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
     if (isset($config['arrows']) && !$config['arrows']) {
       unset($config['prevArrow'], $config['nextArrow'], $config['appendArrows']);
     }
+    if (empty($config['dots'])) {
+      unset($config['dotsClass'], $config['appendDots']);
+    }
   }
 
   // Clean up responsive options if similar to main defaults. JS takes care of
@@ -126,6 +129,12 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
         }
         if (empty($cleaned[$key]['settings']['centerMode'])) {
           unset($cleaned[$key]['settings']['centerPadding']);
+        }
+        if (empty($cleaned[$key]['settings']['dots'])) {
+          unset(
+            $cleaned[$key]['settings']['dotsClass'],
+            $cleaned[$key]['settings']['appendDots']
+          );
         }
       }
 
@@ -288,7 +297,7 @@ function _slick_easing_options() {
 function slick_get_media_url($rendered_media) {
   $url = '';
 
-  if (!empty($rendered_media)) {
+  if (!empty($rendered_media) && strpos($rendered_media, 'src') !== FALSE) {
     $dom = new DOMDocument();
     libxml_use_internal_errors(TRUE);
     $dom->loadHTML($rendered_media);
@@ -431,6 +440,15 @@ function slick_get_options() {
     'type' => 'textfield',
     'cast' => 'string',
     'default' => 'slick-dots',
+    'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
+  );
+
+  $options['appendDots'] = array(
+    'title' => t('appendDots'),
+    'description' => t('Change where the navigation dots are attached (Selector, htmlString, Array, Element, jQuery object). If you change this, make sure to provide its relevant markup.'),
+    'type' => 'textfield',
+    'cast' => 'string',
+    'default' => '$(element)',
     'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
   );
 
@@ -619,6 +637,7 @@ function slick_get_responsive_options($count = 0) {
       $slick_options['nextArrow'],
       $slick_options['appendArrows'],
       $slick_options['dotsClass'],
+      $slick_options['appendDots'],
       $slick_options['rtl']
     );
     foreach ($slick_options as $name => $values) {

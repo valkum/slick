@@ -9,7 +9,6 @@
  *     image/video/audio overlay and captions.
  * - $settings: A cherry-picked settings that mostly defines the slide HTML or
  *     layout, and none of JS settings/options which are defined at data-config.
- * - $thumbnails: The array of thumbnails if available.
  * - $attributes: The array of attributes to hold classes, id and optional
  *     data-config containing JSON object aka JS settings the Slick expects to
  *     override default options. We don't store these JS settings in the normal

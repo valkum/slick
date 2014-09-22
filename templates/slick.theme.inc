@@ -20,7 +20,7 @@ function template_preprocess_slick(&$variables) {
   $items   = $element['#items'];
   $count   = count($items);
 
-  // HTML or related layout settings, none of JS settings, except the new
+  // HTML or layout related settings, none of JS settings, except the new
   // custom mousewheel.
   $settings  = array(
     'optionset'            => '',
@@ -78,6 +78,7 @@ function template_preprocess_slick(&$variables) {
   $settings['has_arrow_down'] = $settings['has_arrow_down'] ? TRUE : isset($goodies['arrow-down']) && $goodies['arrow-down'];
   $settings['has_pattern'] = $settings['has_pattern'] ? TRUE : isset($goodies['pattern']) && $goodies['pattern'];
 
+  // Only add asNavFor if we do have thumbnail optionset.
   if (isset($settings['optionset_thumbnail']) && $settings['optionset_thumbnail']) {
     if ($settings['current_display'] == 'main') {
       if (isset($settings['asnavfor_main']) && $settings['asnavfor_main']) {
@@ -197,7 +198,7 @@ function template_preprocess_slick(&$variables) {
   // New 1.3.7 arrows options brought a complication, since no option to place
   // them by now. Arrows may be unset and empty if arrows option is disabled,
   // so fallback to the default in code.
-  // Limit sanitization with button support.
+  // Limit sanitization with button and a few reasonable selectors.
   $allowed_tags = array('a', 'em', 'strong', 'button', 'p', 'div', 'i', 'span');
   if ($settings['arrows'] = $js_settings['arrows']) {
     $settings['prev_arrow'] = isset($js_settings['prevArrow'])
@@ -208,6 +209,8 @@ function template_preprocess_slick(&$variables) {
       _slick_optionset_defaults('nextArrow', 'settings');
 
     $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');
+
+    // This is the only default supported appendArrows selector.
     if ($js_settings['appendArrows'] == $default_append_arrows) {
       $js_settings['appendArrows'] = '.slick__arrow';
     }
@@ -218,11 +221,13 @@ function template_preprocess_slick(&$variables) {
   // Add the configuration as JSON object into slick container.
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
-    // Do not pass arrows HTML to JSON object, as we process separately above.
+
     // Remove empty lazyLoad, or left to default ondemand, to avoid JS error.
     if (empty($js_data['lazyLoad'])) {
       unset($js_data['lazyLoad']);
     }
+
+    // Do not pass arrows HTML to JSON object, as we process separately above.
     unset($js_data['prevArrow'], $js_data['nextArrow']);
     $attributes['data-config'] = drupal_json_encode($js_data);
   }
@@ -256,6 +261,8 @@ function template_preprocess_slick(&$variables) {
   // attached instead. Also D8 recommended.
   // @see slick_fields, or slick_views for the attached ones.
   // This is here to load basic libraries if you don't use the sub-modules.
+  // @todo drop this babysitting. This won't work at D8 anyway.
+  // If you rely on this line, make sure to change your way right away.
   if (!isset($element['#attached'])) {
     slick_add($settings);
   }
@@ -293,11 +300,10 @@ function template_preprocess_slick_item(&$variables) {
   // Useful to add custom text color based on delta.
   $attributes['class'][] = 'slide--' . $element['#delta'];
 
-  // Main image/background. Media has type: image, audio, video, etc.
+  // Main image/background. Media module has type: image, audio, video, etc.
   // as opposed to field_type.
   if (isset($settings['type'])) {
-    $type = drupal_clean_css_identifier($settings['type']);
-    $attributes['class'][] = 'slide--' . $type;
+    $attributes['class'][] = drupal_clean_css_identifier('slide--' . $settings['type']);
   }
 
   // @todo disable for thumb.
@@ -343,8 +349,8 @@ function template_preprocess_slick_item(&$variables) {
     $variables['caption'] = $stage;
 
     // We split image from captions with a wrapper if we do have captions, and
-    // main image. !empty($stage) &&
-    if (!empty($item)) {
+    // main image. This allows more complex slide layout.
+    if (!empty($stage) && !empty($item)) {
       $variables['item_prefix'] = '<div class="slide__media">';
       $variables['item_suffix'] = '</div>';
     }
@@ -446,7 +452,7 @@ function template_preprocess_slick_media(&$variables) {
         if ($settings['media_switch'] != 'colorbox-switch') {
           $attributes['class'][] = 'media--player';
           $attributes['class'][] = 'media--switch--player';
-          $attributes['class'][] = 'media--' . $scheme . '-player';
+          $attributes['class'][] = drupal_clean_css_identifier('media--' . $scheme . '-player');
         }
 
         // Gets consistent with colorbox to share JS manipulation.
@@ -673,7 +679,7 @@ function theme_slick_image_formatter_lazy($variables) {
   $image['delta'] = $variables['delta'];
   $image['count'] = isset($variables['count']) ? $variables['count'] : 0;
 
-  // Optional lazyLoad.
+  // Optional lazyLoad only reasonable if we do have slides.
   $image['lazy'] = FALSE;
   if ($image['count'] > 1) {
     $image['lazy'] = $variables['options']['lazy'];

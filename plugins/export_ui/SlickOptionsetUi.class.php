@@ -281,7 +281,7 @@ class SlickOptionsetUi extends ctools_export_ui {
                         case 'autoplaySpeed':
                           $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][autoplay]"]' => array('checked' => TRUE)));
                           break;
-
+                        // @todo drop, since only one appendArrows exists.
                         case 'appendArrows':
                           $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][arrows]"]' => array('checked' => TRUE)));
                           break;

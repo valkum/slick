@@ -48,8 +48,10 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
     if ($media && isset($media['#uri'])) {
       $settings['is_media'] = TRUE;
-      $settings['media_height']   = $media['#options']['height'] ?: 640;
-      $settings['media_width']    = $media['#options']['width'] ?: 360;
+      if (isset($media['#options'])) {
+        $settings['media_height']   = $media['#options']['height'] ?: 640;
+        $settings['media_width']    = $media['#options']['width'] ?: 360;
+      }
       $settings['media_uri']      = $media['#uri'];
       $settings['media_fid']      = $file->fid;
       $settings['media_filename'] = $file->filename;
@@ -105,8 +107,10 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
       // Link, if so configured.
       if (!empty($settings['slide_link'])) {
-        $link = field_view_field('file', $file, $settings['slide_link'], $view_mode, $langcode);
-        $item['caption']['link'] = $link;
+        if ($field_link = field_get_items('file', $file, $settings['slide_link'], $langcode)) {
+          $link = field_view_field('file', $file, $settings['slide_link'], $view_mode, $langcode);
+          $item['caption']['link'] = $link;
+        }
       }
 
       // Layout, if so configured.

@@ -19,14 +19,22 @@
           slides = '.slick__slide:not(.slick-cloned)',
           index = t.closest(slides).index(),
           total = $(slides, that).length,
+          $prevArrow = $('.slick__arrow .slick-prev', that),
+          $nextArrow = $('.slick__arrow .slick-next', that),
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
-          globals = Drupal.slick.globals(that, merged);
+          globals = Drupal.slick.globals(that, merged),
+          toShow = parseInt(configs.slidesToShow);
 
         // @todo drop if any fix with total < configs.slidesToShow.
         // @see https://github.com/kenwheeler/slick/issues/497
-        if (total < configs.slidesToShow) {
-          // Leave odd, otherwise make it odd to work properly.
-          configs.slidesToShow = total %2 != 0 ? total : total - 1;
+        if (t.hasClass('slick--display--thumbnail')) {
+          if (total < toShow) {
+            // Leave odd, otherwise make it odd to work properly.
+            configs.slidesToShow = total %2 != 0 ? total : total - 1;
+          }
+          else if (total == toShow) {
+            configs.slidesToShow = total - 1;
+          }
         }
 
         // Populate defaults + globals into breakpoints.
@@ -45,8 +53,8 @@
         // @see https://github.com/kenwheeler/slick/issues/480
         $(window).bind('resize', function () {
           var a = $('.slick__arrow', that);
-          if (a.length) {
-            a.append($('.slick__arrow .slick-prev', that)).append($('.slick__arrow .slick-next', that));
+          if (a.length && $prevArrow.length) {
+            a.append($prevArrow).append($nextArrow);
           }
         });
 
@@ -87,7 +95,7 @@
       return methods;
     }
   };
-  
+
   /**
    * Declare global options explicitly to copy into responsives.
    */
@@ -114,7 +122,7 @@
     };
     return globals;
   };
-  
+
   /**
    * Without centerMode, .slick-active can be as many as visible slides, hence
    * added a specific class.
