@@ -8,7 +8,7 @@
 /**
  * Implements hook_views_plugins().
  *
- * This function annnounces the style plugin for slick views.
+ * This function announces the style plugin for slick views.
  */
 function slick_views_views_plugins() {
   return array(

@@ -44,7 +44,6 @@ function template_preprocess_slick_views(&$variables) {
           // @todo refine for asNavFor.
           if (isset($row->thumbnail) && !empty($row->thumbnail)) {
             $settings['thumbnail_style'] = TRUE;
-            // $item['thumbnail'] = $row->thumbnail;
             $thumb['slide'] = $row->thumbnail;
           }
         }

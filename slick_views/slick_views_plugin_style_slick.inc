@@ -145,6 +145,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
           $title_options[$field] = $handler->ui_name();
           break;
       }
+
       // Content: title is not really a field.
       if (!$title_options && $handler->field == 'title') {
         $title_options[$field] = $handler->ui_name();
@@ -385,6 +386,8 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
         }
       }
 
+      // @todo refactor to use render array and use theme_slick() instead to
+      // make nice with D8 upgrade.
       $output .= theme($this->theme_functions(),
         array(
           'view' => $this->view,

@@ -74,6 +74,7 @@ Tips:
 - Use the Slick API hook_slick_skins_info() to add your own skins.
 - Use the provided Wrapper class option to have a unique context as needed,
   useful to build asNavFor aka thumbnail navigation.
+- If having JS error with jQuery v1.7, you may need to upgrade it to v1.8.
 
 Available skins:
 ---------------

@@ -600,6 +600,8 @@ function theme_slick_image_lazy($variables) {
       // Maybe lazyLoadAhead solves it:
       // https://github.com/kenwheeler/slick/issues/466
       // https://github.com/kenwheeler/slick/issues/358
+      // @todo check if this fixes it:
+      // https://github.com/kenwheeler/slick/pull/540
       if ($variables['lazy'] == 'progressive') {
         $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       }

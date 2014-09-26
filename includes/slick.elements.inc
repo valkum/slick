@@ -250,7 +250,6 @@ function _slick_easing_options() {
 
   if (!isset($easings)) {
     $easings = array(
-      '' => 'None',
       'linear' => 'Linear',
       'swing' => 'Swing',
       'easeInQuad' => 'easeInQuad',
@@ -313,285 +312,298 @@ function slick_get_media_url($rendered_media) {
  * @see http://kenwheeler.github.io/slick
  */
 function slick_get_options() {
-  $options = array();
+  $options = &drupal_static(__FUNCTION__, NULL);
 
-  $options['asNavFor'] = array(
-    'title' => t('asNavFor target'),
-    'description' => t('Set the slider to be the navigation of other slider (Class or ID Name). Use selector identifier ("." or "#") accordingly. If class, use the provided Wrapper class under General as needed, e.g.: if the main display has class "slick--for", and the thumbnail navigation "slick--nav", place the opposite here as its target. Or use existing classes based on optionsets, e.g.: .slick--optionset--main, or .slick--optionset--main-nav. Overriden per field formatter.'),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '',
-  );
+  if (!isset($options)) {
+    $options = array();
 
-  $options['accessibility'] = array(
-    'title' => t('Accessibility'),
-    'description' => t('Enables tabbing and arrow key navigation'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['asNavFor'] = array(
+      'title' => t('asNavFor target'),
+      'description' => t('Set the slider to be the navigation of other slider (Class or ID Name). Use selector identifier ("." or "#") accordingly. If class, use the provided Wrapper class under General as needed, e.g.: if the main display has class "slick--for", and the thumbnail navigation "slick--nav", place the opposite here as its target. Or use existing classes based on optionsets, e.g.: .slick--optionset--main, or .slick--optionset--main-nav. Overriden per field formatter.'),
+        'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '',
+    );
 
-  $options['autoplay'] = array(
-    'title' => t('Autoplay'),
-    'description' => t('Enables Autoplay'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['accessibility'] = array(
+      'title' => t('Accessibility'),
+      'description' => t('Enables tabbing and arrow key navigation'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['pauseOnHover'] = array(
-    'title' => t('Pause on hover'),
-    'description' => t('Pause Autoplay On Hover'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
-  );
+    $options['autoplay'] = array(
+      'title' => t('Autoplay'),
+      'description' => t('Enables Autoplay'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['pauseOnDotsHover'] = array(
-    'title' => t('Pause on dots hover'),
-    'description' => t('Pauses autoplay when a dot is hovered'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
-  );
+    $options['autoplaySpeed'] = array(
+      'title' => t('Autoplay speed'),
+      'description' => t('Autoplay Speed in milliseconds'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 3000,
+      'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
+    );
 
-  $options['autoplaySpeed'] = array(
-    'title' => t('Autoplay speed'),
-    'description' => t('Autoplay Speed in milliseconds'),
-    'type' => 'textfield',
-    'cast' => 'int',
-    'default' => 3000,
-    'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
-  );
+    $options['adaptiveHeight'] = array(
+      'title' => t('Adaptive height'),
+      'description' => t('Enables adaptive height for single slide horizontal carousels.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['arrows'] = array(
-    'title' => t('Arrows'),
-    'description' => t('Show prev/next arrows'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['pauseOnHover'] = array(
+      'title' => t('Pause on hover'),
+      'description' => t('Pause Autoplay On Hover'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+      'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
+    );
 
-  $options['appendArrows'] = array(
-    'title' => t('Append arrows'),
-    'description' => t("Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object). Leave it to default to wrap it within .slick__arrow container, otherwise change its markups accordingly."),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '$(element)',
-    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
-  );
+    $options['pauseOnDotsHover'] = array(
+      'title' => t('Pause on dots hover'),
+      'description' => t('Pauses autoplay when a dot is hovered'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+      'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
+    );
 
-  $options['prevArrow'] = array(
-    'title' => t('Previous arrow'),
-    'description' => t("Customize the previous arrow markups. Make sure to keep the expected class."),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '<button type="button" data-role="none" class="slick-prev">Previous</button>',
-    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
-  );
+    $options['arrows'] = array(
+      'title' => t('Arrows'),
+      'description' => t('Show prev/next arrows'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['nextArrow'] = array(
-    'title' => t('Next arrow'),
-    'description' => t("Customize the next arrow markups. Make sure to keep the expected class"),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '<button type="button" data-role="none" class="slick-next">Next</button>',
-    'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
-  );
+    $options['appendArrows'] = array(
+      'title' => t('Append arrows'),
+      'description' => t("Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object). Leave it to default to wrap it within .slick__arrow container, otherwise change its markups accordingly."),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '$(element)',
+      'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
+    );
 
-  $options['centerMode'] = array(
-    'title' => t('Center mode'),
-    'description' => t('Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts.'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['prevArrow'] = array(
+      'title' => t('Previous arrow'),
+      'description' => t("Customize the previous arrow markups. Make sure to keep the expected class."),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '<button type="button" data-role="none" class="slick-prev">Previous</button>',
+      'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
+    );
 
-  $options['centerPadding'] = array(
-    'title' => t('Center padding'),
-    'description' => t('Side padding when in center mode (px or %)'),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '50px',
-    'states' => array('visible' => array(':input[name*="options[settings][centerMode]"]' => array('checked' => TRUE))),
-  );
+    $options['nextArrow'] = array(
+      'title' => t('Next arrow'),
+      'description' => t("Customize the next arrow markups. Make sure to keep the expected class"),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '<button type="button" data-role="none" class="slick-next">Next</button>',
+      'states' => array('visible' => array(':input[name*="options[settings][arrows]"]' => array('checked' => TRUE))),
+    );
 
-  $options['cssEase'] = array(
-    'title' => t('cssEase'),
-    'description' => t('CSS3 Animation Easing'),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => 'ease',
-  );
+    $options['centerMode'] = array(
+      'title' => t('Center mode'),
+      'description' => t('Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['dots'] = array(
-    'title' => t('Dots'),
-    'description' => t('Show dot indicators'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['centerPadding'] = array(
+      'title' => t('Center padding'),
+      'description' => t('Side padding when in center mode (px or %)'),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '50px',
+      'states' => array('visible' => array(':input[name*="options[settings][centerMode]"]' => array('checked' => TRUE))),
+    );
 
-  $options['dotsClass'] = array(
-    'title' => t('Dot class'),
-    'description' => t('Class for slide indicator dots container. Do not prefix with dot. If you change this, edit its CSS accordingly.'),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => 'slick-dots',
-    'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
-  );
+    $options['cssEase'] = array(
+      'title' => t('cssEase'),
+      'description' => t('CSS3 Animation Easing'),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => 'ease',
+    );
 
-  $options['appendDots'] = array(
-    'title' => t('appendDots'),
-    'description' => t('Change where the navigation dots are attached (Selector, htmlString, Array, Element, jQuery object). If you change this, make sure to provide its relevant markup.'),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => '$(element)',
-    'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
-  );
+    $options['dots'] = array(
+      'title' => t('Dots'),
+      'description' => t('Show dot indicators'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['draggable'] = array(
-    'title' => t('Draggable'),
-    'description' => t('Enable mouse dragging'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['dotsClass'] = array(
+      'title' => t('Dot class'),
+      'description' => t('Class for slide indicator dots container. Do not prefix with dot. If you change this, edit its CSS accordingly.'),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => 'slick-dots',
+      'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
+    );
 
-  $options['easing'] = array(
-    'title' => t('Easing'),
-    'description' => t('Add easing for jQuery animate. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
-    'type' => 'select',
-    'cast' => 'string',
-    'default' => 'linear',
-    'options' => _slick_easing_options(),
-  );
+    $options['appendDots'] = array(
+      'title' => t('appendDots'),
+      'description' => t('Change where the navigation dots are attached (Selector, htmlString, Array, Element, jQuery object). If you change this, make sure to provide its relevant markup.'),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => '$(element)',
+      'states' => array('visible' => array(':input[name*="options[settings][dots]"]' => array('checked' => TRUE))),
+    );
 
-  $options['fade'] = array(
-    'title' => t('Fade'),
-    'description' => t('Enable fade'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['draggable'] = array(
+      'title' => t('Draggable'),
+      'description' => t('Enable mouse dragging'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['focusOnSelect'] = array(
-    'title' => t('Focus on select'),
-    'description' => t('Enable focus on selected element (click)'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['easing'] = array(
+      'title' => t('Easing'),
+      'description' => t('Add easing for jQuery animate. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
+      'type' => 'select',
+      'cast' => 'string',
+      'default' => 'linear',
+      'options' => _slick_easing_options(),
+      'empty_option' => t('- None -'),
+    );
 
-  $options['infinite'] = array(
-    'title' => t('Infinite'),
-    'description' => t('Infinite loop sliding'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['fade'] = array(
+      'title' => t('Fade'),
+      'description' => t('Enable fade'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['lazyLoad'] = array(
-    'title' => t('Lazy load'),
-    'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
-    'type' => 'select',
-    'cast' => 'string',
-    'default' => 'ondemand',
-    'options' => drupal_map_assoc(array('ondemand', 'progressive')),
-    'empty_option' => t('- None -'),
-  );
+    $options['focusOnSelect'] = array(
+      'title' => t('Focus on select'),
+      'description' => t('Enable focus on selected element (click)'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['rtl'] = array(
-    'title' => t('RTL'),
-    'description' => t("Change the slider's direction to become right-to-left"),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['infinite'] = array(
+      'title' => t('Infinite'),
+      'description' => t('Infinite loop sliding'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['slide'] = array(
-    'title' => t('Slide element'),
-    'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers."),
-    'type' => 'textfield',
-    'cast' => 'string',
-    'default' => 'div',
-  );
+    $options['lazyLoad'] = array(
+      'title' => t('Lazy load'),
+      'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to   generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
+      'type' => 'select',
+      'cast' => 'string',
+      'default' => 'ondemand',
+      'options' => drupal_map_assoc(array('ondemand', 'progressive')),
+      'empty_option' => t('- None -'),
+    );
 
-  $options['slidesToShow'] = array(
-    'title' => t('Slides to show'),
-    'description' => t('Number of slides to show at a time. If 1, it will behave like slideshow, more than 1 a carousel. Provide more if it is a thumbnail navigation with asNavFor. Only works with odd number slidesToShow counts when using centerMode.'),
-    'type' => 'textfield',
-    'cast' => 'int',
-    'default' => 1,
-  );
+    $options['rtl'] = array(
+      'title' => t('RTL'),
+      'description' => t("Change the slider's direction to become right-to-left"),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
 
-  $options['slidesToScroll'] = array(
-    'title' => t('Slides to scroll'),
-    'description' => t('Number of slides to scroll at a time, or steps at each scroll.'),
-    'type' => 'textfield',
-    'cast' => 'int',
-    'default' => 1,
-  );
+    $options['slide'] = array(
+      'title' => t('Slide element'),
+      'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers."),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => 'div',
+    );
 
-  $options['speed'] = array(
-    'title' => t('Speed'),
-    'description' => t('Slide/Fade animation speed in milliseconds'),
-    'type' => 'textfield',
-    'cast' => 'int',
-    'default' => 300,
-    'field_suffix' => 'ms',
-  );
+    $options['slidesToShow'] = array(
+      'title' => t('Slides to show'),
+      'description' => t('Number of slides to show at a time. If 1, it will behave like slideshow, more than 1 a carousel. Provide more if it is a thumbnail navigation with asNavFor. Only works with odd number slidesToShow counts when using centerMode.'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 1,
+    );
 
-  $options['swipe'] = array(
-    'title' => t('Swipe'),
-    'description' => t('Enable swiping'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['slidesToScroll'] = array(
+      'title' => t('Slides to scroll'),
+      'description' => t('Number of slides to scroll at a time, or steps at each scroll.'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 1,
+    );
 
-  $options['touchMove'] = array(
-    'title' => t('Touch move'),
-    'description' => t('Enable slide motion with touch'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['speed'] = array(
+      'title' => t('Speed'),
+      'description' => t('Slide/Fade animation speed in milliseconds'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 300,
+      'field_suffix' => 'ms',
+    );
 
-  $options['touchThreshold'] = array(
-    'title' => t('Touch threshold'),
-    'description' => t('Swipe distance threshold'),
-    'type' => 'textfield',
-    'cast' => 'int',
-    'default' => 5,
-    'states' => array('visible' => array(':input[name*="options[settings][touchMove]"]' => array('checked' => TRUE))),
-  );
+    $options['swipe'] = array(
+      'title' => t('Swipe'),
+      'description' => t('Enable swiping'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['useCSS'] = array(
-    'title' => t('Use CSS'),
-    'description' => t('Enable/Disable CSS Transitions'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['touchMove'] = array(
+      'title' => t('Touch move'),
+      'description' => t('Enable slide motion with touch'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
 
-  $options['vertical'] = array(
-    'title' => t('Vertical'),
-    'description' => t('Vertical slide direction'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => FALSE,
-  );
+    $options['touchThreshold'] = array(
+      'title' => t('Touch threshold'),
+      'description' => t('Swipe distance threshold'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 5,
+      'states' => array('visible' => array(':input[name*="options[settings][touchMove]"]' => array('checked' => TRUE))),
+    );
 
-  $options['waitForAnimate'] = array(
-    'title' => t('waitForAnimate'),
-    'description' => t('Ignores requests to advance the slide while animating.'),
-    'type' => 'checkbox',
-    'cast' => 'bool',
-    'default' => TRUE,
-  );
+    $options['useCSS'] = array(
+      'title' => t('Use CSS'),
+      'description' => t('Enable/Disable CSS Transitions'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
+
+    $options['vertical'] = array(
+      'title' => t('Vertical'),
+      'description' => t('Vertical slide direction'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
+
+    $options['waitForAnimate'] = array(
+      'title' => t('waitForAnimate'),
+      'description' => t('Ignores requests to advance the slide while animating.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => TRUE,
+    );
+  }
 
   return $options;
 }

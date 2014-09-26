@@ -27,9 +27,8 @@ class SlickOptionsetUi extends ctools_export_ui {
     $form['#attributes']['class'][] = 'form--optionset';
     $form['#attributes']['class'][] = 'clearfix';
 
-    $form['info']['label']['#attributes']['class'][] = 'is-tooltip';
     $form['info']['name']['#attributes']['class'][] = 'is-tooltip';
-
+    $form['info']['label']['#attributes']['class'][] = 'is-tooltip';
     $form['info']['label']['#prefix'] = '<div class="form--slick__header has-tooltip clearfix">';
 
     // Skins. We don't provide skin_thumbnail as each optionset may be deployed
@@ -280,10 +279,6 @@ class SlickOptionsetUi extends ctools_export_ui {
                         case 'pauseOnDotsHover':
                         case 'autoplaySpeed':
                           $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][autoplay]"]' => array('checked' => TRUE)));
-                          break;
-                        // @todo drop, since only one appendArrows exists.
-                        case 'appendArrows':
-                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][arrows]"]' => array('checked' => TRUE)));
                           break;
 
                         case 'centerPadding':
