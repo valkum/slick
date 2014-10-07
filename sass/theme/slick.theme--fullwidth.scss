@@ -45,16 +45,18 @@
   }
 
   .slide__constrained {
-    @include max-container-absolute(98%, 10%);
+    // @include max-container-absolute(98%, 10%, relative);
+    @include pie-clearfix;
     min-height: 210px;
 
     .slide__caption {
       position: relative;
     }
-
+    
     @include breakpoint($desk) {
-      @include max-container-absolute($max-container, 15%);
+      @include max-container-absolute(98%, 15%);
     }
+
     @include breakpoint($desk-large) {
       @include max-container-absolute($max-container-large);
     }

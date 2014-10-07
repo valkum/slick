@@ -8,18 +8,25 @@
     padding-top: 32px;
   }
 
-  &.slick--display--thumbnail .slick-track {
-    padding-bottom: 0;
-    padding-top: 0;
+  &.slick--skin--classic,
+  &.slick--display--thumbnail {
+    .slick-track {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
   }
 
   .slide__content {
     margin: 2px;
+    overflow: hidden;
+    position: relative;
   }
 
   .slick__slide {
-    opacity: 0.2;
+    opacity: 0.8;
     @include transition(all 300ms ease);
+    
+    &.slide--current,
     &.slick-active {
       opacity: 1;
     }

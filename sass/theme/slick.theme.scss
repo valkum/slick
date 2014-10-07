@@ -27,79 +27,16 @@
 
 .slick__image {
   margin: 0 auto;
-}
-
-/**
- * Slide layouts, adjust accordingly per actual container slide.
- */
-.slide__caption {
-  @include font-size(16px);
-  left: 0;
-  min-height: 32%;
-  margin-top: 0;
-  padding: 20px;
-  position: absolute;
-  text-align: left;
-  top: 10%;
-  width: 84%;
-  z-index: 3;
-
-  .slide--caption--below & {
-    position: relative;
-    top: auto;
-    width: 100%;
-  }
-
-  .slide--caption--center & {
-    margin-top: -16%;
-    top: 50%;
-  }
-
-  .slide--caption--center &,
-  .slide--caption--center-top & {
-    left: 50%;
-    margin-left: -42%;
-    padding: 0;
-    text-align: center;
-  }
-
-  .slide--caption--right & {
-    right: 0;
-  }
-
-  .slide--caption--top &,
-  .slide--caption--bottom & {
-    width: 100%;
-  }
-
-  .slide--caption--top & {
-    top: 0;
-  }
-
-  .slide--caption--bottom & {
-    bottom: 0;
-  }
-
-  .slick--has-arrow-down .slide--caption--bottom & {
-    padding-bottom: 80px;
-  }
-}
-
-
-@include breakpoint($ipad-up, true) {
-  .slide__caption {
-    width: 42%;
-
-    .slide--caption--center &,
-    .slide--caption--center-top & {
-      margin-left: -21%;
-    }
-  }
+  width: 100%;
 }
 
 /**
  * Skins.
  */
+.slide__content {
+  @include pie-clearfix;
+}
+
 .slide__title {
   margin: 10px 0 5px;
   line-height: 1.2;

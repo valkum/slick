@@ -1,4 +1,33 @@
 
+Slick 7.x-2.0-dev, 2014-10-07
+-----------------------------
+Added a new basic 3d skin: 3d back.
+Added a new skin CSS: slick.theme--3d-back.css
+Updated to Slick v1.3.9
+
+Slick 7.x-2.0-dev, 2014-10-04
+-----------------------------
+Added option "CSS ease override" to use the pre-existing CSS3 easings based on
+  Native and Penner Equations transitions from http://matthewlein.com/ceaser/
+  to ease up cubic-bezier selection.
+
+Refined easings and their option dependency to reflect the actual Slick
+  behavior, that is, cssEase and cssEaseOverride are now dependent on useCSS.
+
+Slick 7.x-2.0-dev, 2014-10-01
+-----------------------------
+Simplified dots with static thumbnails which was previously dropped by asNavFor.
+Improved slick.theme--classic.css to only apply layout to large devices.
+Improved some custom CSS to avoid issues with the existing library bugs.
+Updated admin and caption placement CSS.
+Updated to Slick v1.3.8
+Added two new options: swipeToSlide and variableWidth.
+
+Slick 7.x-2.0-dev, 2014-09-27
+-----------------------------
+Issue #2345169 by ardnet: Fixed for Can not set Breakpoints in admin settings
+  page by adding maxlength 1 to Breakpoints field.
+
 Slick 7.x-2.0-dev, 2014-09-26
 -----------------------------
 Issue #2344829 by SpadXIII: Added "Support for adaptiveHeight".

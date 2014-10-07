@@ -3,9 +3,11 @@
  * asNavFor.
  * Main display has class "slick--display--main".
  * Thumbnail has class "slick--display--thumbnail".
+ * Tips: make sure to use odd number for slideToShow with centerMode on.
  */
 .slick--display--thumbnail.slick--skin--asnavfor {
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
   width: 96%;
 }
@@ -15,7 +17,6 @@
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__slide {
   margin: 0 2px;
-  opacity: 0;
   overflow: visible;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
@@ -60,18 +61,9 @@
 .slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slide--current img {
   border-color: white;
 }
-.slick--display--thumbnail.slick--skin--asnavfor .slick__slide.slick-active {
-  opacity: 1;
-}
 .slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick-track {
   padding-bottom: 40px;
   padding-top: 40px;
-}
-.slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick__slide {
-  opacity: 0;
-}
-.slick--display--thumbnail.slick--skin--asnavfor.slick--center .slick-active {
-  opacity: 1;
 }
 .slick--display--thumbnail.slick--skin--asnavfor .slick__arrow .slick-disabled {
   pointer-events: none;

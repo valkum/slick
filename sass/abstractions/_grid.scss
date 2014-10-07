@@ -6,12 +6,11 @@
   @include pie-clearfix;
 }
 
-@mixin max-container-absolute($max-container: 98%, $top: 0) {
+@mixin max-container-absolute($max-container: 98%, $top: 0, $position: absolute) {
   left: 50%;
   margin-left: -$max-container/2;
-  position: absolute;
+  position: $position;
   top: $top;
   width: $max-container;
-  @include pie-clearfix;
   z-index: 2;
 }

@@ -8,6 +8,7 @@
 
 /**
  * Implements hook_preprocess_HOOK().
+ * @todo drop in favor of slick_wrapper.
  */
 function template_preprocess_slick_views(&$variables) {
   $element = array();

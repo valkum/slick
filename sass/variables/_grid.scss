@@ -1,5 +1,5 @@
 // $mobile-first: false; // non mobile first
-// $breakpoint-default-feature: max-width; // non mobile first
+// $breakpoint-start-default-feature: max-width; // non mobile first
 // Set consistent vertical and horizontal spacing units.
 $vert-spacing-unit: 30px !default; // 1.875em; // too tall with larger title
 $horz-spacing-unit: 15px !default; // 0.938em; // 
@@ -24,6 +24,8 @@ $ipad-up: 48.063em !default;
 // 769 48.063em
 // 1024
 $ipad-landscape: 64em !default;
+
+$breakpoint-start: 64em !default;
 
 $desk: 65em !default;
 $desk-max: 64.9999em !default;
@@ -50,9 +52,7 @@ $max-outer-large: 1440px !default;
 $edge-spacing       : 80px !default;
 $edge-spacing-large : 114px !default;
 
-
-
-//$slicer-breakpoints: 0 400px 600px 800px 1050px;
+// $slicer-breakpoints: 0 400px 600px 800px 1050px;
 // Slice numbers:    |  1 |  2 |  3  |  4  |  5  ?
 
 //$slicer-anti-overlap-corrections: 1px;

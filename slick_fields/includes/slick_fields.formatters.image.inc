@@ -45,7 +45,7 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       $thumbnail = theme('image_style', $image);
 
       if ($settings['thumbnail_hover']) {
-        $thumbnail_hover = '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+        $thumbnail_hover = '<div class="slide__thumbnail--placeholder"><div class="slide__thumbnail">' . $thumbnail . '</div>';
         $thumbnail_hover .= '<button type="button" data-role="none">' . ($key + 1) . '</button></div>';
       }
     }

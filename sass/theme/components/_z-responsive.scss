@@ -2,22 +2,81 @@
  * Complex layout needs custom refinement for mobile, hence it is reasonable
  * to apply for Desktop up. You have to adjust mobile version by your design.
  */
-@include breakpoint($ipad, true) {
-  .slick--center .slick-slide.slick-center {
-    @include transform(scale(1.08));
-    opacity: 1;
-  }
+
+/**
+ * Slide layouts, adjust accordingly per actual container slide.
+ */
+.slide__caption {
+  @include font-size(16px);
+  min-height: 32%;
+  padding: 20px 0;
+  position: relative;
+  text-align: left;
+  width: 100%;
+  z-index: 3;
 }
 
-@include breakpoint($ipad-up, true) {
+@include breakpoint($breakpoint-start, true) {
   /* Fixed FireFox draggable issue, avoid asNavFor thumbnails. */
   .slick--display--main .slick__slide img {
     pointer-events: none;
   }
 
-  .slide__caption  {
+  .slick--center .slick-slide.slick-center {
+    @include transform(scale(1.08));
+    opacity: 1;
+  }
 
-    /* Caption right, stage left */
+  .slide__caption {
+    left: 0;
+    padding: 20px;
+    position: absolute;
+    top: 10%;
+    width: 42%;
+
+    .slide--caption--below & {
+      position: relative;
+      top: auto;
+      width: 100%;
+    }
+
+    .slide--caption--center & {
+      margin-top: -16%;
+      top: 50%;
+    }
+
+    .slide--caption--center &,
+    .slide--caption--center-top & {
+      left: 50%;
+      margin-left: -21%;
+      padding: 0;
+      text-align: center;
+    }
+
+    .slide--caption--right & {
+      right: 0;
+    }
+
+    .slide--caption--top &,
+    .slide--caption--bottom & {
+      width: 100%;
+    }
+
+    .slide--caption--top & {
+      top: 0;
+    }
+
+    .slide--caption--bottom & {
+      bottom: 0;
+    }
+
+    .slick--has-arrow-down .slide--caption--bottom & {
+      padding-bottom: 80px;
+    }
+  }
+
+  /* Caption right, stage left */
+  .slide__caption  {
     // Stages are full width image with captions positioned on top of it.
     .slide--caption--stage-left &,
     .slide--caption--stage-right &,
@@ -82,13 +141,6 @@
     .slick--skin--split .slide--caption--split-zebra:nth-child(even) & {
       margin-right: 52%;
     }
-  }
-}
-
-@media (max-width: 768px) {
-  .slick--center .slick-center.slick-slide {
-    @include transform(scale(1));
-    opacity:1;
   }
 }
 

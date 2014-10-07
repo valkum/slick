@@ -16,61 +16,36 @@
  * Transform is more performed than positions.
  */
 .slick--skin--classic {
+
   .slick__slide {
     overflow: hidden;
-    position: relative;
-  }
-  .slick__caption {
-    height: auto;
-    min-height: 80px;
-  }
-  
-	.slide--caption--stage-zebra:nth-child(odd),
-	.slide--caption--stage-left,
-  .slide--caption--left {
+    // position: relative;
     .slide__caption {
-      left: 0;
-      @include transform(translateX(-320px));
-    }
-  }
-
-	.slide--caption--stage-zebra:nth-child(even),
-	.slide--caption--stage-right,
-  .slide--caption--right {
-    .slide__caption {
+      background-color: $dark;
+      background-color: $dark-trans;
+      color: $white;
       left: auto;
-      right: 0;
-      @include transform(translateX(320px));
+      margin: 0; // nullify caption position for the classic skin.
+      min-height: 80px;
+      padding: 0;
+      // position: relative;
+      @include transition(transform $transition-transform-1);
+      width: 100%;
+		  .slide__data {
+		    margin: 0;
+		    padding: $horz-spacing-unit;
+        width: 100%;
+	    }
+    }
+
+    .slide__description {
+      margin: 0;
     }
   }
 
-	.slide--caption--stage-zebra,
-	.slide--caption--stage-left,
-	.slide--caption--stage-right,
-  .slide--caption--left,
-  .slide--caption--right {
-    .slide__caption {
-      height: 100%;
-      top: 0;
-      // Adjust for smaller device.
-      width: 22%;
-    }
-  }
-
-  .slide--caption--top,
-  .slide--caption--center-top {
-    .slide__caption {
-      top: 0;
-      @include transform(translateY(-210px));
-    }
-  }
-
-  .slide--caption--bottom {
-    .slide__caption {
-      bottom: 0;
-      top: auto;
-      @include transform(translateY(210px));
-    }
+  .slide--caption--below .slide__caption {
+    background: none;
+    color: $base-color;
   }
 
   .slide--caption--center {
@@ -85,48 +60,96 @@
       }
     }
   }
+}
 
-	.slide--caption--stage-zebra,
-	.slide--caption--stage-left,
-	.slide--caption--stage-right,
-  .slide--caption--left,
-  .slide--caption--right,
-  .slide--caption--top,
-  .slide--caption--center-top,
-  .slide--caption--bottom {
-    .slide__caption {
-      background-color: $dark;
-      background-color: $dark-trans;
-      color: $white;
-      min-height: 80px;
-      @include transition(transform $transition-transform-1);
-    }
+@include breakpoint($breakpoint-start, true) {
+  .slick--skin--classic {
 
-		// Replace &.slick-active with &:hover to only be visible at hover.
-    // &:hover,
-    &.slick-active {
+    .slick__slide {
       .slide__caption {
-        @include transform(translateY(0));
-        @include transition-delay(0s);
+        height: 100%;
+        min-height: 100%;
+        // position: absolute;
+        top: 0;
+        width: 22%;
+        .slide__data {
+		      margin: 0 !important;
+		      padding: $horz-spacing-unit;
+          width: 100%;
+	      }
       }
     }
-  }
 
-	.slide--caption--stage-zebra,
-	.slide--caption--stage-left,
-	.slide--caption--stage-right,
-  .slide--caption--left,
-  .slide--caption--right {
-    min-height: 100%;
-    top: 0;
-    width: 22%;
+    .slide--caption--center {
+      .slide__caption {
+        height: 120px;
+        left: 50%;
+        margin: -60px 0 0 -40%;
+        min-height: 120px;
+        top: 50%;
+        width: 80%;
+      }
+    }
 
-		.slide__caption {
-		  margin: 0; // nullify caption position for the classic skin.
-		  .slide__data {
-		    margin: 0;
-			  padding: $vert-spacing-unit $horz-spacing-unit;
-			}
-		}
+    .slide--caption--top,
+    .slide--caption--center-top,
+    .slide--caption--bottom,
+    .slide--caption--below {
+      .slide__caption {
+        height: auto;
+        min-height: 80px;
+        width: 100%;
+      }
+    }
+
+    .slide--caption--bottom .slide__caption {
+      // bottom: 0;
+      // top: auto;
+      @include transform(translateY(210px));
+    }
+
+    .slide--caption--below .slide__caption {
+      min-height: 120px;
+      position: relative;
+      top: auto;
+    }
+
+	  .slide--caption--stage-zebra:nth-child(odd),
+	  .slide--caption--stage-left,
+    .slide--caption--left {
+      .slide__caption {
+        left: 0;
+        @include transform(translateX(-320px));
+      }
+    }
+
+	  .slide--caption--stage-zebra:nth-child(even),
+	  .slide--caption--stage-right,
+    .slide--caption--right {
+      .slide__caption {
+        left: auto;
+        right: 0;
+        @include transform(translateX(320px));
+      }
+    }
+
+    .slide--caption--top,
+    .slide--caption--center-top {
+      .slide__caption {
+        top: 0;
+        @include transform(translateY(-210px));
+      }
+    }
+
+    .slick__slide {
+      // Replace &.slick-active with &:hover to only be visible at hover.
+      // &:hover,
+      &.slick-active {
+        .slide__caption {
+          @include transform(translateY(0));
+          @include transition-delay(0s);
+        }
+      }
+    }
   }
 }

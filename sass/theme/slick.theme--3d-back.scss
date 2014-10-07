@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "../variables/**/*";
+@import "../abstractions/**/*";
+
+/**
+ * @file.
+ * Adds 3d view with focal point at front, works best with 3 visible slides.
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+// http://24ways.org/2010/intro-to-css-3d-transforms/
+$arrow-width: 50% !default;
+
+.slick--skin--3d-back {
+  overflow: hidden;
+  padding-top: $vert-spacing-unit;
+
+  .slick-list {
+    @include perpective(1500px);
+    margin: 0 -120px;
+
+    @include breakpoint($desk, true) {
+      margin: 0 -210px;
+    }
+  }
+
+  .slick-track {
+    @include transform-style(preserve-3d);
+    @include transition-transform(1s);
+    @include perpective-origin(50% 50%);
+  }
+  .slide {
+    @include transform(rotateY(45deg));
+    @include backface-visibility(hidden);
+    @include transition(opacity 1s ease 0s, transform 1s);
+    -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+
+    .slide__caption {
+      bottom: 0;
+      padding: $vert-spacing-unit 0;
+      position: relative;
+      @include element-hoverable();
+      // @include translateY(600px);
+      @include scale(0);
+    }
+  }
+  .slide--current {
+    ~ .slide {
+      @include transform(rotateY(-45deg));
+    }
+    &.slide {
+      @include transform(rotateY(0deg));
+
+      .slide__caption {
+        bottom: auto;
+        position: relative;
+        @include element-hoverable-hovered();
+        // @include translateY(0);
+        @include scale(1);
+        // @include transition-delay(0.2s);
+      }
+    }
+  }
+
+  .slick__arrow {
+    left: 50%;
+    margin-left: -$arrow-width/2;
+    width: $arrow-width;
+  }
+
+  .slick-dots {
+    bottom: 0;
+  }
+}

@@ -13,6 +13,10 @@
   text-align: center;
   text-transform: uppercase;
   width: 100%;
+  small {
+    display: block;
+    text-transform: none;
+  }  
 }
 
 .form--slick__header {
@@ -20,20 +24,6 @@
 }
 
 .form--slick .form--slick__header {
-  .form-item-label {
-    width: 80%;
-  }
-
-  .form-item-skin,
-  .form-item-breakpoints {
-    width: 10%;
-  }
-
-  .form-item-skin label,
-  .form-item-breakpoints label {
-    width: 120px;
-  }
-
  .form-item {
     background: none;
     border: 0;
@@ -53,6 +43,21 @@
       text-align: left;
     }
   }
+  
+  .form-item-label {
+    width: 72%;
+  }
+
+  .form-item-skin,
+  .form-item-breakpoints {
+    float: right;
+    width: auto;
+  }
+
+  .form-item-skin label,
+  .form-item-breakpoints label {
+    width: auto;
+  }  
 
   div[class*="-breakpoint"] input {
     width: 40px;
@@ -60,8 +65,6 @@
 
   .form-item-skin .description {
     bottom: 90% !important;
-    //left: 50%;
-    //margin-left: -280px !important;
     max-width: 480px;
     width: 480px;
   }

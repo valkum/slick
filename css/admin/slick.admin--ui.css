@@ -829,6 +829,7 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 
 @media screen and (max-width: 1200px) {
   .form--slick .vertical-tabs-panes .form-item {
+    float: left;
     width: 50%;
   }
 }
@@ -941,22 +942,15 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
   text-transform: uppercase;
   width: 100%;
 }
+.form--slick__title small {
+  display: block;
+  text-transform: none;
+}
 
 .form--slick__header {
   margin-bottom: 15px;
 }
 
-.form--slick .form--slick__header .form-item-label {
-  width: 80%;
-}
-.form--slick .form--slick__header .form-item-skin,
-.form--slick .form--slick__header .form-item-breakpoints {
-  width: 10%;
-}
-.form--slick .form--slick__header .form-item-skin label,
-.form--slick .form--slick__header .form-item-breakpoints label {
-  width: 120px;
-}
 .form--slick .form--slick__header .form-item {
   background: none;
   border: 0;
@@ -974,6 +968,18 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 .form--slick .form--slick__header .form-item label {
   float: none;
   text-align: left;
+}
+.form--slick .form--slick__header .form-item-label {
+  width: 72%;
+}
+.form--slick .form--slick__header .form-item-skin,
+.form--slick .form--slick__header .form-item-breakpoints {
+  float: right;
+  width: auto;
+}
+.form--slick .form--slick__header .form-item-skin label,
+.form--slick .form--slick__header .form-item-breakpoints label {
+  width: auto;
 }
 .form--slick .form--slick__header div[class*="-breakpoint"] input {
   width: 40px;

@@ -262,6 +262,7 @@ function template_preprocess_slick(&$variables) {
   // @see slick_fields, or slick_views for the attached ones.
   // This is here to load basic libraries if you don't use the sub-modules.
   // @todo drop this babysitting. This won't work at D8 anyway.
+  // Or use slick_attach instead.
   // If you rely on this line, make sure to change your way right away.
   if (!isset($element['#attached'])) {
     slick_add($settings);
@@ -568,6 +569,12 @@ function theme_slick_image_lazy($variables) {
     $attributes = $variables['attributes'];
     foreach (array('width', 'height', 'alt', 'title') as $key) {
       if (isset($variables[$key])) {
+        // Backported https://www.drupal.org/node/999338.
+        // If the property has already been defined in the attributes,
+        // do not override, including NULL.
+        if (array_key_exists($key, $attributes)) {
+          continue;
+        }
         $attributes[$key] = $variables[$key];
       }
     }

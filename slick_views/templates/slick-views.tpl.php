@@ -7,6 +7,7 @@
  * - $rows: The array of items.
  * - $options: Array of available settings via Views UI.
  * - $attach: Available conditional JS and CSS assets.
+ * @todo drop in favor of slick_wrapper.
  */
 
 // Pass the Slick Views data to theme_slick().
@@ -15,7 +16,7 @@ $element = array(
   '#items' => $indexes,
   '#settings' => $options,
 );
-    
+
 $element[0] = array(
   '#theme' => 'slick',
   '#items' => $rows,

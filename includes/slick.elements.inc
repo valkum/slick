@@ -96,6 +96,13 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
     if (empty($config['dots'])) {
       unset($config['dotsClass'], $config['appendDots']);
     }
+    if (empty($config['swipe'])) {
+      unset($config['swipeToSlide']);
+    }
+    if (isset($config['cssEaseOverride']) && $config['cssEaseOverride']) {
+      $config['cssEase'] = _slick_css_easing_mapping($config['cssEaseOverride']);
+      unset($config['cssEaseOverride']);
+    }
   }
 
   // Clean up responsive options if similar to main defaults. JS takes care of
@@ -130,11 +137,18 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
         if (empty($cleaned[$key]['settings']['centerMode'])) {
           unset($cleaned[$key]['settings']['centerPadding']);
         }
+        if (empty($cleaned[$key]['settings']['swipe'])) {
+          unset($cleaned[$key]['settings']['swipeToSlide']);
+        }
         if (empty($cleaned[$key]['settings']['dots'])) {
           unset(
             $cleaned[$key]['settings']['dotsClass'],
             $cleaned[$key]['settings']['appendDots']
           );
+        }
+        if (isset($cleaned[$key]['settings']['cssEaseOverride']) && $cleaned[$key]['settings']['cssEaseOverride']) {
+          $cleaned[$key]['settings']['cssEase'] = _slick_css_easing_mapping($cleaned[$key]['settings']['cssEaseOverride']);
+          unset($cleaned[$key]['settings']['cssEaseOverride']);
         }
       }
 
@@ -288,6 +302,72 @@ function _slick_easing_options() {
 }
 
 /**
+ * Maps existing jQuery easing value to equivalent CSS easing methods.
+ */
+function _slick_css_easing_mapping($easing = NULL) {
+  $css_easing = '';
+  if ($easing) {
+    $easings = _slick_css_easing_options(TRUE);
+    list($readable_easing, $bezier) = array_pad(array_map('trim', explode("|", $easings[$easing], 2)), 2, NULL);
+    $css_easing = $bezier;
+  }
+  return $css_easing;
+}
+
+/**
+ * List of available CSS easing methods.
+ * @see https://github.com/kenwheeler/slick/issues/118
+ * @see http://matthewlein.com/ceaser/
+ * @see http://www.w3.org/TR/css3-transitions/
+ */
+function _slick_css_easing_options($all = FALSE) {
+  $css_easings = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($css_easings)) {
+    $css_easings = array();
+    $available_easings = array(
+      // Defaults/ Native.
+      'ease' => 'ease|ease',
+      'linear' => 'linear|linear',
+      'ease-in' => 'ease-in|ease-in',
+      'ease-out' => 'ease-out|ease-out',
+      'swing' => 'swing|ease-in-out',
+      // Penner Equations (approximated).
+      'easeInQuad' => 'easeInQuad|cubic-bezier(0.550, 0.085, 0.680, 0.530)',
+      'easeInCubic' => 'easeInCubic|cubic-bezier(0.550, 0.055, 0.675, 0.190)',
+      'easeInQuart' => 'easeInQuart|cubic-bezier(0.895, 0.030, 0.685, 0.220)',
+      'easeInQuint' => 'easeInQuint|cubic-bezier(0.755, 0.050, 0.855, 0.060)',
+      'easeInSine' => 'easeInSine|cubic-bezier(0.470, 0.000, 0.745, 0.715)',
+      'easeInExpo' => 'easeInExpo|cubic-bezier(0.950, 0.050, 0.795, 0.035)',
+      'easeInCirc' => 'easeInCirc|cubic-bezier(0.600, 0.040, 0.980, 0.335)',
+      'easeInBack' => 'easeInBack|cubic-bezier(0.600, -0.280, 0.735, 0.045)',
+      'easeOutQuad' => 'easeOutQuad|cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+      'easeOutCubic' => 'easeOutCubic|cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+      'easeOutQuart' => 'easeOutQuart|cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+      'easeOutQuint' => 'easeOutQuint|cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+      'easeOutSine' => 'easeOutSine|cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+      'easeOutExpo' => 'easeOutExpo|cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+      'easeOutCirc' => 'easeOutCirc|cubic-bezier(0.075, 0.820, 0.165, 1.000)',
+      'easeOutBack' => 'easeOutBack|cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+      'easeInOutQuad' => 'easeInOutQuad|cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+      'easeInOutCubic' => 'easeInOutCubic|cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+      'easeInOutQuart' => 'easeInOutQuart|cubic-bezier(0.770, 0.000, 0.175, 1.000)',
+      'easeInOutQuint' => 'easeInOutQuint|cubic-bezier(0.860, 0.000, 0.070, 1.000)',
+      'easeInOutSine' => 'easeInOutSine|cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+      'easeInOutExpo' => 'easeInOutExpo|cubic-bezier(1.000, 0.000, 0.000, 1.000)',
+      'easeInOutCirc' => 'easeInOutCirc|cubic-bezier(0.785, 0.135, 0.150, 0.860)',
+      'easeInOutBack' => 'easeInOutBack|cubic-bezier(0.680, -0.550, 0.265, 1.550)',
+    );
+
+    foreach ($available_easings as $key => $easing) {
+      list($readable_easing, $css_easing) = array_pad(array_map('trim', explode("|", $easing, 2)), 2, NULL);
+      $css_easings[$key] = $all ? $easing : $readable_easing;
+    }
+  }
+  return $css_easings;
+}
+
+/**
  * Gets a media URL from the rendered iframe already containing all the params.
  *
  * This is quicker than rebuilding media params per media contrib module.
@@ -320,34 +400,17 @@ function slick_get_options() {
     $options['asNavFor'] = array(
       'title' => t('asNavFor target'),
       'description' => t('Set the slider to be the navigation of other slider (Class or ID Name). Use selector identifier ("." or "#") accordingly. If class, use the provided Wrapper class under General as needed, e.g.: if the main display has class "slick--for", and the thumbnail navigation "slick--nav", place the opposite here as its target. Or use existing classes based on optionsets, e.g.: .slick--optionset--main, or .slick--optionset--main-nav. Overriden per field formatter.'),
-        'type' => 'textfield',
+      'type' => 'textfield',
       'cast' => 'string',
       'default' => '',
     );
 
     $options['accessibility'] = array(
       'title' => t('Accessibility'),
-      'description' => t('Enables tabbing and arrow key navigation'),
+      'description' => t('Enables tabbing and arrow key navigation.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
-    );
-
-    $options['autoplay'] = array(
-      'title' => t('Autoplay'),
-      'description' => t('Enables Autoplay'),
-      'type' => 'checkbox',
-      'cast' => 'bool',
-      'default' => FALSE,
-    );
-
-    $options['autoplaySpeed'] = array(
-      'title' => t('Autoplay speed'),
-      'description' => t('Autoplay Speed in milliseconds'),
-      'type' => 'textfield',
-      'cast' => 'int',
-      'default' => 3000,
-      'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
     );
 
     $options['adaptiveHeight'] = array(
@@ -358,9 +421,26 @@ function slick_get_options() {
       'default' => FALSE,
     );
 
+    $options['autoplay'] = array(
+      'title' => t('Autoplay'),
+      'description' => t('Enables Autoplay.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
+
+    $options['autoplaySpeed'] = array(
+      'title' => t('Autoplay speed'),
+      'description' => t('Autoplay Speed in milliseconds.'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 3000,
+      'states' => array('visible' => array(':input[name*="options[settings][autoplay]"]' => array('checked' => TRUE))),
+    );
+
     $options['pauseOnHover'] = array(
       'title' => t('Pause on hover'),
-      'description' => t('Pause Autoplay On Hover'),
+      'description' => t('Pause autoplay on hover.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
@@ -369,7 +449,7 @@ function slick_get_options() {
 
     $options['pauseOnDotsHover'] = array(
       'title' => t('Pause on dots hover'),
-      'description' => t('Pauses autoplay when a dot is hovered'),
+      'description' => t('Pauses autoplay when a dot is hovered.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,
@@ -404,7 +484,7 @@ function slick_get_options() {
 
     $options['nextArrow'] = array(
       'title' => t('Next arrow'),
-      'description' => t("Customize the next arrow markups. Make sure to keep the expected class"),
+      'description' => t("Customize the next arrow markups. Make sure to keep the expected class."),
       'type' => 'textfield',
       'cast' => 'string',
       'default' => '<button type="button" data-role="none" class="slick-next">Next</button>',
@@ -421,24 +501,16 @@ function slick_get_options() {
 
     $options['centerPadding'] = array(
       'title' => t('Center padding'),
-      'description' => t('Side padding when in center mode (px or %)'),
+      'description' => t('Side padding when in center mode (px or %).'),
       'type' => 'textfield',
       'cast' => 'string',
       'default' => '50px',
       'states' => array('visible' => array(':input[name*="options[settings][centerMode]"]' => array('checked' => TRUE))),
     );
 
-    $options['cssEase'] = array(
-      'title' => t('cssEase'),
-      'description' => t('CSS3 Animation Easing'),
-      'type' => 'textfield',
-      'cast' => 'string',
-      'default' => 'ease',
-    );
-
     $options['dots'] = array(
       'title' => t('Dots'),
-      'description' => t('Show dot indicators'),
+      'description' => t('Show dot indicators.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,
@@ -464,20 +536,10 @@ function slick_get_options() {
 
     $options['draggable'] = array(
       'title' => t('Draggable'),
-      'description' => t('Enable mouse dragging'),
+      'description' => t('Enable mouse dragging.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
-    );
-
-    $options['easing'] = array(
-      'title' => t('Easing'),
-      'description' => t('Add easing for jQuery animate. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
-      'type' => 'select',
-      'cast' => 'string',
-      'default' => 'linear',
-      'options' => _slick_easing_options(),
-      'empty_option' => t('- None -'),
     );
 
     $options['fade'] = array(
@@ -490,7 +552,7 @@ function slick_get_options() {
 
     $options['focusOnSelect'] = array(
       'title' => t('Focus on select'),
-      'description' => t('Enable focus on selected element (click)'),
+      'description' => t('Enable focus on selected element (click).'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,
@@ -498,7 +560,7 @@ function slick_get_options() {
 
     $options['infinite'] = array(
       'title' => t('Infinite'),
-      'description' => t('Infinite loop sliding'),
+      'description' => t('Infinite loop sliding.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
@@ -516,7 +578,7 @@ function slick_get_options() {
 
     $options['rtl'] = array(
       'title' => t('RTL'),
-      'description' => t("Change the slider's direction to become right-to-left"),
+      'description' => t("Change the slider's direction to become right-to-left."),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,
@@ -548,7 +610,7 @@ function slick_get_options() {
 
     $options['speed'] = array(
       'title' => t('Speed'),
-      'description' => t('Slide/Fade animation speed in milliseconds'),
+      'description' => t('Slide/Fade animation speed in milliseconds.'),
       'type' => 'textfield',
       'cast' => 'int',
       'default' => 300,
@@ -557,15 +619,24 @@ function slick_get_options() {
 
     $options['swipe'] = array(
       'title' => t('Swipe'),
-      'description' => t('Enable swiping'),
+      'description' => t('Enable swiping.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
     );
 
+    $options['swipeToSlide'] = array(
+      'title' => t('Swipe to slide'),
+      'description' => t('Allow users to drag or swipe directly to a slide irrespective of slidesToScroll.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+      'states' => array('visible' => array(':input[name*="options[settings][swipe]"]' => array('checked' => TRUE))),
+    );
+
     $options['touchMove'] = array(
       'title' => t('Touch move'),
-      'description' => t('Enable slide motion with touch'),
+      'description' => t('Enable slide motion with touch.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
@@ -573,7 +644,7 @@ function slick_get_options() {
 
     $options['touchThreshold'] = array(
       'title' => t('Touch threshold'),
-      'description' => t('Swipe distance threshold'),
+      'description' => t('Swipe distance threshold.'),
       'type' => 'textfield',
       'cast' => 'int',
       'default' => 5,
@@ -582,15 +653,53 @@ function slick_get_options() {
 
     $options['useCSS'] = array(
       'title' => t('Use CSS'),
-      'description' => t('Enable/Disable CSS Transitions'),
+      'description' => t('Enable/Disable CSS Transitions.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => TRUE,
     );
 
+    $options['cssEase'] = array(
+      'title' => t('CSS ease'),
+      'description' => t('CSS3 animation easing. <a href="@ceaser">Learn</a> <a href="@bezier">more</a>.', array('@ceaser' => '//matthewlein.com/ceaser/', '@bezier' => '//cubic-bezier.com')),
+      'type' => 'textfield',
+      'cast' => 'string',
+      'default' => 'ease',
+      'states' => array('visible' => array(':input[name*="options[settings][useCSS]"]' => array('checked' => TRUE))),
+    );
+
+    $options['cssEaseOverride'] = array(
+      'title' => t('CSS ease override'),
+      'description' => t('If provided, this will override the CSS ease with the pre-defined CSS easings based on <a href="@ceaser">CSS Easing Animation Tool</a>. Leave it empty to use your own CSS ease.', array('@ceaser' => '//matthewlein.com/ceaser/')),
+      'type' => 'select',
+      'cast' => 'string',
+      'default' => '',
+      'options' => _slick_css_easing_options(),
+      'empty_option' => t('- None -'),
+      'states' => array('visible' => array(':input[name*="options[settings][useCSS]"]' => array('checked' => TRUE))),
+    );
+
+    $options['easing'] = array(
+      'title' => t('jQuery easing'),
+      'description' => t('Add easing for jQuery animate as fallback. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options. This will be ignored and replaced by CSS ease for supporting browsers, or effective if useCSS is disabled.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
+      'type' => 'select',
+      'cast' => 'string',
+      'default' => 'linear',
+      'options' => _slick_easing_options(),
+      'empty_option' => t('- None -'),
+    );
+
+    $options['variableWidth'] = array(
+      'title' => t('variableWidth'),
+      'description' => t('Disables automatic slide width calculation.'),
+      'type' => 'checkbox',
+      'cast' => 'bool',
+      'default' => FALSE,
+    );
+
     $options['vertical'] = array(
       'title' => t('Vertical'),
-      'description' => t('Vertical slide direction'),
+      'description' => t('Vertical slide direction.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,

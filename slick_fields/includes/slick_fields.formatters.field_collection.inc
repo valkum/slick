@@ -71,7 +71,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
               break;
 
-            // @todo scald atom_reference
+            // @todo scald atom_reference.
           }
 
           // Provide thumbnail pagers if so configured.
@@ -85,7 +85,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             $thumbnail = theme('image_style', $image);
 
             if ($settings['thumbnail_hover']) {
-              $thumbnail_hover = '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+              $thumbnail_hover = '<div class="slide__thumbnail--placeholder"><div class="slide__thumbnail">' . $thumbnail . '</div>';
               $thumbnail_hover .= '<button type="button" data-role="none">' . ($key + 1) . '</button></div>';
             }
           }
@@ -112,12 +112,6 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             if ($settings['dots_thumbnail'] && $thumbnail_hover) {
               $item['slide'] .= $thumbnail_hover;
             }
-          }
-
-          // Thumbnail static.
-          if ($thumbnail && $settings['thumbnail_hover']) {
-            $item['slide'] .= '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
-            $item['slide'] .= '<button type="button">' . ($key + 1) . '</button></div>';
           }
         }
       }
@@ -389,7 +383,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               $dark = slick_color_brightness($color, -42);
               $light = slick_color_brightness($color, 42);
               $hover = slick_color_brightness($color, 62);
-              $rgb = slick_hex2rgb($color);
+              // $rgb = slick_hex2rgb($color);
 
               $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
               $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";

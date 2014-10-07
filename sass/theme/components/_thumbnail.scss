@@ -1,23 +1,22 @@
 /**
  * Thumbnails.
  */
-.slide__thumbnail {
+.slick__slide .slide__thumbnail--placeholder {
   @include visually-hidden;
 }
 
 // Default to anything but full width.
 .slick__thumbnail {
-  bottom: -60px; // -120px;
-  left: 0;
+  // bottom: -60px; // -120px;
   list-style: none;
-  margin: 10px 0;
   @include pie-clearfix;
-	overflow: hidden;
+	overflow: visible;
   position: absolute;
   text-align: center;
   visibility: hidden;
   white-space: nowrap;
   width: 100%;
+  z-index: 3;
 
   // Overrides some theme UL spaces.
   .block & {
@@ -30,16 +29,9 @@
   }
 
   li {
-    display: inline-block;
-    float: none;
-    height: auto;
-    max-height: 100px;
-    max-width: 100px;
-    margin: 5px;
     overflow: hidden;
     position: relative;
     vertical-align: top;
-    width: auto;
 
     img {
       background: $white;
@@ -48,25 +40,8 @@
       opacity: .6;
       @include transition($transition);
     }
-
-    &:hover,
-    &.slick-active {
-      img {
-        border: 2px solid $color-2;
-        opacity: 1;
-        @include transition-delay(0s);
-      }
-    }
-  }
-}
-
-/* Adjust accordingly to actual thumbnail size */
-.slick__thumbnail--hover {
-  overflow: visible;
-  li {
-    overflow: visible;
-
-    .slide__thumbnail__box {
+    /* Adjust accordingly to actual thumbnail size */
+    .slide__thumbnail {
       bottom: 140%;
       left: 50%;
       margin: -60px 0 0 -60px;
@@ -97,14 +72,25 @@
         width: 0;
       }
     }
+
     &:hover {
-      .slide__thumbnail__box {
+      overflow: visible;
+      .slide__thumbnail {
         bottom: 120%;
         margin-top: -20px;
         opacity: 1;
         visibility: visible;
         @include transition-delay(0s);
         z-index: 3;
+      }
+    }
+
+    &:hover,
+    &.slick-active {
+      img {
+        border: 2px solid $color-2;
+        opacity: 1;
+        @include transition-delay(0s);
       }
     }
   }

@@ -22,14 +22,14 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       'skin_thumbnail' => array('default' => ''),
       'asnavfor_main' => array('default' => ''),
       'asnavfor_thumbnail' => array('default' => ''),
-      'slide_field_wrapper' => array('default' => ''),
+      'slide_field_wrapper' => array('default' => FALSE),
       'slide_title' => array('default' => ''),
       'slide_image' => array('default' => ''),
       'slide_thumbnail' => array('default' => ''),
       'slide_overlay' => array('default' => ''),
       'slide_link' => array('default' => ''),
       'slide_layout' => array('default' => ''),
-      'slide_caption' => array('default' => ''),
+      'slide_caption' => array('default' => array()),
       'id' => array('default' => ''),
     );
 
@@ -46,11 +46,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $settings = $this->options;
     $skins = slick_skins(TRUE);
     $image_styles = image_style_options(FALSE, PASS_THROUGH);
-
-    $optionsets = array();
-    foreach (slick_optionset_load_all() as $name => $optionset) {
-      $optionsets[$name] = check_plain($optionset->label);
-    }
+    $optionsets = slick_optionset_options();
 
     $element['optionset'] = array(
       '#title' => t('Option set main'),
@@ -86,7 +82,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#options' => $skins,
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['skin_thumbnail'],
-      '#description' => t('Thumbnail navigation skin. Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. Leave empty to not use thumbnail navigation.'),
+      '#description' => t('Thumbnail navigation skin. Leave empty to not use thumbnail navigation.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -102,7 +98,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#type' => 'textfield',
       '#title' => t('asNavFor thumbnail'),
       '#default_value' => $settings['asnavfor_thumbnail'],
-      '#description' => t('Valid CSS selector (with "." or "#") to override asNavFor target for the thumbnail display, e.g.: #slick-main or .slick--for. This should address the main display class or ID attributes.'),
+      '#description' => t('Valid CSS selector (with "." or "#") to override asNavFor target for the thumbnail display, e.g.: #slick-main or .slick--for. This should address the main display class or ID attributes. Also provide thumbnail field below.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -147,7 +143,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       }
 
       // Content: title is not really a field.
-      if (!$title_options && $handler->field == 'title') {
+      if ($handler->field == 'title') {
         $title_options[$field] = $handler->ui_name();
       }
 
@@ -170,7 +166,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     // Title field.
     $element['slide_title'] = array(
-      '#title' => t('Slide title field'),
+      '#title' => t('Slide title'),
       '#type' => 'select',
       '#empty_option' => t('- None -'),
       '#options' => $title_options,
@@ -186,24 +182,24 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#empty_option' => t('- None -'),
       '#options' => $image_options,
       '#default_value' => $settings['slide_image'],
-      '#description' => t('Main background image field'),
+      '#description' => t('Main image'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
     // Thumbnail field relevant to asNavFor.
     $element['slide_thumbnail'] = array(
-      '#title' => t('Thumbnail image field'),
+      '#title' => t('Thumbnail image'),
       '#type' => 'select',
       '#empty_option' => t('- None -'),
       '#options' => $image_options,
       '#default_value' => $settings['slide_thumbnail'],
-      '#description' => t('Oly needed if you provide <em>Option set thumbnail</em> to have thumbnail navigation. Make sure the size is smaller than the main image. It may be the same field as the main image, only different instance/ variant dedicated for thumbnails.'),
+      '#description' => t("Oly needed if you provide <em>Option set thumbnail</em> to have thumbnail navigation. Make sure the size is smaller than the main image. It may be the same field as the main image, only different instance/ variant dedicated for thumbnails. Leave empty if you don't use thumbnail pager."),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
     // Field collection overlay.
     $element['slide_overlay'] = array(
-      '#title' => t('Overlay image/video field'),
+      '#title' => t('Overlay image/video'),
       '#type' => 'select',
       '#empty_option' => t('- None -'),
       '#options' => $image_options,
@@ -214,7 +210,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     // Link field.
     $element['slide_link'] = array(
-      '#title' => t('Link field'),
+      '#title' => t('Link'),
       '#type' => 'select',
       '#empty_option' => t('- None -'),
       '#options' => $link_options,
@@ -228,7 +224,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     $element['slide_caption'] = array(
       '#type' => 'checkboxes',
-      '#title' => t('Caption field'),
+      '#title' => t('Caption fields'),
       '#description' => t("Select a field to be used as the caption. This can also be set manually by adding the '.slide__caption' class to a field."),
       '#options' => $caption_options,
       '#default_value' => $slide_captions,
@@ -251,15 +247,11 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui.css';
-    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui--field.css';
-    $form['#attached']['js'][]  = $slick_module_path . '/js/slick.admin.ui.js';
-
     $form['slick'] = array(
       '#type' => 'fieldset',
       '#title' => t('Slick carousel'),
       '#attributes' => array('class' => array('form--slick form--compact form--field has-tooltip')),
-      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if you are doing custom markups. Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery >= 1.7.'),
+      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if working with custom markups. <small>Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery >= 1.7.</small>'),
     );
 
     foreach ($element as $key => $item) {
@@ -269,6 +261,8 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
         'skin',
         'slide_field_wrapper',
         'id',
+        'asnavfor_main',
+        'asnavfor_thumbnail',
         ))) {
         $form['slick'][$key]['#states'] = array(
           'visible' => array(
@@ -276,7 +270,19 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
           ),
         );
       }
+      if (in_array($key, array('asnavfor_main', 'asnavfor_thumbnail'))) {
+        $form['slick'][$key]['#states'] = array(
+          'invisible' => array(
+            array('select[name*="[optionset_thumbnail]"]' => array('value' => '')),
+            array(':input[name*="[slide_field_wrapper]"]' => array('checked' => FALSE)),
+          ),
+        );
+      }
     }
+
+    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui.css';
+    $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui--field.css';
+    $form['#attached']['js'][]  = $slick_module_path . '/js/slick.admin.ui.js';
   }
 
   /**
@@ -297,6 +303,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
   /**
    * Render the display in this style.
+   * @todo simplify since we don't use grouping, and use slick_wrapper instead.
    */
   function render() {
 
@@ -310,6 +317,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $output = '';
     foreach ($sets as $title => $rows) {
       // Add main image field if so configured.
+      // @todo get raw values to work with lazyLoad.
       if (!empty($this->options['slide_image'])) {
         $slide_image = $this->options['slide_image'];
         $slide_thumbnail = '';

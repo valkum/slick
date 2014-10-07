@@ -13,12 +13,13 @@
  * asNavFor.
  * Main display has class "slick--display--main".
  * Thumbnail has class "slick--display--thumbnail".
+ * Tips: make sure to use odd number for slideToShow with centerMode on.
  */
-// Tips: make sure to use odd number for slideToShow with centerMode on.
 $thumbnail-spacing: 20px !default;
 $thumbnail-horz-spacing: 30px !default;
 .slick--display--thumbnail.slick--skin--asnavfor {
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
   width: 96%;
   .slick-list {
@@ -28,7 +29,7 @@ $thumbnail-horz-spacing: 30px !default;
 
   .slick__slide {
     margin: 0 2px; // + 6px border = 8px
-    opacity: 0;
+    // opacity: 0;
     overflow: visible;
     @include backface-visibility(hidden);
     @include transition-transform($transition-transform-2);
@@ -64,13 +65,12 @@ $thumbnail-horz-spacing: 30px !default;
       }
     }
 
-    &.slick-active {
-      opacity: 1;
-    }
-    &.slick-center,
-    &.slide--current {
-
-    }
+    // &.slick-active {
+    // opacity: 1;
+    // }
+    // &.slick-center,
+    // &.slide--current {
+    // }
   }
 
 
@@ -79,12 +79,12 @@ $thumbnail-horz-spacing: 30px !default;
       padding-bottom: $thumbnail-spacing * 2;
       padding-top: $thumbnail-spacing * 2;
     }
-    .slick__slide {
-      opacity: 0;
-    }
-    .slick-active {
-      opacity: 1;
-    }
+    // .slick__slide {
+    //  opacity: 0;
+    // }
+    // .slick-active {
+    //  opacity: 1;
+    // }
   }
 
   .slick__arrow {

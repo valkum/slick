@@ -78,8 +78,9 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       $image['style_name'] = $settings['thumbnail_style'];
 
       $thumbnail = theme('image_style', $image);
+
       if ($settings['thumbnail_hover']) {
-        $thumbnail_hover = '<div class="slide__thumbnail slide__thumbnail--hover"><div class="slide__thumbnail__box">' . $thumbnail . '</div>';
+        $thumbnail_hover = '<div class="slide__thumbnail--placeholder"><div class="slide__thumbnail">' . $thumbnail . '</div>';
         $thumbnail_hover .= '<button type="button" data-role="none">' . ($key + 1) . '</button></div>';
       }
     }

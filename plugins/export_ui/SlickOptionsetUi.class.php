@@ -39,22 +39,23 @@ class SlickOptionsetUi extends ctools_export_ui {
       '#title' => t('Skin'),
       '#options' => $skins,
       '#default_value' => $optionset->skin,
-      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README.txt</a> for details on Skins. Keep it simple for thumbnail navigation skin.', array('@skin' => url($module_path . '/README.txt'))),
+      '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. Make sure to provide a dedicated slide layout per field. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@skin">README</a> for details on Skins. Keep it simple for thumbnail navigation skin.', array('@skin' => url($module_path . '/README.md'))),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
     $form['breakpoints'] = array(
       '#title' => t('Breakpoints'),
       '#type' => 'textfield',
-      '#description' => t('The number of breakpoints added to Responsive display.'),
+      '#description' => t('The number of breakpoints added to Responsive display, max 9. This is not Breakpoint Width (480px, etc).'),
       '#default_value' => isset($form_state['values']['breakpoints']) ? $form_state['values']['breakpoints'] : $optionset->breakpoints,
       '#suffix' => '</div>',
       '#ajax' => array(
         'callback' => 'slick_add_breakpoints_ajax_callback',
         'wrapper' => 'breakpoints-ajax-wrapper',
-        'event' => 'change',
+        'event' => 'blur',
       ),
       '#attributes' => array('class' => array('is-tooltip')),
+      '#maxlength' => 1,
     );
 
     // Options.
@@ -80,6 +81,7 @@ class SlickOptionsetUi extends ctools_export_ui {
       '#default_value' => isset($options['general']['normal']) ? $options['general']['normal'] : '',
       '#attributes' => array('class' => array('is-tooltip')),
     );
+
     // More useful for custom work, overriden by sub-modules.
     $form['options']['general']['thumbnail'] = array(
       '#type' => 'select',
@@ -289,6 +291,14 @@ class SlickOptionsetUi extends ctools_export_ui {
                           $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][touchMove]"]' => array('checked' => TRUE)));
                           break;
 
+                        case 'swipeToSlide':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][swipe]"]' => array('checked' => TRUE)));
+                          break;
+
+                        case 'cssEase':
+                        case 'cssEaseOverride':
+                          $states = array('visible' => array(':input[name*="options[responsives][responsive][' . $i . '][settings][useCSS]"]' => array('checked' => TRUE)));
+                          break;
                       }
 
                       if ($states) {
@@ -357,5 +367,8 @@ class SlickOptionsetUi extends ctools_export_ui {
  * Selects and returns the fieldset with the names in it.
  */
 function slick_add_breakpoints_ajax_callback($form, $form_state) {
+  if ($form_state['values']['breakpoints'] && $form_state['values']['breakpoints'] >= 9) {
+    drupal_set_message(t('You are trying to load too many Breakpoints. Try reducing it to reasonable numbers say, between 1 to 5.'));
+  }
   return $form['options']['responsives']['responsive'];
 }

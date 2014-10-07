@@ -6,7 +6,7 @@
  * the Slick using Drupal.slick.callbacks namespace.
  *
  * Available methods:
- * - onBeforeChange(this, index): Before slide change callback.
+ * - onBeforeChange(this, index, targetIndex): Before slide change callback.
  * - onAfterChange(this, index): After slide change callback.
  * - onInit(this): When Slick initializes for the first time callback.
  * - onReInit(this): Every time Slick (re-)initializes callback.
@@ -20,10 +20,20 @@
  * @param int index
  *   The index, or position of the current active slide.
  *
+ * @param int targetIndex
+ *   The next slide index, or position of the next slide.
+ *
  * @see slick.load.js
- * @see slick.media.js
+ * @see slick.media.js for sample implementation.
  * @see https://github.com/kenwheeler/slick
  */
+
+/**
+ * E.g.: Applies a css border to all Slick onBeforeChange.
+ */
+Drupal.slick.callbacks.onBeforeChange = function (slider, index, targetIndex) {
+  $('#' + slider.$slider.attr('id')).css({'border': '10px solid red'});
+};
 
 /**
  * E.g.: Applies a myMethod() to all Slick onAfterChange, by dragging here.
@@ -32,12 +42,6 @@ Drupal.slick.callbacks.onAfterChange = function (slider, index) {
   slider.$slides[index].myMethod();
 };
 
-/**
- * E.g.: Applies a css border to all Slick onBeforeChange.
- */
-Drupal.slick.callbacks.onBeforeChange = function (slider, index) {
-  $('#' + slider.$slider.attr('id')).css({'border': '10px solid red'});
-};
 
 /**
  * E.g.: Applies a css border to a specific #my-slick onInit.

@@ -41,6 +41,25 @@
       -ms-transform: translate($x, $y); // IE9+
           transform: translate($x, $y);
 }
+
+@mixin translateY($y) {
+  -webkit-transform: translateY($y);
+      -ms-transform: translateY($y); // IE9+
+          transform: translateY($y);
+}
+
+@mixin translateX($x) {
+  -webkit-transform: translateX($x);
+      -ms-transform: translateX($x); // IE9+
+          transform: translateX($x);
+}
+
+@mixin translateZ($z) {
+  -webkit-transform: translateZ($z);
+      -ms-transform: translateZ($z); // IE9+
+          transform: translateZ($z);
+}
+
 @mixin skew($x, $y) {
   -webkit-transform: skew($x, $y);
       -ms-transform: skewX($x) skewY($y); // See https://github.com/twbs/bootstrap/issues/4885; IE9+
@@ -50,6 +69,28 @@
   -webkit-transform: translate3d($x, $y, $z);
           transform: translate3d($x, $y, $z);
 }
+
+@mixin transform-style($style: preserve-3d) {
+  -webkit-transform-style: $style;
+     -moz-transform-style: $style;
+      -ms-transform-style: $style;
+          transform-style: $style;
+}
+
+@mixin perpective($perspective: 1000px) {
+  -webkit-perspective: $perspective;
+	   -moz-perspective: $perspective;
+	    -ms-perspective: $perspective;
+	        perspective: $perspective;
+}
+
+@mixin perpective-origin($origin: 50% 50%) {
+  -webkit-perspective-origin: $origin;
+	   -moz-perspective-origin: $origin;
+	    -ms-perspective-origin: $origin;
+	        perspective-origin: $origin;
+}
+
 
 // Backface visibility
 // Prevent browsers from flickering when using CSS 3D transforms.

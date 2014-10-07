@@ -11,22 +11,25 @@
     attach: function (context, settings) {
 
       $('.slick', context).once('slick', function () {
-        var that = this,
-          t = $(that),
+        var self = this,
+          t = $(self),
           defaults = settings.slick || {},
           configs = t.data('config') || {},
           merged = $.extend({}, defaults, configs),
           slides = '.slick__slide:not(.slick-cloned)',
           index = t.closest(slides).index(),
-          total = $(slides, that).length,
-          $prevArrow = $('.slick__arrow .slick-prev', that),
-          $nextArrow = $('.slick__arrow .slick-next', that),
+          total = $(slides, self).length,
+          $prevArrow = $('.slick__arrow .slick-prev', self),
+          $nextArrow = $('.slick__arrow .slick-next', self),
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
-          globals = Drupal.slick.globals(that, merged),
+          globals = Drupal.slick.globals(self, merged),
           toShow = parseInt(configs.slidesToShow);
 
-        // @todo drop if any fix with total < configs.slidesToShow.
+        // @todo drop if any fix with total <= slidesToShow.
         // @see https://github.com/kenwheeler/slick/issues/497
+        if (total <= toShow) {
+          $('.slick__arrow', self).remove();
+        }
         if (t.hasClass('slick--display--thumbnail')) {
           if (total < toShow) {
             // Leave odd, otherwise make it odd to work properly.
@@ -52,7 +55,7 @@
         // @todo drop when appendArrows works on resize.
         // @see https://github.com/kenwheeler/slick/issues/480
         $(window).bind('resize', function () {
-          var a = $('.slick__arrow', that);
+          var a = $('.slick__arrow', self);
           if (a.length && $prevArrow.length) {
             a.append($prevArrow).append($nextArrow);
           }
@@ -110,7 +113,7 @@
       prevArrow: $('.slick__arrow .slick-prev', t),
       nextArrow: $('.slick__arrow .slick-next', t),
       customPaging: function (slider, i) {
-        return slider.$slides.eq(i).find('.slide__thumbnail').html() || '<button type="button" data-role="none">' + (i + 1) + '</button>';
+        return slider.$slides.eq(i).find('.slide__thumbnail--placeholder').html() || '<button type="button" data-role="none">' + (i + 1) + '</button>';
       },
       onInit: function (slider) {
         Drupal.theme('slickThumbnails', t);
@@ -141,11 +144,9 @@
       return;
     }
     var dotClass = $(t).data('config').dotClass || 'slick-dots';
-    $('.' + dotClass, t)
-      .addClass('slick__thumbnail')
-      .addClass($('.slick__slide:first .slide__thumbnail--hover', t).length ? 'slick__thumbnail--hover' : '');
+    $('.' + dotClass, t).addClass('slick__thumbnail');
 
-    $('.slick__slide .slide__thumbnail', t).remove();
+    $('.slick__slide .slide__thumbnail--placeholder', t).remove();
   };
 
 })(jQuery);
