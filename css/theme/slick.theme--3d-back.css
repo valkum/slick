@@ -1,44 +1,41 @@
 /**
  * @file.
- * Adds 3d view with focal point at front, works best with 3 visible slides.
+ * Adds 3d view with focal point at back, best with centerMode + 3 slidesToShow.
  * Detailed stylings are all yours, get yourself dirty.
  */
-.slick--skin--3d-back {
+.slick--skin--3d-back.slick-initialized {
   overflow: hidden;
+  padding-bottom: 30px;
   padding-top: 30px;
 }
-.slick--skin--3d-back .slick-list {
+.slick--skin--3d-back.slick-initialized .slick-list {
+  margin: 0 -120px;
+}
+@media (min-width: 65em) {
+  .slick--skin--3d-back.slick-initialized .slick-list {
+    margin: 0 -210px;
+  }
+}
+.slick--skin--3d-back.slick-initialized .slide {
+  overflow: hidden;
+}
+.slick--skin--3d-back.slick-initialized .slide .slide__content {
   -webkit-perspective: 1500px;
   -moz-perspective: 1500px;
   -ms-perspective: 1500px;
   perspective: 1500px;
-  margin: 0 -120px;
-}
-@media (min-width: 65em) {
-  .slick--skin--3d-back .slick-list {
-    margin: 0 -210px;
-  }
-}
-.slick--skin--3d-back .slick-track {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 1s;
-  -moz-transition: -moz-transform 1s;
-  -o-transition: -o-transform 1s;
-  transition: transform 1s;
-  -webkit-perspective-origin: 50% 50%;
-  -moz-perspective-origin: 50% 50%;
-  -ms-perspective-origin: 50% 50%;
-  perspective-origin: 50% 50%;
 }
-.slick--skin--3d-back .slide {
-  -webkit-transform: rotateY(45deg);
-  -moz-transform: rotateY(45deg);
-  -ms-transform: rotateY(45deg);
-  -o-transform: rotateY(45deg);
-  transform: rotateY(45deg);
+.slick--skin--3d-back.slick-initialized .slide .slide__media {
+  margin: 30px 0;
+  -webkit-transform: rotateY(25deg);
+  -moz-transform: rotateY(25deg);
+  -ms-transform: rotateY(25deg);
+  -o-transform: rotateY(25deg);
+  transform: rotateY(25deg);
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -47,11 +44,10 @@
   -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
   -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
   transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-  overflow: hidden;
 }
-.slick--skin--3d-back .slide .slide__caption {
+.slick--skin--3d-back.slick-initialized .slide .slide__caption {
   bottom: 0;
-  padding: 30px 0;
+  padding: 0;
   position: relative;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
@@ -63,21 +59,21 @@
   -ms-transform: scale(0);
   transform: scale(0);
 }
-.slick--skin--3d-back .slide--current ~ .slide {
-  -webkit-transform: rotateY(-45deg);
-  -moz-transform: rotateY(-45deg);
-  -ms-transform: rotateY(-45deg);
-  -o-transform: rotateY(-45deg);
-  transform: rotateY(-45deg);
+.slick--skin--3d-back.slick-initialized .slide--current ~ .slide .slide__media {
+  -webkit-transform: rotateY(-25deg);
+  -moz-transform: rotateY(-25deg);
+  -ms-transform: rotateY(-25deg);
+  -o-transform: rotateY(-25deg);
+  transform: rotateY(-25deg);
 }
-.slick--skin--3d-back .slide--current.slide {
+.slick--skin--3d-back.slick-initialized .slide--current.slide .slide__media {
   -webkit-transform: rotateY(0deg);
   -moz-transform: rotateY(0deg);
   -ms-transform: rotateY(0deg);
   -o-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
-.slick--skin--3d-back .slide--current.slide .slide__caption {
+.slick--skin--3d-back.slick-initialized .slide--current.slide .slide__caption {
   bottom: auto;
   position: relative;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
@@ -87,11 +83,11 @@
   -ms-transform: scale(1);
   transform: scale(1);
 }
-.slick--skin--3d-back .slick__arrow {
+.slick--skin--3d-back.slick-initialized .slick__arrow {
   left: 50%;
   margin-left: -25%;
   width: 50%;
 }
-.slick--skin--3d-back .slick-dots {
+.slick--skin--3d-back.slick-initialized .slick-dots {
   bottom: 0;
 }

@@ -24,17 +24,20 @@ creating database table to store option sets.
     sites/../libraries/slick/slick/slick.css
     sites/../libraries/slick/slick/slick.min.js
 - CTools, for exportable optionsets -- only the main "Chaos tools" is needed.
+  If you have Views installed, CTools is already enabled.
 - libraries (>=2.x)
-- jquery_update with jQuery >= 1.7
+- jquery_update with jQuery > 1.7, perhaps 1.8 if trouble with latest Slick.
 - jqeasing, so available at:
   sites/../libraries/easing/jquery.easing.min.js
+  This is a fallback for non-supporting browsers.
 
 ## Optional integration
 Slick supports enhancements and more complex layouts.
 - Colorbox
 - Picture, to get truly responsive image using art direction technique.
 - Media, including media_youtube, media_vimeo, and media_soundcloud.
-- Field Collection, to add Overlay image/audio/video over the main image stage.
+- Field Collection, to add Overlay image/audio/video over the main image stage,
+  with additional basic Scald integration for the image/video/audio overlay.
 - Color field module within Field Collection to colorize the slide individually.
 - Mousewheel, download from https://github.com/brandonaaron/jquery-mousewheel,
   so it is available at:
@@ -69,15 +72,11 @@ Some default complex layout skins applied to desktop only, adjust for the mobile
 accordingly. The provided skins are very basic to support the layouts, it is
 not the module job to match your design requirements.
 
-Tips:
-----
-- Use the Slick API hook_slick_skins_info() to add your own skins.
-- Use the provided Wrapper class option to have a unique context as needed,
-  useful to build asNavFor aka thumbnail navigation.
-- If having JS error with jQuery v1.7, you may need to upgrade it to v1.8.
-
 Available skins:
 ---------------
+- 3d back
+  Adds 3d view with focal point at back, works best with 3 slidesToShow,
+  centerMode, and caption below the slide.
 - Full width
   Adds additional wrapper to wrap overlay audio/video and captions properly.
 - Boxed
@@ -87,15 +86,25 @@ Available skins:
   Caption and image/media are split half, and placed side by side.
 - Box carousel
   Added box-shadow to the carousel slides, multiple visible slides. Use
-  slideToShow option > 2.
+  slidesToShow option > 2.
 - Boxed split
   Caption and image/media are split half, and have edge margin 0 60px.
 - Rounded
   This will round the main image display, reasonable for small carousels, maybe
-  with a small caption below to make it nice. Use slideToShow option > 2.
+  with a small caption below to make it nice. Use slidesToShow option > 2.
+  Expecting square images.
+
+See slick.slick.inc for more info on skins.
+
+Tips:
+----
+- Use the Slick API hook_slick_skins_info() to add your own skins.
+- Use the provided Wrapper class option to have a unique context as needed,
+  useful to build asNavFor aka thumbnail navigation.
+- If having JS error with jQuery v1.7, you may need to upgrade it to v1.8.
 
 ## Troubleshooting
-When upgrading from Slick v1.3.6 to v1.3.7, try to resave options at:
+When upgrading from Slick v1.3.6 to later version, try to resave options at:
 - admin/config/media/slick
 - admin/structure/types/manage/CONTENT_TYPE/display
 only if trouble to see the new options, or when options don't apply properly.

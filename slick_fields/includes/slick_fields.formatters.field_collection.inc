@@ -387,6 +387,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
               $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
               $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";
+              // @see http://tympanus.net/Development/CreativeLinkEffects/
               $css[] = "#{$item_id} .slide--{$key} .slide__link a::before, #{$item_id} .slide--{$key} .slide__link a::after {background-color: {$color}}";
 
               if ($color != '#fff' || $color != '#ffffff') {

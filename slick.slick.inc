@@ -38,7 +38,7 @@ function slick_slick_skins_info() {
       'css' => array(
         $module_path . '/css/theme/slick.theme--3d-back.css',
       ),
-      'description' => t('Adds 3d view with focal point at back, works best with 3 slidesToShow, and caption below.'),
+      'description' => t('Adds 3d view with focal point at back, works best with 3 slidesToShow, centerMode, and caption below the slide.'),
     ),
     'asnavfor' => array(
       'name' => t('Thumbnail: asNavFor'),

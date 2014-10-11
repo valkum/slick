@@ -219,6 +219,7 @@ function template_preprocess_slick(&$variables) {
   $js_settings['mousewheel'] = $settings['mousewheel'] ? TRUE : FALSE;
 
   // Add the configuration as JSON object into slick container.
+  // @todo https://github.com/kenwheeler/slick/pull/407
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
 
@@ -261,9 +262,9 @@ function template_preprocess_slick(&$variables) {
   // attached instead. Also D8 recommended.
   // @see slick_fields, or slick_views for the attached ones.
   // This is here to load basic libraries if you don't use the sub-modules.
-  // @todo drop this babysitting. This won't work at D8 anyway.
-  // Or use slick_attach instead.
-  // If you rely on this line, make sure to change your way right away.
+  // New direction October 8, 2014.
+  // @see https://www.drupal.org/node/2352319
+  // @see https://www.drupal.org/node/2346369
   if (!isset($element['#attached'])) {
     slick_add($settings);
   }
@@ -351,7 +352,7 @@ function template_preprocess_slick_item(&$variables) {
 
     // We split image from captions with a wrapper if we do have captions, and
     // main image. This allows more complex slide layout.
-    if (!empty($stage) && !empty($item)) {
+    if ((!empty($stage) && !empty($item)) || (strpos($settings['skin'], '3d') !== FALSE)) {
       $variables['item_prefix'] = '<div class="slide__media">';
       $variables['item_suffix'] = '</div>';
     }

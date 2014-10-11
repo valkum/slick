@@ -206,7 +206,7 @@ function slick_skins($options = FALSE) {
     // Collects a list of the currently available skins.
     $skins = module_invoke_all('slick_skins_info');
 
-    // Allow skin information to be altered.
+    // Allows skin information to be altered.
     drupal_alter('slick_skins_info', $skins);
 
     if ($options) {
@@ -423,7 +423,7 @@ function slick_get_options() {
 
     $options['autoplay'] = array(
       'title' => t('Autoplay'),
-      'description' => t('Enables Autoplay.'),
+      'description' => t('Enables autoplay.'),
       'type' => 'checkbox',
       'cast' => 'bool',
       'default' => FALSE,
@@ -431,7 +431,7 @@ function slick_get_options() {
 
     $options['autoplaySpeed'] = array(
       'title' => t('Autoplay speed'),
-      'description' => t('Autoplay Speed in milliseconds.'),
+      'description' => t('Autoplay speed in milliseconds.'),
       'type' => 'textfield',
       'cast' => 'int',
       'default' => 3000,
@@ -526,7 +526,7 @@ function slick_get_options() {
     );
 
     $options['appendDots'] = array(
-      'title' => t('appendDots'),
+      'title' => t('Append dots'),
       'description' => t('Change where the navigation dots are attached (Selector, htmlString, Array, Element, jQuery object). If you change this, make sure to provide its relevant markup.'),
       'type' => 'textfield',
       'cast' => 'string',
@@ -681,7 +681,7 @@ function slick_get_options() {
 
     $options['easing'] = array(
       'title' => t('jQuery easing'),
-      'description' => t('Add easing for jQuery animate as fallback. Use with <a href="@easing">easing</a> libraries or default easing methods. Install <a href="@jqeasing">jqeasing module</a> for more options. This will be ignored and replaced by CSS ease for supporting browsers, or effective if useCSS is disabled.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
+      'description' => t('Add easing for jQuery animate as fallback. Use with <a href="@easing">easing</a> libraries or default easing methods. Optionally install <a href="@jqeasing">jqeasing module</a>. This will be ignored and replaced by CSS ease for supporting browsers, or effective if useCSS is disabled.', array('@jqeasing' => '//drupal.org/project/jqeasing', '@easing' => '//gsgd.co.uk/sandbox/jquery/easing/')),
       'type' => 'select',
       'cast' => 'string',
       'default' => 'linear',

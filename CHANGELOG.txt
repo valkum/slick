@@ -1,4 +1,10 @@
 
+Slick 7.x-2.0-dev, 2014-10-11
+-----------------------------
+Fixed for sudden jump scroll from last to first slide and vice versa at
+  slick.theme--3d-back.css.
+Updated to Slick 1.3.11
+
 Slick 7.x-2.0-dev, 2014-10-07
 -----------------------------
 Added a new basic 3d skin: 3d back.

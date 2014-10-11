@@ -67,6 +67,7 @@
               Drupal.slickColorbox.jumpScroll('#' + id, 120);
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
+              // $slider[0].slick.refresh();
             }
           };
 
