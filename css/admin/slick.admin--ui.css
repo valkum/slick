@@ -828,17 +828,20 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
 }
 
 @media screen and (max-width: 1200px) {
+  .form--slick .form--field .form-item,
   .form--slick .vertical-tabs-panes .form-item {
     float: left;
     width: 50%;
   }
 }
 @media screen and (max-width: 900px) {
+  .form--slick .form--field .form-item,
   .form--slick .vertical-tabs-panes .form-item {
     min-height: 78px;
     padding: 10px 15px;
     width: 50%;
   }
+  .form--slick .form--field .form-item label,
   .form--slick .vertical-tabs-panes .form-item label {
     float: none;
     text-align: left;
@@ -846,24 +849,32 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
   }
 }
 @media screen and (max-width: 767px) {
+  .form--slick .form--field .form-item input,
+  .form--slick .form--field .form-item select,
+  .form--slick .form--field .form-type-textfield input,
   .form--slick .vertical-tabs-panes .form-item input,
   .form--slick .vertical-tabs-panes .form-item select,
   .form--slick .vertical-tabs-panes .form-type-textfield input {
     max-width: 200px;
   }
+  .form--slick .form--field .form-item:nth-child(3n+1),
   .form--slick .vertical-tabs-panes .form-item:nth-child(3n+1) {
     border-left: 1px solid #e7e7e7;
   }
+  .form--slick .form--field .form-item:nth-child(3n+1),
   .form--slick .vertical-tabs-panes .form-item:nth-child(3n+1) {
     border-right: 1px solid #e7e7e7;
   }
 }
 @media screen and (max-width: 660px) {
+  .form--slick .form--field .form-item,
   .form--slick .vertical-tabs-panes .form-item {
     min-height: 76px;
     padding: 10px 15px;
     width: 100%;
   }
+  .form--slick .form--field .form-item label,
+  .form--slick .form--field .form-item label.option,
   .form--slick .vertical-tabs-panes .form-item label,
   .form--slick .vertical-tabs-panes .form-item label.option {
     float: left;
@@ -872,6 +883,9 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
     line-height: 22px;
     width: 120px;
   }
+  .form--slick .form--field .form-item .form-item input,
+  .form--slick .form--field .form-item .form-item select,
+  .form--slick .form--field .form-item .form-type-textfield input,
   .form--slick .vertical-tabs-panes .form-item .form-item input,
   .form--slick .vertical-tabs-panes .form-item .form-item select,
   .form--slick .vertical-tabs-panes .form-item .form-type-textfield input {
@@ -883,6 +897,7 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
   }
 }
 @media screen and (max-width: 480px) {
+  .form--slick .form--field .form-item,
   .form--slick .vertical-tabs-panes .form-item {
     display: block;
     margin: 0 auto;
@@ -890,12 +905,14 @@ html.js .form--slick .collapsed .fieldset-legend .fieldset-legend-prefix:after {
     padding: 10px 15px;
     width: 100%;
   }
+  .form--slick .form--field .form-item label,
   .form--slick .vertical-tabs-panes .form-item label {
     display: block;
     float: none;
     text-align: center;
     width: auto;
   }
+  .form--slick .form--field .form-item .form-type-checkbox input,
   .form--slick .vertical-tabs-panes .form-item .form-type-checkbox input {
     left: auto;
   }

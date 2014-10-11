@@ -16,6 +16,11 @@
   z-index: 3;
 }
 
+/* Overrides core > 1.3.11, otherwise thumbnails are non-clickable */
+.slick--display--thumbnail .slick__slide img {
+  pointer-events: auto;
+}
+
 @include breakpoint($breakpoint-start, true) {
   /* Fixed FireFox draggable issue, avoid asNavFor thumbnails. */
   .slick--display--main .slick__slide img {

@@ -223,6 +223,8 @@ img {
   opacity: .6;
   -webkit-transition: 0.3s;
   transition: 0.3s;
+  /* Overrides core > 1.3.11, otherwise thumbnails are non-clickable */
+  pointer-events: auto;
 }
 .slick__thumbnail li .slide__thumbnail {
   bottom: 140%;
@@ -318,6 +320,11 @@ supports no-js */
   text-align: left;
   width: 100%;
   z-index: 3;
+}
+
+/* Overrides core > 1.3.11, otherwise thumbnails are non-clickable */
+.slick--display--thumbnail .slick__slide img {
+  pointer-events: auto;
 }
 
 @media (min-width: 64em) {

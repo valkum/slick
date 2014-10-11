@@ -121,25 +121,27 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     $fields = $this->view->display_handler->get_handlers('field');
     foreach ($fields as $field => $handler) {
-      $field_info = $handler->field_info;
-      $type = $field_info['type'];
 
-      switch ($type) {
-        case 'file':
-        case 'image':
-          $image_options[$field] = $handler->ui_name();
-          break;
+      if (isset($handler->field_info)) {
+        $type = $handler->field_info['type'];
 
-        case 'list_text':
-          $layout_options[$field] = $handler->ui_name();
-          break;
+        switch ($type) {
+          case 'file':
+          case 'image':
+            $image_options[$field] = $handler->ui_name();
+            break;
 
-        case 'text':
-        case 'text_long':
-        case 'link_field':
-          $link_options[$field] = $handler->ui_name();
-          $title_options[$field] = $handler->ui_name();
-          break;
+          case 'list_text':
+            $layout_options[$field] = $handler->ui_name();
+            break;
+
+          case 'text':
+          case 'text_long':
+          case 'link_field':
+            $link_options[$field] = $handler->ui_name();
+            $title_options[$field] = $handler->ui_name();
+            break;
+        }
       }
 
       // Content: title is not really a field.

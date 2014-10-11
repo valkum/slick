@@ -262,6 +262,7 @@
 
 @media screen and (max-width: 1200px) {
   .form--slick {
+    .form--field,
     .vertical-tabs-panes {
       .form-item {
         float: left;
@@ -273,6 +274,7 @@
 
 @media screen and (max-width: 900px) {
   .form--slick {
+    .form--field,
     .vertical-tabs-panes {
       .form-item {
         min-height: 78px;
@@ -291,6 +293,7 @@
 
 @media screen and (max-width: 767px) {
   .form--slick {
+    .form--field,
     .vertical-tabs-panes {
       .form-item input,
       .form-item select,
@@ -312,6 +315,7 @@
 
 @media screen and (max-width: 660px) {
   .form--slick {
+    .form--field,
     .vertical-tabs-panes {
       .form-item {
         min-height: 76px;
@@ -342,6 +346,7 @@
 
 @media screen and (max-width: 480px) {
   .form--slick {
+    .form--field,
     .vertical-tabs-panes {
       .form-item {
         display: block;
