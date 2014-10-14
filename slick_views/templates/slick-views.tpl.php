@@ -7,35 +7,10 @@
  * - $rows: The array of items.
  * - $options: Array of available settings via Views UI.
  * - $attach: Available conditional JS and CSS assets.
- * @todo drop in favor of slick_wrapper.
  */
-
-// Pass the Slick Views data to theme_slick().
-$element = array(
-  '#theme' => 'slick_wrapper',
-  '#items' => $indexes,
-  '#settings' => $options,
-);
-
-$element[0] = array(
-  '#theme' => 'slick',
-  '#items' => $rows,
-  '#settings' => $options,
-  '#attached' => $attach,
-);
-
-if (isset($options['optionset_thumbnail']) && $options['optionset_thumbnail'] && $thumbs) {
-  if ($options['id']) {
-    $options['attributes']['id'] = $options['id'] . '-thumbnail';
-  }
-  $options['optionset'] = $options['optionset_thumbnail'];
-  $options['current_display'] = 'thumbnail';
-  $element[1] = array(
-    '#theme' => 'slick',
-    '#items' => $thumbs,
-    '#settings' => $options,
-    '#attached' => array(),
-  );
-}
-
-print render($element);
+?>
+<div<?php print $attributes; ?>>
+  <?php foreach ($rows as $id => $row): ?>
+    <?php print render($row); ?>
+  <?php endforeach; ?>
+</div>

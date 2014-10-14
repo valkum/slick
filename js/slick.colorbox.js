@@ -30,7 +30,6 @@
           $body = $('body'),
           media = t.data('media') || {},
           $slider = t.closest('.slick', context),
-          $sliderObj = $slider.getSlick() || null,
           isMedia = media.type !== 'image' ? true : false,
           curr,
           runtimeOptions = {
@@ -46,8 +45,7 @@
                 $body.data('mediaHeight', media.height);
               }
 
-              // @todo partially not working if slides contain mixed media, and
-              // colorbox is closed near the video, and slidesToShow > 1.
+              // Remove these lines to disable slider scrolling under colorbox.
               curr = parseInt(t.closest('.slick__slide').attr('index'));
               if ($slider.next('.slick').length) {
                 $slider.next('.slick').slickGoTo(curr);
@@ -67,7 +65,6 @@
               Drupal.slickColorbox.jumpScroll('#' + id, 120);
               $body.removeClass('colorbox-on colorbox-on--' + media.type);
               $body.data('mediaHeight', '');
-              // $slider[0].slick.refresh();
             }
           };
 

@@ -77,6 +77,12 @@ Available skins:
 - 3d back
   Adds 3d view with focal point at back, works best with 3 slidesToShow,
   centerMode, and caption below the slide.
+- Full screen
+  Works best with 1 slidesToShow. Use z-index layering > 8 to position elements
+  over the slides, and place it at large regions. Currently only works with
+  Slick fields, use Views to make it a block. Use block_reference inside FC to
+  have more complex contents inside individual slide, and assign it to Slide
+  caption fields.
 - Full width
   Adds additional wrapper to wrap overlay audio/video and captions properly.
 - Boxed

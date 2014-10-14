@@ -18,7 +18,6 @@ function slick_views_views_plugins() {
         'title' => t('Slick carousel'),
         'help' => t('Display the results in a Slick carousel widget.'),
         'handler' => 'SlickViewsPluginStyleSlick',
-        // @todo drop in favor of slick_wrapper.
         'theme' => 'slick_views',
         'theme file' => 'slick_views.theme.inc',
         'theme path' => drupal_get_path('module', 'slick_views') . '/templates',

@@ -10,19 +10,20 @@
  */
 function _slick_fields_format_field_collection(&$settings, $items, $field, $view_mode, $langcode, $thumb_nav = FALSE) {
   $build = array();
+  $css = array();
   $field_type = $field['type'];
   $image_style = $settings['image_style'];
-  $css = array();
+  $slick_id = $settings['attributes']['id'];
   $asnavfor = 'main';
+
   foreach ($items as $key => $item) {
-    $tmp = $item;
-    $item = array(
-      'item' => $tmp,
+    $slide = array(
+      'item' => $item,
       'slide' => array(),
       'caption' => array(),
     );
 
-    if ($fc = field_collection_field_get_entity($item['item'])) {
+    if ($fc = field_collection_field_get_entity($slide['item'])) {
       $fc_view = $fc->view($view_mode);
       $fc = (array) $fc;
 
@@ -32,8 +33,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
       $fc_fields = $fc_view['field_collection_item'][$id];
 
       // Manually insert type for theme to get the context.
-      $item['item']['type'] = 'field_collection';
-      $settings['type'] = $item['item']['type'];
+      $slide['item']['type'] = 'field_collection';
+      $settings['type'] = $slide['item']['type'];
 
       // Customize display to tame Field collection.
       // Main background image.
@@ -71,10 +72,11 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
               break;
 
-            // @todo scald atom_reference.
+            // @todo or drop scald atom_reference.
           }
 
           // Provide thumbnail pagers if so configured.
+          // @todo use renderable array for D8, and convert slide to array.
           $thumbnail = '';
           $thumbnail_hover = '';
 
@@ -96,22 +98,29 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             $settings['media_width'] = $image['width'];
             $settings['image_style'] = $image_style;
             // Image with picture and colorbox supports.
-            $item['slide'] = _slick_fields_get_picture($settings, $image, $key);
+            $slide['slide'] = _slick_fields_get_picture($settings, $image, $key);
 
-            // Thumbnail static.
+            // Thumbnail static to copy over by JS.
             if ($settings['dots_main'] && $thumbnail_hover) {
-              $item['slide'] .= $thumbnail_hover;
+              $slide['slide'] .= $thumbnail_hover;
             }
           }
           else {
-            $item['slide'] = $thumbnail;
+            $slide['slide'] = $thumbnail;
             $settings['type'] = 'image';
             $asnavfor = 'thumbnail';
 
-            // Thumbnail static.
+            // Thumbnail static to copy over by JS.
             if ($settings['dots_thumbnail'] && $thumbnail_hover) {
-              $item['slide'] .= $thumbnail_hover;
+              $slide['slide'] .= $thumbnail_hover;
             }
+          }
+
+          // @todo map from picture, or refine for mobile.
+          if (in_array($settings['skin'], array('fullscreen', 'parallax'))) {
+            $slide['slide'] = array();
+            $fullscreen_image_url = image_style_url($settings['image_style'], $image['uri']);
+            $css[] = "#{$slick_id} .slide--{$key} {background-image: url('{$fullscreen_image_url}')}";
           }
         }
       }
@@ -149,7 +158,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
               case 'file':
                 $fid = $slide_overlay['#items'][0]['fid'];
                 $file = $slide_overlay['#items'][0];
-                $item_type = $file['type'];
+                $slide_type = $file['type'];
                 $file_style = $slide_overlay[0]['file'];
 
                 // Make sure view mode to enable image for the overlay, and they
@@ -176,7 +185,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
                 $scheme = file_uri_scheme($uri);
 
                 $settings['scheme'] = $scheme;
-                $settings['type'] = $item_type;
+                $settings['type'] = $slide_type;
                 $settings['has_media'] = TRUE;
                 $settings['media_uri'] = $uri;
                 $settings['media_fid'] = $file->fid;
@@ -317,7 +326,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             $overlay_item = _slick_fields_get_picture($settings, $overlay, $key, $media_url);
 
             // Pass it over to theme_slick_media.
-            $item['caption']['overlay'] = array(
+            $slide['caption']['overlay'] = array(
               '#theme' => 'slick_media',
               '#item' => $overlay_item,
               '#settings' => $settings,
@@ -325,7 +334,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
             // If has Media fields.
             if ($settings['is_media']) {
-              $item['caption']['overlay']['#media'] = $media;
+              $slide['caption']['overlay']['#media'] = $media;
             }
           }
         }
@@ -333,7 +342,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
         // Title, if so configured.
         if (!empty($settings['slide_title']) && isset($fc[$settings['slide_title']][$langcode][0]['safe_value'])) {
           $layout = $fc[$settings['slide_title']][$langcode][0]['safe_value'];
-          $item['caption']['title'] = $layout;
+          $slide['caption']['title'] = $layout;
         }
 
         // Other caption fields, if so configured.
@@ -346,19 +355,19 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
           }
 
           if ($caption_items) {
-            $item['caption']['data'] = $caption_items;
+            $slide['caption']['data'] = $caption_items;
           }
         }
 
         // Link, if so configured.
         if (!empty($settings['slide_link']) && isset($fc_fields[$settings['slide_link']])) {
-          $item['caption']['link'] = $fc_fields[$settings['slide_link']];
+          $slide['caption']['link'] = $fc_fields[$settings['slide_link']];
         }
 
         // Layout, if so configured.
         if (!empty($settings['slide_layout']) && isset($fc[$settings['slide_layout']][$langcode][0]['value'])) {
           $layout = $fc[$settings['slide_layout']][$langcode][0]['value'];
-          $item['caption']['layout'] = check_plain($layout);
+          $slide['caption']['layout'] = check_plain($layout);
         }
 
         // Color.
@@ -379,32 +388,30 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
             }
 
             if ($color) {
-              $item_id = $settings['attributes']['id'];
               $dark = slick_color_brightness($color, -42);
               $light = slick_color_brightness($color, 42);
               $hover = slick_color_brightness($color, 62);
-              // $rgb = slick_hex2rgb($color);
 
-              $css[] = "#{$item_id} .slide--{$key} {color: {$color}}";
-              $css[] = "#{$item_id} .slide--{$key} .slide__title {color: {$color}}";
+              $css[] = "#{$slick_id} .slide--{$key} {color: {$color}}";
+              $css[] = "#{$slick_id} .slide--{$key} .slide__title {color: {$color}}";
               // @see http://tympanus.net/Development/CreativeLinkEffects/
-              $css[] = "#{$item_id} .slide--{$key} .slide__link a::before, #{$item_id} .slide--{$key} .slide__link a::after {background-color: {$color}}";
+              $css[] = "#{$slick_id} .slide--{$key} .slide__link a::before, #{$slick_id} .slide--{$key} .slide__link a::after {background-color: {$color}}";
 
               if ($color != '#fff' || $color != '#ffffff') {
-                $css[] = "#{$item_id} .slide--{$key} .slide__link a {color: {$color}}";
-                $css[] = "#{$item_id} .slide--{$key} .slide__link a:hover {color: {$hover}}";
-                $css[] = "#{$item_id} .slide--{$key} .slide__caption {color: {$light}}";
+                $css[] = "#{$slick_id} .slide--{$key} .slide__link a {color: {$color}}";
+                $css[] = "#{$slick_id} .slide--{$key} .slide__link a:hover {color: {$hover}}";
+                $css[] = "#{$slick_id} .slide--{$key} .slide__caption {color: {$light}}";
               }
             }
           }
         }
       }
 
-      $build[$key] = $item;
+      $build[$key] = $slide;
     }
   }
 
-  $settings['color'] = $css && !$thumb_nav ? $css : '';
+  $settings['inline_css'] = $css;
 
   return $build;
 }

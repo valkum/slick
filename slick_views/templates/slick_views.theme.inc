@@ -2,27 +2,24 @@
 
 /**
  * @file
- * Theme functions for Slick Views.
- * Hooks and preprocess functions for the slick themes module.
+ * Hooks and preprocess functions for the Slick Views module.
  */
 
 /**
  * Implements hook_preprocess_HOOK().
- * @todo drop in favor of slick_wrapper.
  */
 function template_preprocess_slick_views(&$variables) {
   $element = array();
 
-  // Prepare all data to be passed to theme_slick() via theme_slick_views().
+  // Prepare all data to be passed to theme_slick().
   if (!empty($variables['view'])) {
-    $view         = $variables['view'];
-    $handler      = $view->style_plugin;
-    $settings     = $variables['options'];
-    $row_plugin   = $view->style_plugin->row_plugin;
-    $items        = array();
-    $thumbs       = array();
-    $indexes      = array();
-    $attach       = array(
+    $view = $variables['view'];
+    $settings = $variables['options'];
+
+    $items = array();
+    $thumbs = array();
+
+    $attach = array(
       'attach_media' => FALSE,
       'attach_colorbox' => FALSE,
       'attach_skin' => NULL,
@@ -32,8 +29,13 @@ function template_preprocess_slick_views(&$variables) {
     foreach ($variables['rows'] as $id => $row) {
       // Sets row_index to get the rendered fields.
       $view->row_index = $id;
-      $item['item']['type'] = 'views';
-      $item['item']['view_name'] = $view->name;
+      $item = array(
+        'item' => array(
+          'type' => 'views',
+          'view_name' => check_plain($view->name),
+        ),
+        'slide' => array(),
+      );
 
       if (!empty($settings['slide_field_wrapper'])) {
         $slide_image = $settings['slide_image'];
@@ -80,11 +82,13 @@ function template_preprocess_slick_views(&$variables) {
         // @todo refine more.
         // $attach['attach_colorbox'] = TRUE;
         $attach['attach_media'] = TRUE;
-        $item['slide'] = $row_plugin->render($row);
+        $item['slide'] = $view->style_plugin->row_plugin->render($row);
       }
 
-      $items[] = $item;
-      $indexes[] = $id;
+      // if ($item['slide']) {
+        $items[] = $item;
+      //}
+
       if (isset($thumb['slide']) && $thumb['slide']) {
         $thumb['item']['type'] = 'views';
         $thumb['item']['view_name'] = $view->name;
@@ -93,6 +97,8 @@ function template_preprocess_slick_views(&$variables) {
         $thumbs[] = $thumb;
       }
     }
+
+    // unset($view->row_index);
 
     // Add the settings.
     $settings['current_display'] = 'main';
@@ -104,16 +110,50 @@ function template_preprocess_slick_views(&$variables) {
       $attach['attach_skin_thumbnail'] = $settings['skin_thumbnail'];
     }
 
+    // Build the Slick attributes.
     if ($settings['id']) {
       $settings['attributes']['id'] = $settings['id'];
     }
     $settings['attributes']['class'][] = drupal_clean_css_identifier('slick--view--' . $view->name);
 
-    // Just dance with Views provided variables.
-    $variables['rows'] = $items;
-    $variables['thumbs'] = $thumbs;
-    $variables['indexes'] = $indexes;
-    $variables['options'] = $settings;
-    $variables['attach'] = slick_attach($attach);
+    // Slick main display.
+    $element[0] = array(
+      '#theme' => 'slick',
+      '#items' => $items,
+      '#settings' => $settings,
+      '#attached' => slick_attach($attach),
+    );
+
+    // Slick thumbnail display.
+    if (isset($settings['optionset_thumbnail']) && $settings['optionset_thumbnail'] && $thumbs) {
+      if ($settings['id']) {
+        $settings['attributes']['id'] = $settings['id'] . '-thumbnail';
+      }
+      $settings['optionset'] = $settings['optionset_thumbnail'];
+      $settings['current_display'] = 'thumbnail';
+      $element[1] = array(
+        '#theme' => 'slick',
+        '#items' => $thumbs,
+        '#settings' => $settings,
+        '#attached' => array(),
+      );
+    }
+
+    // Updates rows to contain Slick instances now.
+    $variables['rows'] = $element;
+
+    // Build the Slick wrapper attributes.
+    $variables['attributes_array']['class'] = array('slick_wrapper');
+    if (isset($settings['skin']) && $settings['skin']) {
+      $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--' . $settings['skin']);
+    }
+
+    if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
+      $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--asnavfor');
+    }
+
+    // Populate classes_array expected by Omega 3.
+    // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
+    $variables['classes_array'] = $variables['attributes_array']['class'];
   }
 }

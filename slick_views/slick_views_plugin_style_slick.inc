@@ -113,11 +113,11 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#title_display' => 'before',
     );
 
-    $image_options   = array();
+    $image_options = array();
     $caption_options = array();
-    $layout_options  = array();
-    $link_options    = array();
-    $title_options   = array();
+    $layout_options = array();
+    $link_options = array();
+    $title_options = array();
 
     $fields = $this->view->display_handler->get_handlers('field');
     foreach ($fields as $field => $handler) {
@@ -247,6 +247,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#maxlength' => 255,
       '#default_value' => $settings['id'],
       '#attributes' => array('class' => array('is-tooltip')),
+      '#field_prefix' => '#',
     );
 
     $form['slick'] = array(
@@ -265,7 +266,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
         'id',
         'asnavfor_main',
         'asnavfor_thumbnail',
-        ))) {
+      ))) {
         $form['slick'][$key]['#states'] = array(
           'visible' => array(
             ':input[name*="[slide_field_wrapper]"]' => array('checked' => TRUE),
@@ -284,7 +285,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
     $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui.css';
     $form['#attached']['css'][] = $slick_module_path . '/css/admin/slick.admin--ui--field.css';
-    $form['#attached']['js'][]  = $slick_module_path . '/js/slick.admin.ui.js';
+    $form['#attached']['js'][] = $slick_module_path . '/js/slick.admin.ui.js';
   }
 
   /**
@@ -305,108 +306,94 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
 
   /**
    * Render the display in this style.
-   * @todo simplify since we don't use grouping, and use slick_wrapper instead.
    */
   function render() {
 
     // Group the rows according to the grouping field, if specified.
-    $sets = $this->render_grouping(
-      $this->view->result,
-      $this->options['grouping']
-    );
+    $sets = $this->render_grouping($this->view->result, $this->options['grouping']);
+    $keys = array_keys($this->view->field);
 
-    // Render each group separately and concatenate.
-    $output = '';
-    foreach ($sets as $title => $rows) {
-      // Add main image field if so configured.
-      // @todo get raw values to work with lazyLoad.
-      if (!empty($this->options['slide_image'])) {
-        $slide_image = $this->options['slide_image'];
-        $slide_thumbnail = '';
-        if (!empty($this->options['slide_thumbnail'])) {
-          $slide_thumbnail = $this->options['slide_thumbnail'];
-        }
+    $build = array();
+    foreach ($sets as $rows) {
+      if (!empty($this->options['slide_field_wrapper'])) {
         foreach ($rows as $index => $row) {
-          $rows[$index]->image = $this->rendered_fields[$index][$slide_image];
-          if ($slide_thumbnail) {
-            $rows[$index]->thumbnail = $this->rendered_fields[$index][$slide_thumbnail];
-          }
-        }
-      }
-
-      // Add caption field if so configured.
-      if (!empty($this->options['slide_caption'])) {
-        $slide_captions = $this->options['slide_caption'];
-        $slide_captions = is_array($slide_captions) ? array_filter($slide_captions) : (array) $slide_captions;
-
-        foreach ($rows as $index => $row) {
-          $caption_items = array();
-          foreach ($slide_captions as $key => $slide_caption) {
-            if (empty($this->rendered_fields[$index][$slide_caption])) {
-              continue;
+          // Add main image field if so configured.
+          // @todo get raw values to work with lazyLoad.
+          if (!empty($this->options['slide_image'])) {
+            $slide_image = $this->options['slide_image'];
+            $slide_thumbnail = '';
+            if (!empty($this->options['slide_thumbnail'])) {
+              $slide_thumbnail = $this->options['slide_thumbnail'];
             }
-            if (array_key_exists($slide_caption, $this->rendered_fields[$index])) {
-              $caption_items[$index][$key]['#markup'] = $this->rendered_fields[$index][$slide_caption];
+
+            $rows[$index]->image = $this->get_field($index, $slide_image);
+            if ($slide_thumbnail) {
+              $rows[$index]->thumbnail = $this->get_field($index, $slide_thumbnail);
             }
           }
-          if ($caption_items) {
-            $rows[$index]->caption = $caption_items;
+
+          // Add caption field if so configured.
+          if (!empty($this->options['slide_caption'])) {
+            $slide_captions = $this->options['slide_caption'];
+            $slide_captions = is_array($slide_captions) ? array_filter($slide_captions) : (array) $slide_captions;
+
+            $caption_items = array();
+            foreach ($slide_captions as $key => $slide_caption) {
+              $slide_caption_rendered = $this->get_field($index, $slide_caption);
+              if (empty($slide_caption_rendered)) {
+                continue;
+              }
+              if (in_array($slide_caption, array_values($keys))) {
+                $caption_items[$key]['#markup'] = $slide_caption_rendered;
+              }
+            }
+            if ($caption_items) {
+              $rows[$index]->caption = $caption_items;
+            }
+          }
+
+          // Individual caption fields, if any is provided.
+          // Add overlay field if so configured.
+          if (!empty($this->options['slide_overlay'])) {
+            $slide_overlay = $this->options['slide_overlay'];
+            $rows[$index]->overlay = $this->get_field($index, $slide_overlay);
+          }
+
+          // Add title field if so configured.
+          if (!empty($this->options['slide_title'])) {
+            $slide_title = $this->options['slide_title'];
+            $rows[$index]->title = $this->get_field($index, $slide_title);
+          }
+
+          // Add link field if so configured.
+          if (!empty($this->options['slide_link'])) {
+            $slide_link = $this->options['slide_link'];
+            $rows[$index]->link = $this->get_field($index, $slide_link);
+          }
+
+          // Add layout field if so configured.
+          if (!empty($this->options['slide_layout'])) {
+            $slide_layout = $this->options['slide_layout'];
+            // Slide layout may be a list field, or builtin layout options.
+            if (strpos('field_', $slide_layout) !== FALSE) {
+              $rows[$index]->layout = $this->get_field($index, $slide_layout);
+            }
+            else {
+              $rows[$index]->layout = $slide_layout;
+            }
           }
         }
       }
 
-      // Individual caption fields, if any is provided.
-      // Add overlay field if so configured.
-      if (!empty($this->options['slide_overlay'])) {
-        $slide_overlay = $this->options['slide_overlay'];
-        foreach ($rows as $index => $row) {
-          $rows[$index]->overlay = $this->rendered_fields[$index][$slide_overlay];
-        }
-      }
-
-      // Add title field if so configured.
-      if (!empty($this->options['slide_title'])) {
-        $slide_title = $this->options['slide_title'];
-        foreach ($rows as $index => $row) {
-          $rows[$index]->title = $this->rendered_fields[$index][$slide_title];
-        }
-      }
-
-      // Add link field if so configured.
-      if (!empty($this->options['slide_link'])) {
-        $slide_link = $this->options['slide_link'];
-        foreach ($rows as $index => $row) {
-          $rows[$index]->link = $this->rendered_fields[$index][$slide_link];
-        }
-      }
-
-      // Add layout field if so configured.
-      if (!empty($this->options['slide_layout'])) {
-        $slide_layout = $this->options['slide_layout'];
-        // Slide layout may be a list field, or builtin layout options.
-        if (strpos('field_', $slide_layout) !== FALSE) {
-          foreach ($rows as $index => $row) {
-            $rows[$index]->layout = $this->rendered_fields[$index][$slide_layout];
-          }
-        }
-        else {
-          foreach ($rows as $index => $row) {
-            $rows[$index]->layout = $slide_layout;
-          }
-        }
-      }
-
-      // @todo refactor to use render array and use theme_slick() instead to
-      // make nice with D8 upgrade.
-      $output .= theme($this->theme_functions(),
-        array(
-          'view' => $this->view,
-          'options' => $this->options,
-          'rows' => $rows,
-        )
+      // Build the slick.
+      $build = array(
+        '#theme' => $this->theme_functions(),
+        '#view' => $this->view,
+        '#options' => $this->options,
+        '#rows' => $rows,
       );
     }
 
-    return $output;
+    return $build;
   }
 }

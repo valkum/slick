@@ -10,33 +10,35 @@
  */
 function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $langcode, $thumb_nav = FALSE) {
   $build = array();
-  $media = '';
+  $css = array();
 
+  $slick_id = $settings['attributes']['id'];
+  $asnavfor = 'main';
+  
   foreach ($items as $key => $item) {
-    $tmp = $item;
-    $item = array(
-      'item' => $tmp,
+    $slide = array(
+      'item' => $item,
       'slide' => array(),
       'caption' => array(),
     );
 
-    $item_type = isset($item['item']['type']) ? $item['item']['type'] : $field['type'];
+    $slide_type = isset($slide['item']['type']) ? $slide['item']['type'] : $field['type'];
 
     // Setup the variables for the image.
     $image_style     = $settings['image_style'];
-    $fid             = $item['item']['fid'];
-    $image['uri']    = $item['item']['uri'];
-    $image['width']  = isset($item['item']['metadata']['width']) ? $item['item']['metadata']['width'] : NULL;
-    $image['height'] = isset($item['item']['metadata']['height']) ? $item['item']['metadata']['height'] : NULL;
-    $image['alt']    = $item['item']['alt'];
-    $image['title']  = $item['item']['title'];
+    $fid             = $slide['item']['fid'];
+    $image['uri']    = $slide['item']['uri'];
+    $image['width']  = isset($slide['item']['metadata']['width']) ? $slide['item']['metadata']['width'] : NULL;
+    $image['height'] = isset($slide['item']['metadata']['height']) ? $slide['item']['metadata']['height'] : NULL;
+    $image['alt']    = $slide['item']['alt'];
+    $image['title']  = $slide['item']['title'];
 
     $settings['has_media']      = TRUE;
     $settings['is_media']       = FALSE;
     $settings['media_height']   = $image['height'];
     $settings['media_width']    = $image['width'];
 
-    $file = (object) $item['item'];
+    $file = (object) $slide['item'];
     $uri = $file->uri;
 
     // If a file has an invalid type, allow file_view_file() to work.
@@ -61,7 +63,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
     $settings['image_style'] = $image_style;
     $settings['scheme']      = $scheme;
-    $settings['type']        = $item_type;
+    $settings['type']        = $slide_type;
 
     // Get audio/video thumbnail uri.
     if ($media_image_uri = _slick_fields_get_media_thumbnail($settings, $uri, $image_style)) {
@@ -71,7 +73,6 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     // Provide thumbnail pagers if so configured.
     $thumbnail = '';
     $thumbnail_hover = '';
-    $asnavfor = 'main';
 
     if (isset($settings['thumbnail_style']) && $settings['thumbnail_style']) {
       $image['path'] = $image['uri'];
@@ -90,7 +91,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       if (!empty($settings['slide_title'])) {
         if ($field_title = field_get_items('file', $file, $settings['slide_title'], $langcode)) {
           $title = $field_title[0]['safe_value'];
-          $item['caption']['title'] = $title;
+          $slide['caption']['title'] = $title;
         }
       }
 
@@ -103,14 +104,14 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
             $caption_items[$i] = $caption;
           }
         }
-        $item['caption']['data'] = $caption_items;
+        $slide['caption']['data'] = $caption_items;
       }
 
       // Link, if so configured.
       if (!empty($settings['slide_link'])) {
         if ($field_link = field_get_items('file', $file, $settings['slide_link'], $langcode)) {
           $link = field_view_field('file', $file, $settings['slide_link'], $view_mode, $langcode);
-          $item['caption']['link'] = $link;
+          $slide['caption']['link'] = $link;
         }
       }
 
@@ -118,7 +119,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       if (!empty($settings['slide_layout'])) {
         if ($field_layout = field_get_items('file', $file, $settings['slide_layout'], $langcode)) {
           $layout = $field_layout[0]['value'];
-          $item['caption']['layout'] = check_plain($layout);
+          $slide['caption']['layout'] = check_plain($layout);
         }
       }
 
@@ -149,7 +150,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     }
 
     // Pass it over theme_slick_media.
-    $item['slide'] = array(
+    $slide['slide'] = array(
       '#theme' => 'slick_media',
       '#item' => $image_slide,
       '#settings' => $settings,
@@ -158,10 +159,18 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
     // If has Media fields.
     if ($settings['is_media'] && !$thumb_nav) {
-      $item['slide']['#media'] = $media;
+      $slide['slide']['#media'] = $media;
     }
 
-    $build[$key] = $item;
+    // @todo map from picture, or refine for mobile.
+    // @todo refine for video/audio.
+    if (in_array($settings['skin'], array('fullscreen', 'parallax'))) {
+      $slide['slide'] = array();
+      $fullscreen_image_url = image_style_url($settings['image_style'], $image['uri']);
+      $css[] = "#{$slick_id} .slide--{$key} {background-image: url('{$fullscreen_image_url}')}";
+    }
+
+    $build[$key] = $slide;
   }
 
   return $build;

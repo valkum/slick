@@ -36,7 +36,19 @@ function slick_theme($existing, $type, $theme, $path) {
       'render element' => 'element',
       'template' => 'slick-media',
     ),
+    // Slick lazy load image formatter.
+    'slick_image_formatter_lazy' => $base + array(
+      'variables' => array(
+        'item' => NULL,
+        'path' => NULL,
+        'image_style' => NULL,
+        'delta' => 0,
+        'count' => NULL,
+        'options' => array(),
+      ),
+    ),
     // Slick lazy load image. Uses variables to get easy with core theme_image.
+    // @todo drop, use slick_image_formatter_lazy alone.
     'slick_image_lazy' => $base + array(
       'variables' => array(
         'style_name' => NULL,
@@ -47,17 +59,6 @@ function slick_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'lazy' => FALSE,
         'attributes' => array(),
-        'options' => array(),
-      ),
-    ),
-    // Slick lazy load image formatter.
-    'slick_image_formatter_lazy' => $base + array(
-      'variables' => array(
-        'item' => NULL,
-        'path' => NULL,
-        'image_style' => NULL,
-        'delta' => 0,
-        'count' => NULL,
         'options' => array(),
       ),
     ),
@@ -314,6 +315,7 @@ function slick_attach(array $attach) {
     'attach_colorbox'       => FALSE,
     'attach_skin'           => NULL,
     'attach_skin_thumbnail' => NULL,
+    'attach_inline_css'     => NULL,
   );
 
   $attach = array_merge($defaults, $attach);
@@ -368,6 +370,14 @@ function slick_attach(array $attach) {
         $load['js'][] = $js;
       }
     }
+  }
+
+  if ($attach['attach_inline_css']) {
+    $load['css'][] = array(
+      'data' => $attach['attach_inline_css'],
+      'type' => 'inline',
+      'group' => CSS_THEME + 1,
+    );
   }
 
   // Attach default JS settings to allow responsive options have a lookup and

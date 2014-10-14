@@ -776,7 +776,7 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       'media_switch' => FALSE,
       'picture' => FALSE,
 			'mousewheel' => FALSE,
-      'color' => '',
+      'inline_css' => '',
       'current_display' => 'main',
       'dots_main' => '',
       'dots_thumbnail' => '',
@@ -835,20 +835,16 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
         module_load_include('inc', 'slick_fields', 'includes/slick_fields.formatters.field_collection');
         $build = _slick_fields_format_field_collection($settings, $items, $field, $view_mode, $langcode);
         $thumb = _slick_fields_format_field_collection($settings, $items, $field, $view_mode, $langcode, TRUE);
-        if ($settings['color']) {
-          $css = implode("\n", $settings['color']);
-          drupal_add_css($css, array('type' => 'inline', 'group' => CSS_THEME + 1));
-        }
         break;
     }
 
-    $element = array(
-      '#theme' => 'slick_wrapper',
-      '#items' => $items,
-      '#settings' => $settings,
-    );
+    // @todo not working with Views preview.
+    if ($settings['inline_css']) {
+      $css = implode("\n", $settings['inline_css']);
+      $attach['attach_inline_css'] = $css;
+    }
 
-    $element[0] = array(
+    $slick[0] = array(
       '#theme' => 'slick',
       '#items' => $build,
       '#settings' => $settings,
@@ -860,13 +856,19 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
       $settings['attributes']['id'] = $item_id . '-thumbnail';
       $settings['optionset'] = $settings['optionset_thumbnail'];
       $settings['current_display'] = 'thumbnail';
-      $element[1] = array(
+      $slick[1] = array(
         '#theme' => 'slick',
         '#items' => $thumb,
         '#settings' => $settings,
         '#attached' => array(),
       );
     }
+
+    $element = array(
+      '#theme' => 'slick_wrapper',
+      '#items' => $slick,
+      '#settings' => $settings,
+    );
   }
 
   return $element;

@@ -10,26 +10,28 @@
  */
 function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FALSE) {
   $build = array();
-  $field_type = $field['type'];
+  $css = array();
+
   $asnavfor = 'main';
+  $slick_id = $settings['attributes']['id'];
+
   foreach ($items as $key => $item) {
-    $tmp = $item;
-    $item = array(
-      'item' => $tmp,
+    $slide = array(
+      'item' => $item,
       'slide' => array(),
       'caption' => array(),
     );
 
     // Once media.module enabled, it populates type.
-    $item_type = isset($item['item']['type']) ? $item['item']['type'] : $field_type;
-    $settings['type'] = $item_type;
+    $slide_type = isset($slide['item']['type']) ? $slide['item']['type'] : $field['type'];
+    $settings['type'] = $slide_type;
 
     // Setup the variables.
-    $image['uri']    = $item['item']['uri'];
-    $image['width']  = isset($item['item']['width']) ? $item['item']['width'] : NULL;
-    $image['height'] = isset($item['item']['height']) ? $item['item']['height'] : NULL;
-    $image['alt']    = $item['item']['alt'];
-    $image['title']  = $item['item']['title'];
+    $image['uri']    = $slide['item']['uri'];
+    $image['width']  = isset($slide['item']['width']) ? $slide['item']['width'] : NULL;
+    $image['height'] = isset($slide['item']['height']) ? $slide['item']['height'] : NULL;
+    $image['alt']    = $slide['item']['alt'];
+    $image['title']  = $slide['item']['title'];
 
     $settings['media_height'] = $image['height'];
     $settings['media_width']  = $image['width'];
@@ -54,16 +56,16 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
       // Slide captions.
       if (!empty($settings['slide_caption'])) {
         if (!empty($image['title'])) {
-          $item['caption']['title']['#markup'] = filter_xss($image['title']);
+          $slide['caption']['title']['#markup'] = filter_xss($image['title']);
         }
         if (!empty($image['alt'])) {
-          $item['caption']['alt']['#markup'] = filter_xss($image['alt']);
+          $slide['caption']['alt']['#markup'] = filter_xss($image['alt']);
         }
       }
 
       // Slide layouts.
       if (!empty($settings['slide_layout'])) {
-        $item['caption']['layout'] = check_plain($settings['slide_layout']);
+        $slide['caption']['layout'] = check_plain($settings['slide_layout']);
       }
 
       // Image with picture and colorbox supports.
@@ -87,15 +89,24 @@ function _slick_fields_format_image(&$settings, $items, $field, $thumb_nav = FAL
     }
 
     // Pass it over to theme_slick_media.
-    $item['slide'] = array(
+    $slide['slide'] = array(
       '#theme' => 'slick_media',
       '#item' => $image_slide,
       '#settings' => $settings,
       '#asnavfor' => $asnavfor,
     );
 
-    $build[$key] = $item;
+    // @todo map from picture, or refine for mobile.
+    if (in_array($settings['skin'], array('fullscreen', 'parallax'))) {
+      $slide['slide'] = array();
+      $fullscreen_image_url = image_style_url($settings['image_style'], $image['uri']);
+      $css[] = "#{$slick_id} .slide--{$key} {background-image: url('{$fullscreen_image_url}')}";
+    }
+
+    $build[$key] = $slide;
   }
+
+  $settings['inline_css'] = $css;
 
   return $build;
 }

@@ -146,6 +146,7 @@ function template_preprocess_slick(&$variables) {
 
   $attributes['class'][] = $js_settings['centerMode'] ? 'slick--center' : 'slick--float';
 
+  // @todo drop, is it really needed anywhere else?
   if (isset($settings['field_type'])) {
     $attributes['class'][] = drupal_clean_css_identifier('slick--' . $settings['field_type']);
   }
@@ -242,7 +243,7 @@ function template_preprocess_slick(&$variables) {
   foreach ($items as $delta => $item) {
     $settings['current_item'] = $settings['current_display'];
 
-    $build[] = array(
+    $build[$delta] = array(
       '#theme' => 'slick_item',
       '#item' => $item['slide'],
       '#delta' => $delta,
@@ -262,7 +263,7 @@ function template_preprocess_slick(&$variables) {
   // attached instead. Also D8 recommended.
   // @see slick_fields, or slick_views for the attached ones.
   // This is here to load basic libraries if you don't use the sub-modules.
-  // New direction October 8, 2014.
+  // New D8 direction, October 8, 2014.
   // @see https://www.drupal.org/node/2352319
   // @see https://www.drupal.org/node/2346369
   if (!isset($element['#attached'])) {
@@ -357,15 +358,14 @@ function template_preprocess_slick_item(&$variables) {
       $variables['item_suffix'] = '</div>';
     }
 
-    // If fullwidth, add additional wrappers to hold caption + overlay properly
-    // within the max-width containner.
-    if ($settings['skin'] == 'fullwidth') {
+    // If fullwidth or fullscreen, add additional wrappers to hold caption and
+    // overlay properly within the max-width containner.
+    if (strpos($settings['skin'], 'full') !== FALSE) {
       $variables['title_prefix'] = '<div class="slide__constrained">';
       $variables['title_suffix'] = '</div>';
     }
 
-    // $settings['attach_colorbox'] has its own pattern DIV within A tag, so
-    // exclude it.
+    // Exclude colorbox switcher as it has its own pattern DIV within A tag.
     // @see theme_slick_image_lazy.
     if ($settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
       $variables['slide_pattern'] = '<div class="slide__pattern"></div>';
@@ -501,12 +501,16 @@ function template_preprocess_slick_wrapper(&$variables) {
   $settings = $element['#settings'] ? $element['#settings'] : array();
   $variables['items'] = array();
   foreach ($element['#items'] as $delta => $item) {
-    if (!empty($element[$delta])) {
-      $variables['items'][$delta] = $element[$delta];
+    if (!empty($item)) {
+      $variables['items'][$delta] = $item;
     }
   }
 
   $variables['attributes_array'] = array('class' => array('slick-wrapper'));
+
+  if (isset($settings['skin']) && $settings['skin']) {
+    $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--' . $settings['skin']);
+  }
 
   if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
     $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--asnavfor');
@@ -623,11 +627,6 @@ function theme_slick_image_lazy($variables) {
 
     $build .= '<img ' . drupal_attributes($attributes) . ' />';
 
-    if ($variables['options']['colorbox']) {
-      $build .= '<i class="media-icon media-icon--colorbox"></i>';
-      $build .= '<div class="slide__pattern"></div>';
-    }
-
     // Only provide noscript to the first image, since the rest of the slides
     // always want JS with all this lazyLoad.
     if ($count > 1 && $variables['delta'] == 0) {
@@ -694,14 +693,18 @@ function theme_slick_image_formatter_lazy($variables) {
   if ($image['count'] > 1) {
     $image['lazy'] = $variables['options']['lazy'];
   }
-  $image['options']['type']     = $variables['options']['type'];
-  $image['options']['colorbox'] = isset($variables['options']['colorbox']) && $variables['options']['colorbox'];
+  $image['options']['type'] = $variables['options']['type'];
 
   $output = theme('slick_image_lazy', $image);
 
   // The link path and link options are both optional, but for the options to be
   // processed, the link path must at least be an empty string.
   if (isset($variables['path']['path'])) {
+    if (isset($variables['options']['colorbox']) && $variables['options']['colorbox']) {
+      $output .= '<i class="media-icon media-icon--colorbox"></i>';
+      $output .= '<div class="slide__pattern"></div>';
+    }
+
     $path = $variables['path']['path'];
     $options = isset($variables['path']['options']) ? $variables['path']['options'] : array();
     // When displaying an image inside a link, the html option must be TRUE.

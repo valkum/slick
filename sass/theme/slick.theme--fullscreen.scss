@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+// Import external libraries.
+@import "compass";
+@import "breakpoint";
+@import "singularitygs";
+@import "toolkit-no-css";
+@import "compass/typography/vertical_rhythm";
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "../variables/**/*";
+@import "../abstractions/**/*";
+/**
+ * @file
+ * Best with 1 slidesToShow, placed at external region.
+ * Detailed stylings are all yours, get yourself dirty.
+ */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+  // Prevent fullscreen slick preview from interfering the Views admin.
+  &.page-admin {
+    overflow: visible;
+  }
+}
+
+.slick-wrapper--fullscreen {
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  // Adjust this to position it below other contents.
+  z-index: 8;
+
+  // Prevent fullscreen slick preview from interfering the Views admin.
+  .page-admin & {
+    position: relative;
+  }
+
+  .slick--skin--fullscreen {
+    height: 100%;
+    min-height: 100%;
+
+    .slick-list,
+    .slick-track,
+    .slick__slide,
+    .slide__content,
+    .media,
+    .slide__media {
+      height: 100%;
+    }
+
+    .slick__slide {
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .slide__media {
+      // Temp fix, if not using inline CSS, such as Views.
+      img {
+        height: auto !important;
+        margin: 0 auto;
+        max-height: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        position: absolute;
+        width: 100%;
+      }
+    }
+
+    .slide__constrained {
+      @include max-container-absolute(98%, 10%, absolute);
+      min-height: 210px;
+
+      .slide__caption {
+        position: relative;
+      }
+
+      @include breakpoint($desk) {
+        @include max-container-absolute(98%, 15%);
+      }
+
+      @include breakpoint($desk-large) {
+        @include max-container-absolute($max-container-large);
+      }
+    }
+  }
+}
+
+.slick--skin--fullscreen {
+
+  .slide__caption {
+    @include font-size(22px);
+    color: $white;
+  }
+  .slide__title {
+    color: $white;
+    @include font-size(48px);
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .slide__link {
+    a {
+      border-bottom: 2px solid $white-trans;
+      border-top: 2px solid $white-trans;
+      color: $white;
+      color: $white-trans;
+      text-decoration: none;
+
+      &:hover {
+        border-color: $white;
+        color: $white;
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -54,6 +54,13 @@ function slick_slick_skins_info() {
         $module_path . '/css/theme/slick.theme--classic.css',
       ),
     ),
+    'fullscreen' => array(
+      'name' => t('Full screen'),
+      'description' => t('Adds full screen display, works best with 1 slidesToShow.'),
+      'css' => array(
+        $module_path . '/css/theme/slick.theme--fullscreen.css',
+      ),
+    ),
     'fullwidth' => array(
       'name' => t('Full width'),
       'description' => t('Adds .slide__constrained wrapper to hold caption overlay within the max-container.'),
