@@ -266,7 +266,7 @@ function template_preprocess_slick(&$variables) {
   // New D8 direction, October 8, 2014.
   // @see https://www.drupal.org/node/2352319
   // @see https://www.drupal.org/node/2346369
-  if (!isset($element['#attached'])) {
+  if ($count > 1 && !isset($element['#attached'])) {
     slick_add($settings);
   }
 }

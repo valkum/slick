@@ -1,18 +1,19 @@
 
 Slick 7.x-2.0-dev, 2014-10-28
 -----------------------------
+Updated slick.theme.inc to load fallbacks only if slick items count > 1.
 Updated slick.load.js to reflect the latest library fixes:
   - Removed workaround with:
     Responsive breakpoint change removes custom prev / next arrows
     https://github.com/kenwheeler/slick/issues/480
-    
+
   - Removed workaround with:
     asNavFor thumbnails stopped working with slidesToShow > total slides
     https://github.com/kenwheeler/slick/issues/497
-    
+
     Leaving a single remaining use with centerMode disable:
       http://jsfiddle.net/o4toq31q/18/
-    
+
 Updated to Slick version 1.3.12
 
 Slick 7.x-2.0-dev, 2014-10-16
