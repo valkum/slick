@@ -14,7 +14,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
   $slick_id = $settings['attributes']['id'];
   $asnavfor = 'main';
-  
+
   foreach ($items as $key => $item) {
     $slide = array(
       'item' => $item,

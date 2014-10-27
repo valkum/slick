@@ -367,7 +367,7 @@ class SlickOptionsetUi extends ctools_export_ui {
  * Selects and returns the fieldset with the names in it.
  */
 function slick_add_breakpoints_ajax_callback($form, $form_state) {
-  if ($form_state['values']['breakpoints'] && $form_state['values']['breakpoints'] >= 9) {
+  if ($form_state['values']['breakpoints'] && $form_state['values']['breakpoints'] >= 8) {
     drupal_set_message(t('You are trying to load too many Breakpoints. Try reducing it to reasonable numbers say, between 1 to 5.'));
   }
   return $form['options']['responsives']['responsive'];

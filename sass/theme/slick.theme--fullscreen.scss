@@ -54,8 +54,13 @@ body {
     .slide__content,
     .media,
     .slide__media {
-      height: 100%;
+      height: 100% !important; // vertical issue!
     }
+    
+    .slick-track {
+      margin: 0;
+      padding: 0;
+    }    
 
     .slick__slide {
       background-repeat: no-repeat;

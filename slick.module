@@ -5,7 +5,7 @@
  * Slick carousel integration, the last carousel you'll ever need.
  */
 
-define('SLICK_VERSION', '1.3.11');
+define('SLICK_VERSION', '1.3.12');
 
 /**
  * Implements hook_theme().
@@ -372,6 +372,7 @@ function slick_attach(array $attach) {
     }
   }
 
+  // Inline CSS for individual slide color, or fullscreen skin.
   if ($attach['attach_inline_css']) {
     $load['css'][] = array(
       'data' => $attach['attach_inline_css'],

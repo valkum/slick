@@ -38,7 +38,11 @@ body.page-admin {
 .slick-wrapper--fullscreen .slick--skin--fullscreen .slide__content,
 .slick-wrapper--fullscreen .slick--skin--fullscreen .media,
 .slick-wrapper--fullscreen .slick--skin--fullscreen .slide__media {
-  height: 100%;
+  height: 100% !important;
+}
+.slick-wrapper--fullscreen .slick--skin--fullscreen .slick-track {
+  margin: 0;
+  padding: 0;
 }
 .slick-wrapper--fullscreen .slick--skin--fullscreen .slick__slide {
   background-repeat: no-repeat;

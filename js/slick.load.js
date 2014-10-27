@@ -25,19 +25,9 @@
           globals = Drupal.slick.globals(self, merged),
           toShow = parseInt(configs.slidesToShow);
 
-        // @todo drop if any fix with total <= slidesToShow.
-        // @see https://github.com/kenwheeler/slick/issues/497
+        // @todo remove if any fix > 1.3.12.
         if (total <= toShow) {
           $('.slick__arrow', self).remove();
-        }
-        if (t.hasClass('slick--display--thumbnail')) {
-          if (total < toShow) {
-            // Leave odd, otherwise make it odd to work properly.
-            configs.slidesToShow = total %2 != 0 ? total : total - 1;
-          }
-          else if (total == toShow) {
-            configs.slidesToShow = total - 1;
-          }
         }
 
         // Populate defaults + globals into breakpoints.
@@ -51,15 +41,6 @@
 
         // Build the Slick.
         t.slick($.extend(configs, globals, callbacks));
-
-        // @todo drop when appendArrows works on resize.
-        // @see https://github.com/kenwheeler/slick/issues/480
-        $(window).bind('resize', function () {
-          var a = $('.slick__arrow', self);
-          if (a.length && $prevArrow.length) {
-            a.append($prevArrow).append($nextArrow);
-          }
-        });
 
 			  // @todo drop when mousewheel does get in.
 				// @see https://github.com/kenwheeler/slick/issues/122

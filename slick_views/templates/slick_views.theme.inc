@@ -85,9 +85,7 @@ function template_preprocess_slick_views(&$variables) {
         $item['slide'] = $view->style_plugin->row_plugin->render($row);
       }
 
-      // if ($item['slide']) {
-        $items[] = $item;
-      //}
+      $items[] = $item;
 
       if (isset($thumb['slide']) && $thumb['slide']) {
         $thumb['item']['type'] = 'views';

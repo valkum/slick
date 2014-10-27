@@ -1,5 +1,25 @@
 
-Slick 7.x-2.0-dev, 2014-10-11
+Slick 7.x-2.0-dev, 2014-10-28
+-----------------------------
+Updated slick.load.js to reflect the latest library fixes:
+  - Removed workaround with:
+    Responsive breakpoint change removes custom prev / next arrows
+    https://github.com/kenwheeler/slick/issues/480
+    
+  - Removed workaround with:
+    asNavFor thumbnails stopped working with slidesToShow > total slides
+    https://github.com/kenwheeler/slick/issues/497
+    
+    Leaving a single remaining use with centerMode disable:
+      http://jsfiddle.net/o4toq31q/18/
+    
+Updated to Slick version 1.3.12
+
+Slick 7.x-2.0-dev, 2014-10-16
+-----------------------------
+Fixed for vertical direction on Full screen skin.
+
+Slick 7.x-2.0-dev, 2014-10-15
 -----------------------------
 Updated slick.colorbox.js to reflect fixes from Slick >= 1.3.11.
 Refactored Slick Views.
