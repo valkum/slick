@@ -566,6 +566,14 @@ function slick_get_options() {
       'default' => TRUE,
     );
 
+    $options['initialSlide'] = array(
+      'title' => t('Initial slide'),
+      'description' => t('Slide to start on.'),
+      'type' => 'textfield',
+      'cast' => 'int',
+      'default' => 0,
+    );
+
     $options['lazyLoad'] = array(
       'title' => t('Lazy load'),
       'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to   generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),

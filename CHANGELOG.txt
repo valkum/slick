@@ -1,6 +1,14 @@
 
+Slick 7.x-2.0-dev, 2014-10-30
+-----------------------------
+Added a new option: initialSlide introduced at Slick 1.3.12
+Issue #2305949 by scottalan: Start carousel on specific item
+
 Slick 7.x-2.0-dev, 2014-10-28
 -----------------------------
+Updated to Slick version 1.3.13:
+  Emergency Hotfix for slidesToScroll: 1 and infinite: false (#718)
+
 Updated slick.theme.inc to load fallbacks only if slick items count > 1.
 Updated slick.load.js to reflect the latest library fixes:
   - Removed workaround with:
@@ -14,7 +22,7 @@ Updated slick.load.js to reflect the latest library fixes:
     Leaving a single remaining use with centerMode disable:
       http://jsfiddle.net/o4toq31q/18/
 
-Updated to Slick version 1.3.12
+Updated to Slick version 1.3.12.
 
 Slick 7.x-2.0-dev, 2014-10-16
 -----------------------------

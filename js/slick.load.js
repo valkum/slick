@@ -23,7 +23,7 @@
           $nextArrow = $('.slick__arrow .slick-next', self),
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
           globals = Drupal.slick.globals(self, merged),
-          toShow = parseInt(configs.slidesToShow);
+          toShow = parseInt(merged.slidesToShow);
 
         // @todo remove if any fix > 1.3.12.
         if (total <= toShow) {
@@ -44,7 +44,7 @@
 
 			  // @todo drop when mousewheel does get in.
 				// @see https://github.com/kenwheeler/slick/issues/122
-				if ($.isFunction($.fn.mousewheel) && configs.mousewheel) {
+				if ($.isFunction($.fn.mousewheel) && merged.mousewheel) {
           t.on('mousewheel', function(e, delta) {
             e.preventDefault();
 						var wheelUp = (delta < 0) ? t.slickNext() : t.slickPrev();

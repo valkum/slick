@@ -5,7 +5,7 @@
  * Slick carousel integration, the last carousel you'll ever need.
  */
 
-define('SLICK_VERSION', '1.3.12');
+define('SLICK_VERSION', '1.3.13');
 
 /**
  * Implements hook_theme().
