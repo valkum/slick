@@ -20,7 +20,7 @@
  *   The number of breakpoints if specified.
  *
  * @return array
- *    An array of default options, or a specific group if $set is specified.
+ *   An array of default options, or a specific group if $set is specified.
  */
 function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL) {
 
@@ -762,7 +762,7 @@ function slick_get_options() {
 /**
  * Defines a list of options available for the responsive Slick.
  *
- * @param $count
+ * @param int $count
  *   The number of breakpoint if specified.
  *
  * @return array

@@ -81,6 +81,10 @@ not the module job to match your design requirements.
 
 Available skins:
 ---------------
+- None
+  Doesn't load any extra CSS other than the basic styles required by slick.
+  If you are using individual slide layout, you may have to do the layouts
+  yourself.
 - 3d back
   Adds 3d view with focal point at back, works best with 3 slidesToShow,
   centerMode, and caption below the slide.

@@ -1,4 +1,8 @@
 
+Slick 7.x-2.0-dev, 2014-11-05
+-----------------------------
+Issue #2369129 by bjmiller121: Option for no skin to be loaded.
+
 Slick 7.x-2.0-dev, 2014-10-31
 -----------------------------
 Removed slick.theme--extra.txt containing unused pure CSS arrows.

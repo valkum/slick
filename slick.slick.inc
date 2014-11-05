@@ -11,7 +11,7 @@
  * All the skins are very basic, to perform possible variants. It doesn't care
  * about looking great, and other element stylings, but basic one and layouts.
  * Detailed styling is all yours to match your actual design.
- * It should be used in relation to individual slide layout  to get most out of
+ * It should be used in relation to individual slide layout to get most out of
  * it, see README.txt on slick_fields.module for possible Slide layout using a
  * field.
  *
@@ -27,6 +27,10 @@ function slick_slick_skins_info() {
   $module_path = drupal_get_path('module', 'slick');
 
   $skins = array(
+    'none' => array(
+      'name' => t('- None -'),
+      'description' => t("Doesn't load any extra CSS other than the basic styles required by slick."),
+    ),
     'default' => array(
       'name' => t('Default'),
       'css' => array(

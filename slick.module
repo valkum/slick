@@ -173,9 +173,6 @@ function slick_library() {
     'js' => array(
       $slick_module_path . '/js/slick.load.js' => array('group' => JS_DEFAULT, 'weight' => 0),
     ),
-    'css' => array(
-      $slick_module_path . '/css/theme/slick.theme.css',
-    ),
     'dependencies' => array(
       array('system', 'jquery.once'),
       array('slick', 'slick'),
@@ -303,6 +300,7 @@ function slick_libraries_info() {
  *   Array formatted for the '#attached' property.
  */
 function slick_attach(array $attach) {
+  $module_path = drupal_get_path('module', 'slick');
   $skins = slick_skins();
   $load = array();
   $defaults = array(
@@ -351,6 +349,7 @@ function slick_attach(array $attach) {
       foreach ($skins[$skin]['css'] as $c => $css) {
         $load['css'][] = $css;
       }
+      $load['css'][] = $module_path . '/css/theme/slick.theme.css';
     }
     if (isset($skins[$skin]['js'])) {
       foreach ($skins[$skin]['js'] as $j => $js) {

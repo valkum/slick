@@ -254,7 +254,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#type' => 'fieldset',
       '#title' => t('Slick carousel'),
       '#attributes' => array('class' => array('form--slick form--compact form--field has-tooltip')),
-      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if working with custom markups. <br><small>Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery > 1.7.</small>'),
+      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if working with custom markups. <br /><small>Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery > 1.7.</small>'),
     );
 
     foreach ($element as $key => $item) {
