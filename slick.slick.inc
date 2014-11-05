@@ -27,10 +27,6 @@ function slick_slick_skins_info() {
   $module_path = drupal_get_path('module', 'slick');
 
   $skins = array(
-    'none' => array(
-      'name' => t('- None -'),
-      'description' => t("Doesn't load any extra CSS other than the basic styles required by slick."),
-    ),
     'default' => array(
       'name' => t('Default'),
       'css' => array(

@@ -79,10 +79,12 @@ Some default complex layout skins applied to desktop only, adjust for the mobile
 accordingly. The provided skins are very basic to support the layouts, it is
 not the module job to match your design requirements.
 
-Available skins:
----------------
+Optional skins:
+--------------
 - None
   Doesn't load any extra CSS other than the basic styles required by slick.
+  Skins defined by sub-modules fallback to the Skin defined at the optionset.
+  Re-save existing Optionset to disable the skin at all.
   If you are using individual slide layout, you may have to do the layouts
   yourself.
 - 3d back

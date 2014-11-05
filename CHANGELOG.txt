@@ -1,6 +1,9 @@
 
 Slick 7.x-2.0-dev, 2014-11-05
 -----------------------------
+Added empty_option to all the Skins options. Now the Skin is optional.
+  Skins defined by sub-modules fallback to the Skin defined at the optionset.
+  Re-save existing Optionset to disable the skin at all.
 Issue #2369129 by bjmiller121: Option for no skin to be loaded.
 
 Slick 7.x-2.0-dev, 2014-10-31

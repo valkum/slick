@@ -139,6 +139,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     '#title' => t('Skin main'),
     '#options' => $skins,
     '#default_value' => $settings['skin'],
+    '#empty_option' => t('- None -'),
     '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself. See main <a href="@url" target="_blank">README</a> for details on Skins.', array('@url' => url($slick_module_path . '/README.md'))),
     '#attributes' => array('class' => array('is-tooltip')),
   );

@@ -62,6 +62,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#title' => t('Skin main'),
       '#options' => $skins,
       '#default_value' => $settings['skin'],
+      '#empty_option' => t('- None -'),
       '#description' => t('Skins allow swappable layouts like next/prev links, split image and caption, etc. However a combination of skins and options may lead to unpredictable layouts, get dirty yourself.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
