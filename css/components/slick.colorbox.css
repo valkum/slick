@@ -7,10 +7,7 @@
 .colorbox-on--audio #colorbox,
 .colorbox-on--audio #cboxContent,
 .colorbox-on--audio #cboxLoadedContent {
-  -webkit-box-sizing: border-box !important;
-  -moz-box-sizing: border-box !important;
   box-sizing: border-box !important;
-  *behavior: none;
 }
 .colorbox-on--video #cboxBottomCenter,
 .colorbox-on--video #cboxBottomRight,
@@ -47,8 +44,6 @@
 }
 .colorbox-on--video #cboxLoadedContent .cboxIframe,
 .colorbox-on--audio #cboxLoadedContent .cboxIframe {
-  -webkit-background-clip: padding-box !important;
-  -moz-background-clip: padding-box !important;
   background-clip: padding-box !important;
   border-radius: 0;
   border: 8px solid #37465b;
@@ -89,17 +84,13 @@
   margin: -1px 0 0 -40px;
   top: 50%;
   width: 80px;
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
 .media-icon--colorbox:after {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 .media-icon--colorbox:hover:before, .media-icon--colorbox:hover:after {

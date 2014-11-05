@@ -6,10 +6,8 @@
 .slick *,
 .slick *:before,
 .slick *:after {
-  -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -120,16 +118,14 @@ img {
 }
 .slick-down:before, .slick-down:after {
   border-right: 3px solid;
-  color: white;
+  color: #fff;
   content: '';
   display: block;
   height: 16px;
   margin-top: -6px;
   position: absolute;
-  -webkit-transform: rotate(135deg);
-  -moz-transform: rotate(135deg);
   -ms-transform: rotate(135deg);
-  -o-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   right: 28px;
   top: 50%;
@@ -137,14 +133,12 @@ img {
 }
 .slick-down:after {
   right: 18px;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .slick-down:hover:before, .slick-down:hover:after {
-  color: white;
+  color: #fff;
 }
 
 /**
@@ -217,7 +211,7 @@ img {
   /* Adjust accordingly to actual thumbnail size */
 }
 .slick__thumbnail li img {
-  background: white;
+  background: #fff;
   border: 2px solid transparent;
   display: block;
   opacity: .6;
@@ -334,10 +328,8 @@ supports no-js */
   }
 
   .slick--center .slick-slide.slick-center {
-    -webkit-transform: scale(1.08);
-    -moz-transform: scale(1.08);
     -ms-transform: scale(1.08);
-    -o-transform: scale(1.08);
+    -webkit-transform: scale(1.08);
     transform: scale(1.08);
     opacity: 1;
   }
@@ -505,7 +497,6 @@ supports no-js */
   cursor: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  -o-user-select: text;
   -webkit-user-select: text;
   user-select: text;
 }

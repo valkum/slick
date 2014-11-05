@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fields formatter for Slick fields admin.
+ * Misc functions for Slick fields admin.
  */
 
 /**

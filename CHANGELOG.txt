@@ -1,4 +1,9 @@
 
+Slick 7.x-2.0-dev, 2014-10-31
+-----------------------------
+Removed slick.theme--extra.txt containing unused pure CSS arrows.
+Updated and cleaned up gems and Sass files.
+
 Slick 7.x-2.0-dev, 2014-10-30
 -----------------------------
 Added a new option: initialSlide introduced at Slick 1.3.12

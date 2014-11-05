@@ -72,7 +72,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#options' => $optionsets,
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['optionset_thumbnail'],
-      '#description' => t('If provided, asNavFor aka thumbnail navigation applies. Provide each optionset a unique asNavFor class at <a href="@link">Slick carousel admin page</a>, or use the provided ID where Slick thumbnail navigation ID is suffixed with "-thumbnail". Leave empty to not use thumbnail navigation.', array('@link' => url('admin/config/media/slick'))),
+      '#description' => t('If provided, asNavFor aka thumbnail navigation applies. Provide each optionset a unique asNavFor class at <a href="@link" target="_blank">Slick carousel admin page</a>, or use the provided ID where Slick thumbnail navigation ID is suffixed with "-thumbnail". Leave empty to not use thumbnail navigation.', array('@link' => url('admin/config/media/slick'))),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -254,7 +254,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#type' => 'fieldset',
       '#title' => t('Slick carousel'),
       '#attributes' => array('class' => array('form--slick form--compact form--field has-tooltip')),
-      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if working with custom markups. <small>Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery >= 1.7.</small>'),
+      '#description' => t('Leave anything empty/unchecked, except Optionset and Skin, if working with custom markups. <br><small>Otherwise only relevant markups are added like Field formatter ones, and you have to add supported fields to appear here. Views preview works with jQuery > 1.7.</small>'),
     );
 
     foreach ($element as $key => $item) {
@@ -318,7 +318,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       if (!empty($this->options['slide_field_wrapper'])) {
         foreach ($rows as $index => $row) {
           // Add main image field if so configured.
-          // @todo get raw values to work with lazyLoad.
+          // @todo get raw values to work with lazyLoad and fullscreen skin.
           if (!empty($this->options['slide_image'])) {
             $slide_image = $this->options['slide_image'];
             $slide_thumbnail = '';

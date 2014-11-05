@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fields formatter for the Slick fields Field collection integration.
+ * Fields formatter for the Slick and Field collection integration.
  */
 
 /**
@@ -322,7 +322,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
 
             // Image with picture supports, but disabled for small overlay,
             // since we don't provide UI to manage small pictures, and picture
-            // is only reasonale for large images.
+            // is only reasonable for large images.
             $overlay_item = _slick_fields_get_picture($settings, $overlay, $key, $media_url);
 
             // Pass it over to theme_slick_media.

@@ -595,7 +595,7 @@ function theme_slick_image_lazy($variables) {
     else {
       $attributes['class'][] = 'lazy';
 
-      // @fixme
+      // @fixme.
       // v1.3.7 allows dummy/ placeholder image:
       // https://github.com/kenwheeler/slick/pull/223
       // However lazyLoad ondemand has issue failing to generate _newly created

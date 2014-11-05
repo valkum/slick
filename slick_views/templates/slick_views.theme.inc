@@ -96,7 +96,7 @@ function template_preprocess_slick_views(&$variables) {
       }
     }
 
-    // unset($view->row_index);
+    unset($view->row_index);
 
     // Add the settings.
     $settings['current_display'] = 'main';

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fields formatter for the Slick fields Media integration.
+ * Fields formatter for the Slick and Media integration.
  */
 
 /**

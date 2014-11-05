@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fields formatter for Slick fields main display.
+ * Global functions for Slick fields formatter display.
  */
 
 /**
@@ -110,6 +110,7 @@ function _slick_fields_get_picture(&$settings, $image, $key, $media_url = NULL) 
         $data_media['width'] = $settings['media_width'];
         $image_variables['path']['options']['external'] = TRUE;
       }
+
       $image_variables['path']['options']['attributes']['data-media'] = drupal_json_encode($data_media);
 
       $image_variables['options']['colorbox'] = TRUE;

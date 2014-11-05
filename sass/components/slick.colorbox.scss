@@ -3,9 +3,6 @@
 // Import external libraries.
 @import "compass";
 @import "breakpoint";
-@import "singularitygs";
-@import "toolkit-no-css";
-@import "compass/typography/vertical_rhythm";
 
 // Import variables, abstractions, base styles and components using globbing.
 @import "../variables/**/*";
@@ -13,6 +10,7 @@
 /**
  * @file
  */
+ // ALl crazy important declarations to override inline CSS by JS.
 .colorbox-on--video,
 .colorbox-on--audio {
   #colorbox,

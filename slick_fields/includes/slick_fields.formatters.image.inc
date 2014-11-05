@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fields formatter for Slick fields core Image field integration.
+ * Fields formatter for Slick and core Image field integration.
  */
 
 /**

@@ -21,28 +21,22 @@
 }
 .slick--skin--3d-back.slick-initialized .slide .slide__content {
   -webkit-perspective: 1500px;
-  -moz-perspective: 1500px;
   -ms-perspective: 1500px;
   perspective: 1500px;
   -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
 .slick--skin--3d-back.slick-initialized .slide .slide__media {
   margin: 30px 0;
-  -webkit-transform: rotateY(25deg);
-  -moz-transform: rotateY(25deg);
   -ms-transform: rotateY(25deg);
-  -o-transform: rotateY(25deg);
+  -webkit-transform: rotateY(25deg);
   transform: rotateY(25deg);
   -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-transition: opacity 1s ease 0s, transform 1s;
+  -webkit-transition: opacity 1s ease 0s, -webkit-transform 1s;
   transition: opacity 1s ease 0s, transform 1s;
   -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
   transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 .slick--skin--3d-back.slick-initialized .slide .slide__caption {
@@ -60,23 +54,19 @@
   transform: scale(0);
 }
 .slick--skin--3d-back.slick-initialized .slide--current ~ .slide .slide__media {
-  -webkit-transform: rotateY(-25deg);
-  -moz-transform: rotateY(-25deg);
   -ms-transform: rotateY(-25deg);
-  -o-transform: rotateY(-25deg);
+  -webkit-transform: rotateY(-25deg);
   transform: rotateY(-25deg);
 }
 .slick--skin--3d-back.slick-initialized .slide--current.slide .slide__media {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
   -ms-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
 .slick--skin--3d-back.slick-initialized .slide--current.slide .slide__caption {
   bottom: auto;
   position: relative;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   visibility: visible;
   -webkit-transform: scale(1);

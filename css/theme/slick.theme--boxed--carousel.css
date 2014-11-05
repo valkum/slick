@@ -6,7 +6,7 @@
   margin: 0 60px;
 }
 .slick--skin--boxed-carousel .slide__content {
-  background: white;
+  background: #fff;
   border: 1px solid #f3f3f3;
   border-bottom: 2px solid #f3f3f3;
   border-radius: 4px;
@@ -17,7 +17,6 @@
   transition: box-shadow 0.3s 0.5s ease, border 0.3s 0.5s ease;
 }
 .slick--skin--boxed-carousel .slide__content:hover {
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   -webkit-transition-delay: 0s;
   transition-delay: 0s;

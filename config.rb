@@ -6,7 +6,7 @@
 ## file for more information.
 ##
 
-#environment = :production
+environment = :production
 
 # Default to development if environment is not set.
 saved = environment
@@ -24,12 +24,16 @@ generated_images_dir = images_dir + "/generated"
 javascripts_dir = "js"
 
 # Require any additional compass plugins installed on your system.
-require 'compass-normalize'
-require 'rgbapng'
-require 'toolkit'
-require 'susy'
-require 'breakpoint-slicer'
+require 'breakpoint'
 require 'sass-globbing'
+require 'autoprefixer-rails'
+
+on_stylesheet_saved do |file|
+  css = File.read(file)
+  File.open(file, 'w') do |io|
+    io << AutoprefixerRails.process(css)
+  end
+end
 
 ##
 ## You probably don't need to edit anything below this.

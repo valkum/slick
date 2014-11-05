@@ -11,7 +11,16 @@
  * Default settings for a newly created option set.
  *
  * @param string $key
- *   Get specific default value [optional].
+ *   Gets a specific default value [optional].
+ *
+ * @param string $set
+ *   Gets a specific group of values [optional].
+ *
+ * @param int $breakpoints
+ *   The number of breakpoints if specified.
+ *
+ * @return array
+ *    An array of default options, or a specific group if $set is specified.
  */
 function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL) {
 
@@ -32,9 +41,9 @@ function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL
             $defaults['responsives']['responsive'][$i][$name] = $groups['default'];
           }
           else {
-            foreach ($groups as $key => $group) {
+            foreach ($groups as $k => $group) {
               if (is_array($group) && isset($group['default'])) {
-                $defaults['responsives']['responsive'][$i][$name][$key] = $group['default'];
+                $defaults['responsives']['responsive'][$i][$name][$k] = $group['default'];
               }
             }
           }
@@ -67,10 +76,14 @@ function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL
  * @param object $optionset
  *   An array of Option Set options, default is loaded if none specified.
  *
+ * @param array $customs
+ *   An array of hand-coded JS options defined using #options property if passed
+ *   via theme_slick().
+ *
  * @return array
  *   An array of reduced duplicated Option set options performance wise.
  */
-function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
+function _slick_remove_default_optionset_options($optionset, $customs = array()) {
   $config = array();
 
   $options = $optionset->options;
@@ -164,6 +177,17 @@ function _slick_remove_default_optionset_options($optionset, $customs = NULL) {
  * Adds the typecasting to the given values.
  *
  * With this, the generated JSON object has the right values.
+ *
+ * Strip out options with default values from the Option Set options.
+ *
+ * @param array $options
+ *   An array of Option Set options, default is loaded if none specified.
+ *
+ * @param int $breakpoints
+ *   The number of breakpoints if specified.
+ *
+ * @return array
+ *   An array of valid typecast values ready to consume by jQuery.
  */
 function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
   if (isset($options) && !empty($options)) {
@@ -198,6 +222,12 @@ function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
 
 /**
  * Gets supported Slick skins, and additional ones.
+ *
+ * @param bool $options
+ *   Flag to limit the returned values for select options.
+ *
+ * @return array
+ *   An array of available skins.
  */
 function slick_skins($options = FALSE) {
   $skins = &drupal_static(__FUNCTION__, NULL);
@@ -223,6 +253,9 @@ function slick_skins($options = FALSE) {
 
 /**
  * Gets default layout options for the core Image, or Views.
+ *
+ * @return array
+ *   An array of available basic layouts.
  */
 function slick_layouts() {
   $layouts = &drupal_static(__FUNCTION__, NULL);
@@ -250,7 +283,7 @@ function slick_layouts() {
 
 /**
  * List of all custom transition effects.
- * @todo drop it or test elementTransition.js
+ * @todo drop it or test elementTransition.js, or othe alternatives.
  */
 function _slick_transition_options() {
   return array();
@@ -258,6 +291,10 @@ function _slick_transition_options() {
 
 /**
  * List of all easing methods available from jQuery Easing v1.3.
+ *
+ * @return array
+ *   An array of available jQuery Easing options as fallback for browsers that
+ *   don't support pure CSS easing methods.
  */
 function _slick_easing_options() {
   $easings = &drupal_static(__FUNCTION__, NULL);
@@ -303,6 +340,12 @@ function _slick_easing_options() {
 
 /**
  * Maps existing jQuery easing value to equivalent CSS easing methods.
+ *
+ * @param string $easing
+ *   The name of the human readable easing.
+ *
+ * @return string
+ *   A string of unfriendly bezier equivalent for the Slick, or NULL.
  */
 function _slick_css_easing_mapping($easing = NULL) {
   $css_easing = '';
@@ -315,7 +358,14 @@ function _slick_css_easing_mapping($easing = NULL) {
 }
 
 /**
- * List of available CSS easing methods.
+ * List of available pure CSS easing methods.
+ *
+ * @param bool $all
+ *   Flag to output the array as is for further processing.
+ *
+ * @return array
+ *   An array of CSS easings for select options, or all for the mappings.
+ *
  * @see https://github.com/kenwheeler/slick/issues/118
  * @see http://matthewlein.com/ceaser/
  * @see http://www.w3.org/TR/css3-transitions/
@@ -368,26 +418,10 @@ function _slick_css_easing_options($all = FALSE) {
 }
 
 /**
- * Gets a media URL from the rendered iframe already containing all the params.
+ * Defines a list of options available for the Slick.
  *
- * This is quicker than rebuilding media params per media contrib module.
- * Basically, to merge all media audio/video templates into one.
- */
-function slick_get_media_url($rendered_media) {
-  $url = '';
-
-  if (!empty($rendered_media) && strpos($rendered_media, 'src') !== FALSE) {
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(TRUE);
-    $dom->loadHTML($rendered_media);
-    $url = $dom->getElementsByTagName('iframe')->item(0)->getAttribute('src');
-  }
-
-  return $url;
-}
-
-/**
- * Defines a list of options available for slick.
+ * @return array
+ *   All available Slick options.
  *
  * @see http://kenwheeler.github.io/slick
  */
@@ -576,7 +610,7 @@ function slick_get_options() {
 
     $options['lazyLoad'] = array(
       'title' => t('Lazy load'),
-      'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to   generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
+      'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
       'type' => 'select',
       'cast' => 'string',
       'default' => 'ondemand',
@@ -727,6 +761,13 @@ function slick_get_options() {
 
 /**
  * Defines a list of options available for the responsive Slick.
+ *
+ * @param $count
+ *   The number of breakpoint if specified.
+ *
+ * @return array
+ *   An array of Slick options copied from the main options with some duplicated
+ *   options removal.
  */
 function slick_get_responsive_options($count = 0) {
   $options = array();
@@ -842,6 +883,31 @@ function slick_hex2rgb($hex) {
   $rgb = array($r, $g, $b);
 
   return implode(",", $rgb);
+}
+
+/**
+ * Gets a media URL from the rendered iframe already containing all the params.
+ *
+ * This is quicker than rebuilding media params per media contrib module.
+ * Basically, to merge all media audio/video templates into one.
+ *
+ * @param string $rendered_media
+ *   The HTML markups of media output, mostly are iframes.
+ *
+ * @return string
+ *   A URL extracted from the iframe SRC attribute.
+ */
+function slick_get_media_url($rendered_media) {
+  $url = '';
+
+  if (!empty($rendered_media) && strpos($rendered_media, 'src') !== FALSE) {
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(TRUE);
+    $dom->loadHTML($rendered_media);
+    $url = $dom->getElementsByTagName('iframe')->item(0)->getAttribute('src');
+  }
+
+  return $url;
 }
 
 /**
@@ -1000,8 +1066,8 @@ function slick_optionset_save($optionset, $new = FALSE) {
 /**
  * Deletes the given option set from the database.
  *
- * @param object $optionset
- *   Optionset object or machine name.
+ * @param string|object $optionset
+ *   Optionset object, or machine name.
  */
 function slick_optionset_delete($optionset) {
   if (isset($optionset->name)) {

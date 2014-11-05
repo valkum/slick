@@ -8,10 +8,10 @@
 .slick--skin--fullwidth .slide__caption {
   font-size: 22px;
   font-size: 1.375rem;
-  color: white;
+  color: #fff;
 }
 .slick--skin--fullwidth .slide__title {
-  color: white;
+  color: #fff;
   font-size: 48px;
   font-size: 3rem;
   font-weight: 600;
@@ -21,13 +21,13 @@
 .slick--skin--fullwidth .slide__link a {
   border-bottom: 2px solid rgba(255, 255, 255, 0.8);
   border-top: 2px solid rgba(255, 255, 255, 0.8);
-  color: white;
+  color: #fff;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
 }
 .slick--skin--fullwidth .slide__link a:hover {
-  border-color: white;
-  color: white;
+  border-color: #fff;
+  color: #fff;
   text-decoration: none;
 }
 .slick--skin--fullwidth .slide__constrained {
