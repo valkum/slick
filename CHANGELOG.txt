@@ -1,4 +1,9 @@
 
+Slick 7.x-2.0-dev, 2014-11-08
+-----------------------------
+Issue #2371205 by estebant: Expand the ternary operator for PHP < 5.3
+  compatibility.
+
 Slick 7.x-2.0-dev, 2014-11-05
 -----------------------------
 Added empty_option to all the Skins options. Now the Skin is optional.

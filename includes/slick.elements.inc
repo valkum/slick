@@ -91,7 +91,7 @@ function _slick_remove_default_optionset_options($optionset, $customs = array())
   $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
 
   // Clean up the main options.
-  $settings = $customs ?: $options['settings'];
+  $settings = $customs ? $customs : $options['settings'];
   $config = array_diff_assoc($settings, $defaults['settings']);
 
   // Must be empty if all is default optionset.

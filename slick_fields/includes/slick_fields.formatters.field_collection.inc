@@ -201,8 +201,8 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
                   $wrapper = file_stream_wrapper_get_instance_by_uri($media['#uri']);
                   $settings['is_media'] = TRUE;
                   if (isset($media['#options'])) {
-                    $settings['media_height'] = $media['#options']['height'] ?: 640;
-                    $settings['media_width'] = $media['#options']['width'] ?: 360;
+                    $settings['media_height'] = $media['#options']['height'] ? $media['#options']['height'] : 640;
+                    $settings['media_width'] = $media['#options']['width'] ? $media['#options']['width'] : 360;
                   }
 
                   $rendered_media = render($media);

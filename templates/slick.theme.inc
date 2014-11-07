@@ -180,7 +180,7 @@ function template_preprocess_slick(&$variables) {
       if ($general['arrow_down_target']) {
         $settings['arrow_down_target'] = str_replace(array('#', '.'), '', $general['arrow_down_target']);
       }
-      $settings['arrow_down_offset'] = $general['arrow_down_offset'] ?: 125;
+      $settings['arrow_down_offset'] = $general['arrow_down_offset'] ? $general['arrow_down_offset'] : 125;
     }
   }
   elseif ($settings['current_display'] == 'thumbnail') {

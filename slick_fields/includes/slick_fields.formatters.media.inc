@@ -51,8 +51,8 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     if ($media && isset($media['#uri'])) {
       $settings['is_media'] = TRUE;
       if (isset($media['#options'])) {
-        $settings['media_height']   = $media['#options']['height'] ?: 640;
-        $settings['media_width']    = $media['#options']['width'] ?: 360;
+        $settings['media_height'] = $media['#options']['height'] ? $media['#options']['height'] : 640;
+        $settings['media_width'] = $media['#options']['width'] ? $media['#options']['width'] : 360;
       }
       $settings['media_uri']      = $media['#uri'];
       $settings['media_fid']      = $file->fid;

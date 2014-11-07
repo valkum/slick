@@ -42,12 +42,12 @@
         // Build the Slick.
         t.slick($.extend(configs, globals, callbacks));
 
-			  // @todo drop when mousewheel does get in.
-				// @see https://github.com/kenwheeler/slick/issues/122
-				if ($.isFunction($.fn.mousewheel) && merged.mousewheel) {
+        // @todo drop when mousewheel does get in.
+        // @see https://github.com/kenwheeler/slick/issues/122
+        if ($.isFunction($.fn.mousewheel) && merged.mousewheel) {
           t.on('mousewheel', function(e, delta) {
             e.preventDefault();
-						var wheelUp = (delta < 0) ? t.slickNext() : t.slickPrev();
+            var wheelUp = (delta < 0) ? t.slickNext() : t.slickPrev();
           });
         }
 

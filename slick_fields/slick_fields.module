@@ -644,29 +644,29 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
     }
 
     if (isset($settings['optionset_label'])) {
-      $optionset_label = $settings['optionset_label'] ?: t('Default settings');
+      $optionset_label = $settings['optionset_label'] ? $settings['optionset_label'] : t('Default settings');
       $summary[] = t('Option set: @optionset_label', array('@optionset_label' => $optionset_label));
     }
 
     if (isset($settings['optionset_thumbnail_label'])) {
-      $optionset_thumbnail_label = $settings['optionset_thumbnail_label'] ?: t('None');
+      $optionset_thumbnail_label = $settings['optionset_thumbnail_label'] ? $settings['optionset_thumbnail_label'] : t('None');
       $summary[] = t('Option set thumbnail: @optionset_thumbnail_label', array('@optionset_thumbnail_label' => $optionset_thumbnail_label));
     }
 
     if (isset($settings['optionset_thumbnail'])) {
       if (isset($settings['asnavfor_main'])) {
-        $asnavfor_main = $settings['asnavfor_main'] ?: t('None');
+        $asnavfor_main = $settings['asnavfor_main'] ? $settings['asnavfor_main'] : t('None');
         $summary[] = t('asNavFor main: @asnavfor_main', array('@asnavfor_main' => $asnavfor_main));
       }
       if (isset($settings['asnavfor_thumbnail'])) {
-        $asnavfor_thumbnail = $settings['asnavfor_thumbnail'] ?: t('None');
+        $asnavfor_thumbnail = $settings['asnavfor_thumbnail'] ? $settings['asnavfor_thumbnail'] : t('None');
         $summary[] = t('asNavFor thumbnail: @asnavfor_thumbnail', array('@asnavfor_thumbnail' => $asnavfor_thumbnail));
       }
     }
 
 
     if (isset($settings['image_style'])) {
-      $image_style = $settings['image_style'] ?: t('None (original image)');
+      $image_style = $settings['image_style'] ? $settings['image_style'] : t('None (original image)');
       $summary[] = t('Image style: @image_style', array('@image_style' => $image_style));
     }
 
@@ -675,12 +675,12 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
     }
 
     if (isset($settings['slide_image'])) {
-      $slide_image = $settings['slide_image'] ?: t('Self');
+      $slide_image = $settings['slide_image'] ? $settings['slide_image'] : t('Self');
       $summary[] = t('Image: @slide_image', array('@slide_image' => $slide_image));
     }
 
     if (isset($settings['thumbnail_style'])) {
-      $thumbnail_style = $settings['thumbnail_style'] ?: t('None');
+      $thumbnail_style = $settings['thumbnail_style'] ? $settings['thumbnail_style'] : t('None');
       $summary[] = t('Thumbnail: @thumbnail_style', array('@thumbnail_style' => $thumbnail_style));
       if (isset($settings['thumbnail_hover'])) {
         $thumbnail_hover = $settings['thumbnail_hover'] ? t('Yes') : t('None');
@@ -689,27 +689,27 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
     }
 
     if (isset($settings['slide_overlay'])) {
-      $slide_overlay = $settings['slide_overlay'] ?: t('None');
+      $slide_overlay = $settings['slide_overlay'] ? $settings['slide_overlay'] : t('None');
       $summary[] = t('Overlay image/video: @slide_overlay', array('@slide_overlay' => $slide_overlay));
     }
 
     if (isset($settings['slide_layout'])) {
-      $slide_layout = $settings['slide_layout'] ?: t('None');
+      $slide_layout = $settings['slide_layout'] ? $settings['slide_layout'] : t('None');
       $summary[] = t('Layout: @slide_layout', array('@slide_layout' => $slide_layout));
     }
 
     if (isset($settings['media_switch'])) {
-      $media_switch = $settings['media_switch'] ?: t('None');
+      $media_switch = $settings['media_switch'] ? $settings['media_switch'] : t('None');
       $summary[] = t('Media switch: @media_switch', array('@media_switch' => $media_switch));
     }
 
     if (isset($settings['slide_title'])) {
-      $slide_title = $settings['slide_title'] ?: t('None');
+      $slide_title = $settings['slide_title'] ? $settings['slide_title'] : t('None');
       $summary[] = t('Title: @slide_title', array('@slide_title' => $slide_title));
     }
 
     if (isset($settings['slide_link'])) {
-      $slide_link = $settings['slide_link'] ?: t('None');
+      $slide_link = $settings['slide_link'] ? $settings['slide_link'] : t('None');
       $summary[] = t('Link: @slide_link', array('@slide_link' => $slide_link));
     }
 
@@ -727,13 +727,13 @@ function slick_fields_field_formatter_settings_summary($field, $instance, $view_
     }
 
     if (isset($settings['color_field'])) {
-      $color_field = $settings['color_field'] ?: t('None');
+      $color_field = $settings['color_field'] ? $settings['color_field'] : t('None');
       $summary[] = t('Color: @color_field', array('@color_field' => $color_field));
     }
 
     // Picture supports.
     if (isset($settings['picture'])) {
-      $picture_style = $settings['picture_style'] ?: t('None (original image)');
+      $picture_style = $settings['picture_style'] ? $settings['picture_style'] : t('None (original image)');
       $summary[] = t('Picture style: @picture_style', array('@picture_style' => $picture_style));
 
       if (!empty($settings['picture_fallback'])) {
