@@ -1,4 +1,11 @@
 
+Slick 7.x-2.0-dev, 2014-11-09
+-----------------------------
+Updated to Slick version 1.3.14:
+  - Added respondTo, giving the ability to respond to slider width or window 
+    width, or the smaller of the two
+  - Bumped the speed default to 500
+
 Slick 7.x-2.0-dev, 2014-11-08
 -----------------------------
 Issue #2371205 by estebant: Expand the ternary operator for PHP < 5.3

@@ -60,7 +60,7 @@ function template_preprocess_slick(&$variables) {
   $goodies = $general['goodies'];
   $optionset_name = $optionset->name;
   $js_settings = array(
-    'centerMode'   => FALSE,
+    'centerMode' => FALSE,
     'slidesToShow' => 1,
     'rtl' => FALSE,
   );
@@ -267,7 +267,7 @@ function template_preprocess_slick(&$variables) {
   // @see https://www.drupal.org/node/2352319
   // @see https://www.drupal.org/node/2346369
   if ($count > 1 && !isset($element['#attached'])) {
-    slick_add($settings);
+    slick_add();
   }
 }
 

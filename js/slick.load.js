@@ -25,7 +25,7 @@
           globals = Drupal.slick.globals(self, merged),
           toShow = parseInt(merged.slidesToShow);
 
-        // @todo remove if any fix > 1.3.12.
+        // @see https://github.com/kenwheeler/slick/issues/745
         if (total <= toShow) {
           $('.slick__arrow', self).remove();
         }

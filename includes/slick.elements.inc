@@ -14,7 +14,7 @@
  *   Gets a specific default value [optional].
  *
  * @param string $set
- *   Gets a specific group of values [optional].
+ *   Gets a specific group of values [optional]: settings, general, responsives.
  *
  * @param int $breakpoints
  *   The number of breakpoints if specified.
@@ -618,6 +618,15 @@ function slick_get_options() {
       'empty_option' => t('- None -'),
     );
 
+    $options['respondTo'] = array(
+      'title' => t('Respond to'),
+      'description' => t("Width that responsive object responds to. Can be 'window', 'slider' or 'min' (the smaller of the two)."),
+      'type' => 'select',
+      'cast' => 'string',
+      'default' => 'window',
+      'options' => drupal_map_assoc(array('window', 'slider', 'min')),
+    );
+
     $options['rtl'] = array(
       'title' => t('RTL'),
       'description' => t("Change the slider's direction to become right-to-left."),
@@ -655,7 +664,7 @@ function slick_get_options() {
       'description' => t('Slide/Fade animation speed in milliseconds.'),
       'type' => 'textfield',
       'cast' => 'int',
-      'default' => 300,
+      'default' => 500,
       'field_suffix' => 'ms',
     );
 
