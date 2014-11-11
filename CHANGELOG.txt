@@ -1,8 +1,12 @@
 
+Slick 7.x-2.0-dev, 2014-11-11
+-----------------------------
+Issue #2372923 by Adam.Brown: slick.theme.css overriding custom slick themes
+
 Slick 7.x-2.0-dev, 2014-11-09
 -----------------------------
 Updated to Slick version 1.3.14:
-  - Added respondTo, giving the ability to respond to slider width or window 
+  - Added respondTo, giving the ability to respond to slider width or window
     width, or the smaller of the two
   - Bumped the speed default to 500
 

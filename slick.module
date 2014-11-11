@@ -346,10 +346,10 @@ function slick_attach(array $attach) {
   // Skin assets.
   if ($skin = $attach['attach_skin']) {
     if (isset($skins[$skin]['css'])) {
+      $load['css'][] = $module_path . '/css/theme/slick.theme.css';
       foreach ($skins[$skin]['css'] as $c => $css) {
         $load['css'][] = $css;
       }
-      $load['css'][] = $module_path . '/css/theme/slick.theme.css';
     }
     if (isset($skins[$skin]['js'])) {
       foreach ($skins[$skin]['js'] as $j => $js) {

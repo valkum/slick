@@ -101,7 +101,7 @@
         Drupal.slick.setCurrent(t, slider.currentSlide);
       },
       onAfterChange: function (slider, index) {
-        Drupal.slick.setCurrent(t, index);
+        Drupal.slick.setCurrent(t, slider.currentSlide);
       }
     };
     return globals;
@@ -113,7 +113,8 @@
    */
   Drupal.slick.setCurrent = function(t, index) {
     $('.slide--current', t).removeClass('slide--current');
-    $('.slick__slide[index="' + index + '"]', t).addClass('slide--current');
+    var $selector = $('.slick-center', t) || $('.slick__slide[index="' + index + '"]', t);
+    $selector.addClass('slide--current');
   };
 
   /**
