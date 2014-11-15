@@ -9,6 +9,8 @@
  * Format field collection data.
  */
 function _slick_fields_format_field_collection(&$settings, $items, $field, $view_mode, $langcode, $thumb_nav = FALSE) {
+  module_load_include('inc', 'slick', 'includes/slick.extras');
+
   $build = array();
   $css = array();
   $field_type = $field['type'];

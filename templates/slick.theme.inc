@@ -20,9 +20,8 @@ function template_preprocess_slick(&$variables) {
   $items   = $element['#items'];
   $count   = count($items);
 
-  // HTML or layout related settings, none of JS settings, except the new
-  // custom mousewheel.
-  $settings  = array(
+  // HTML or layout related settings, none of JS settings, except mousewheel.
+  $settings = array(
     'optionset'            => '',
     'optionset_thumbnail'  => '',
     'skin'                 => '',
@@ -37,8 +36,8 @@ function template_preprocess_slick(&$variables) {
     'current_display'      => isset($settings['current_display']) && $settings['current_display'] ? $settings['current_display'] : 'main',
   );
 
-  $settings  = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
-  $customs   = isset($element['#options']) ? $element['#options'] : array();
+  $settings = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
+  $customs  = isset($element['#options']) ? $element['#options'] : array();
 
   // Optionset may be defined via custom code, CTools UI, or sub-modules.
   $optionset = isset($customs['optionset']) ? $customs['optionset'] : $settings['optionset'];
@@ -59,35 +58,30 @@ function template_preprocess_slick(&$variables) {
   $general = $options['general'];
   $goodies = $general['goodies'];
   $optionset_name = $optionset->name;
-  $js_settings = array(
-    'centerMode' => FALSE,
-    'slidesToShow' => 1,
-    'rtl' => FALSE,
-  );
 
   // The Slick JS settings defined either via custom #options, or CTools UI.
-  $js_settings = $customs ? array_merge($options['settings'], $customs) : $options['settings'];
+  $js = $customs ? array_merge($options['settings'], $customs) : $options['settings'];
   // Anon DIV is problematic, since Slick will slide every div element within
   // its container which makes it impossible to add a div to wrap buttons (such
   // as arrow down) nor wrap them for advanced customPaging. Hence we override
   // with more specific class .slick__slide instead.
   // Note: Having list type is irrelevant to the JS generated markups.
-  $js_settings['slide'] = $js_settings['slide'] == 'div' ? '.slick__slide' : $js_settings['slide'];
+  $js['slide'] = $js['slide'] == 'div' ? '.slick__slide' : $js['slide'];
 
   // Field or Views options override the optionset ones.
   $settings['has_arrow_down'] = $settings['has_arrow_down'] ? TRUE : isset($goodies['arrow-down']) && $goodies['arrow-down'];
   $settings['has_pattern'] = $settings['has_pattern'] ? TRUE : isset($goodies['pattern']) && $goodies['pattern'];
 
   // Only add asNavFor if we do have thumbnail optionset.
-  if (isset($settings['optionset_thumbnail']) && $settings['optionset_thumbnail']) {
+  if ($settings['optionset_thumbnail']) {
     if ($settings['current_display'] == 'main') {
       if (isset($settings['asnavfor_main']) && $settings['asnavfor_main']) {
-        $js_settings['asNavFor'] = check_plain($settings['asnavfor_main']);
+        $js['asNavFor'] = check_plain($settings['asnavfor_main']);
       }
     }
     elseif ($settings['current_display'] == 'thumbnail') {
       if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
-        $js_settings['asNavFor'] = check_plain($settings['asnavfor_thumbnail']);
+        $js['asNavFor'] = check_plain($settings['asnavfor_thumbnail']);
       }
     }
   }
@@ -119,9 +113,9 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'] = array_diff($attributes['class'], array('slick'));
   }
   else {
-    // Use this flag if you want to animate the appearance of each slide
-    // sequentially using WOW, inView or jquery.appear.
-    $settings['is_carousel'] = $js_settings['slidesToShow'] > 1;
+    // Use this flag to animate the appearance of each slide sequentially using
+    // WOW, inView or jquery.appear.
+    $settings['is_carousel'] = $js['slidesToShow'] > 1;
     $attributes['class'][] = $settings['is_carousel'] ? 'slick--carousel' : 'slick--slider';
   }
 
@@ -144,7 +138,7 @@ function template_preprocess_slick(&$variables) {
     $attributes['class'][] = drupal_clean_css_identifier('slick--skin--' . $skin);
   }
 
-  $attributes['class'][] = $js_settings['centerMode'] ? 'slick--center' : 'slick--float';
+  $attributes['class'][] = $js['centerMode'] ? 'slick--center' : 'slick--float';
 
   // @todo drop, is it really needed anywhere else?
   if (isset($settings['field_type'])) {
@@ -192,37 +186,31 @@ function template_preprocess_slick(&$variables) {
   }
 
   // The slider must have the attribute "dir" set to "rtl", if so configured.
-  if ($js_settings['rtl']) {
+  if ($js['rtl']) {
     $attributes['dir'] = 'rtl';
   }
 
-  // New 1.3.7 arrows options brought a complication, since no option to place
-  // them by now. Arrows may be unset and empty if arrows option is disabled,
-  // so fallback to the default in code.
+  // Arrows may be unset and empty if arrows option is disabled, so fallback to
+  // the default in code.
   // Limit sanitization with button and a few reasonable selectors.
   $allowed_tags = array('a', 'em', 'strong', 'button', 'p', 'div', 'i', 'span');
-  if ($settings['arrows'] = $js_settings['arrows']) {
-    $settings['prev_arrow'] = isset($js_settings['prevArrow'])
-      && $js_settings['prevArrow'] ? filter_xss($js_settings['prevArrow'], $allowed_tags) :
-      _slick_optionset_defaults('prevArrow', 'settings');
-    $settings['next_arrow'] = isset($js_settings['nextArrow'])
-      && $js_settings['nextArrow'] ? filter_xss($js_settings['nextArrow'], $allowed_tags) :
-      _slick_optionset_defaults('nextArrow', 'settings');
-
-    $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');
+  if ($settings['arrows'] = $js['arrows']) {
+    $settings['prev_arrow'] = isset($js['prevArrow']) && $js['prevArrow'] ? filter_xss($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
+    $settings['next_arrow'] = isset($js['next_arrow']) && $js['next_arrow'] ? filter_xss($js['next_arrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
 
     // This is the only default supported appendArrows selector.
-    if ($js_settings['appendArrows'] == $default_append_arrows) {
-      $js_settings['appendArrows'] = '.slick__arrow';
+    $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');
+    if ($js['appendArrows'] == $default_append_arrows) {
+      $js['appendArrows'] = '.slick__arrow';
     }
   }
 
-  $js_settings['mousewheel'] = $settings['mousewheel'] ? TRUE : FALSE;
+  $js['mousewheel'] = $settings['mousewheel'] ? TRUE : FALSE;
 
   // Add the configuration as JSON object into slick container.
   // @todo https://github.com/kenwheeler/slick/pull/407
   if (!isset($attributes['data-config']) && $count > 1) {
-    $js_data = _slick_remove_default_optionset_options($optionset, $js_settings);
+    $js_data = _slick_remove_default_optionset_options($optionset, $js);
 
     // Remove empty lazyLoad, or left to default ondemand, to avoid JS error.
     if (empty($js_data['lazyLoad'])) {
@@ -259,13 +247,7 @@ function template_preprocess_slick(&$variables) {
   // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
   $variables['classes_array'] = $variables['attributes_array']['class'];
 
-  // Add the library. More fine grained control on the loaded library should use
-  // attached instead. Also D8 recommended.
-  // @see slick_fields, or slick_views for the attached ones.
-  // This is here to load basic libraries if you don't use the sub-modules.
-  // New D8 direction, October 8, 2014.
-  // @see https://www.drupal.org/node/2352319
-  // @see https://www.drupal.org/node/2346369
+  // Add the basic library if no sub-modules in use.
   if ($count > 1 && !isset($element['#attached'])) {
     slick_add();
   }

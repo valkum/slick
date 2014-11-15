@@ -1,4 +1,13 @@
 
+Slick 7.x-2.0-dev, 2014-11-14
+-----------------------------
+Offloaded dormant/optional functions into separate files:
+  - includes/slick.extras.inc
+  - includes/slick.admin.inc
+
+Reorganized includes/slick.elements.inc file.
+Simplified SLICK_VERSION to avoid chasing highly dynamic sub-minor releases.
+
 Slick 7.x-2.0-dev, 2014-11-11
 -----------------------------
 Issue #2372923 by Adam.Brown: slick.theme.css overriding custom slick themes

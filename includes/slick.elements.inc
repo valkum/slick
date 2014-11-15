@@ -8,416 +8,6 @@
  */
 
 /**
- * Default settings for a newly created option set.
- *
- * @param string $key
- *   Gets a specific default value [optional].
- *
- * @param string $set
- *   Gets a specific group of values [optional]: settings, general, responsives.
- *
- * @param int $breakpoints
- *   The number of breakpoints if specified.
- *
- * @return array
- *   An array of default options, or a specific group if $set is specified.
- */
-function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL) {
-
-  // Main slick settings.
-  $slick_options = slick_get_options();
-  $defaults = array();
-  foreach ($slick_options as $name => $values) {
-    $defaults['settings'][$name] = $values['default'];
-  }
-
-  // Breakpoint settings.
-  if ($breakpoints) {
-    $slick_responsive_options = slick_get_responsive_options($breakpoints);
-    foreach ($slick_responsive_options as $i => $items) {
-      foreach ($items as $name => $groups) {
-        if (is_array($groups)) {
-          if (isset($groups['default'])) {
-            $defaults['responsives']['responsive'][$i][$name] = $groups['default'];
-          }
-          else {
-            foreach ($groups as $k => $group) {
-              if (is_array($group) && isset($group['default'])) {
-                $defaults['responsives']['responsive'][$i][$name][$k] = $group['default'];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  $defaults['general']['normal'] = '';
-  $defaults['general']['thumbnail'] = '';
-  // $defaults['general']['transition'] = '';
-  $defaults['general']['template_class'] = '';
-  $defaults['general']['goodies'] = array();
-
-  // Typecast the values.
-  _slick_typecast_optionset($defaults, $breakpoints);
-
-  // Return the specific item out of the JS settings alone.
-  if (isset($key) && $key && $set && array_key_exists($key, $defaults[$set])) {
-    return $defaults[$set][$key];
-  }
-
-  // Return a specific group, or all items.
-  return !empty($set) && $defaults[$set] ? $defaults[$set] : $defaults;
-}
-
-/**
- * Strip out options with default values from the Option Set options.
- *
- * @param object $optionset
- *   An array of Option Set options, default is loaded if none specified.
- *
- * @param array $customs
- *   An array of hand-coded JS options defined using #options property if passed
- *   via theme_slick().
- *
- * @return array
- *   An array of reduced duplicated Option set options performance wise.
- */
-function _slick_remove_default_optionset_options($optionset, $customs = array()) {
-  $config = array();
-
-  $options = $optionset->options;
-  $breakpoints = $optionset->breakpoints ? $optionset->breakpoints : 0;
-  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
-
-  // Clean up the main options.
-  $settings = $customs ? $customs : $options['settings'];
-  $config = array_diff_assoc($settings, $defaults['settings']);
-
-  // Must be empty if all is default optionset.
-  if ($config) {
-    // Remove wasted dependent options if disabled, even if not empty.
-    if (empty($config['autoplay'])) {
-      unset($config['pauseOnHover'], $config['pauseOnDotsHover'], $config['autoplaySpeed']);
-    }
-    if (empty($config['centerMode'])) {
-      unset($config['centerPadding']);
-    }
-    if (isset($config['arrows']) && !$config['arrows']) {
-      unset($config['prevArrow'], $config['nextArrow'], $config['appendArrows']);
-    }
-    if (empty($config['dots'])) {
-      unset($config['dotsClass'], $config['appendDots']);
-    }
-    if (empty($config['swipe'])) {
-      unset($config['swipeToSlide']);
-    }
-    if (isset($config['cssEaseOverride']) && $config['cssEaseOverride']) {
-      $config['cssEase'] = _slick_css_easing_mapping($config['cssEaseOverride']);
-      unset($config['cssEaseOverride']);
-    }
-  }
-
-  // Clean up responsive options if similar to main defaults. JS takes care of
-  // the copy based on defaults. This way we can avoid dup options in the
-  // markups.
-  $cleaned_responsives = array();
-  if (isset($options['responsives']['responsive'])) {
-    $responsives = $options['responsives'];
-    foreach ($responsives['responsive'] as $key => $responsive) {
-      if (empty($responsives['responsive'][$key]['breakpoint'])) {
-        unset($responsives['responsive'][$key]);
-      }
-      if (isset($responsives['responsive'][$key])) {
-        $cleaned_responsives[$key] = $responsive;
-      }
-    }
-    if ($cleaned_responsives) {
-      $cleaned = array();
-      foreach ($cleaned_responsives as $key => $responsive) {
-        $cleaned[$key]['breakpoint'] = $cleaned_responsives[$key]['breakpoint'];
-        $cleaned[$key]['settings'] = array_diff_assoc($cleaned_responsives[$key]['settings'], $defaults['settings']);
-
-        // Remove wasted breakpoint dependent options if disabled, even if not
-        // empty.
-        if (empty($cleaned[$key]['settings']['autoplay'])) {
-          unset(
-            $cleaned[$key]['settings']['pauseOnHover'],
-            $cleaned[$key]['settings']['pauseOnDotsHover'],
-            $cleaned[$key]['settings']['autoplaySpeed']
-          );
-        }
-        if (empty($cleaned[$key]['settings']['centerMode'])) {
-          unset($cleaned[$key]['settings']['centerPadding']);
-        }
-        if (empty($cleaned[$key]['settings']['swipe'])) {
-          unset($cleaned[$key]['settings']['swipeToSlide']);
-        }
-        if (empty($cleaned[$key]['settings']['dots'])) {
-          unset(
-            $cleaned[$key]['settings']['dotsClass'],
-            $cleaned[$key]['settings']['appendDots']
-          );
-        }
-        if (isset($cleaned[$key]['settings']['cssEaseOverride']) && $cleaned[$key]['settings']['cssEaseOverride']) {
-          $cleaned[$key]['settings']['cssEase'] = _slick_css_easing_mapping($cleaned[$key]['settings']['cssEaseOverride']);
-          unset($cleaned[$key]['settings']['cssEaseOverride']);
-        }
-      }
-
-      // Make sure to follow JS array.
-      $config['responsive'] = $cleaned;
-    }
-  }
-
-  return $config;
-}
-
-/**
- * Adds the typecasting to the given values.
- *
- * With this, the generated JSON object has the right values.
- *
- * Strip out options with default values from the Option Set options.
- *
- * @param array $options
- *   An array of Option Set options, default is loaded if none specified.
- *
- * @param int $breakpoints
- *   The number of breakpoints if specified.
- *
- * @return array
- *   An array of valid typecast values ready to consume by jQuery.
- */
-function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
-  if (isset($options) && !empty($options)) {
-    $slick_options = slick_get_options();
-    foreach ($slick_options as $name => $values) {
-      if (isset($slick_options[$name]['cast'])) {
-        settype($options['settings'][$name], $slick_options[$name]['cast']);
-      }
-    }
-
-    if (isset($options['responsives']['responsive']) && $breakpoints && ($breakpoints > 0)) {
-      $slick_responsive_options = slick_get_responsive_options($breakpoints);
-      foreach ($slick_responsive_options as $i => $items) {
-        foreach ($items as $name => $groups) {
-          if (is_array($groups)) {
-            if ($name == 'breakpoint' && isset($groups['cast'])) {
-              settype($options['responsives']['responsive'][$i][$name], $groups['cast']);
-            }
-            elseif ($name == 'settings') {
-              foreach ($groups as $key => $group) {
-                if (is_array($group) && isset($group['cast']) && isset($group['default'])) {
-                  settype($options['responsives']['responsive'][$i][$name][$key], $group['cast']);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/**
- * Gets supported Slick skins, and additional ones.
- *
- * @param bool $options
- *   Flag to limit the returned values for select options.
- *
- * @return array
- *   An array of available skins.
- */
-function slick_skins($options = FALSE) {
-  $skins = &drupal_static(__FUNCTION__, NULL);
-
-  if (!isset($skins)) {
-    // Collects a list of the currently available skins.
-    $skins = module_invoke_all('slick_skins_info');
-
-    // Allows skin information to be altered.
-    drupal_alter('slick_skins_info', $skins);
-
-    if ($options) {
-      $available_skins = array();
-      foreach ($skins as $skin => $properties) {
-        $available_skins[$skin] = $properties['name'];
-      }
-      $skins = $available_skins;
-    }
-  }
-
-  return $skins;
-}
-
-/**
- * Gets default layout options for the core Image, or Views.
- *
- * @return array
- *   An array of available basic layouts.
- */
-function slick_layouts() {
-  $layouts = &drupal_static(__FUNCTION__, NULL);
-
-  if (!isset($layouts)) {
-    $layouts = array(
-      'bottom'      => t('Caption bottom'),
-      'top'         => t('Caption top'),
-      'right'       => t('Caption right'),
-      'left'        => t('Caption left'),
-      'center'      => t('Caption center'),
-      'center-top'  => t('Caption center top'),
-      'below'       => t('Caption below the slide'),
-      'stage-right' => t('Caption left, stage right'),
-      'stage-left'  => t('Caption right, stage left'),
-      'split-right' => t('Caption left, stage right, split half'),
-      'split-left'  => t('Caption right, stage left, split half'),
-      'stage-zebra' => t('Stage zebra'),
-      'split-zebra' => t('Split half zebra'),
-    );
-  }
-
-  return $layouts;
-}
-
-/**
- * List of all custom transition effects.
- * @todo drop it or test elementTransition.js, or othe alternatives.
- */
-function _slick_transition_options() {
-  return array();
-}
-
-/**
- * List of all easing methods available from jQuery Easing v1.3.
- *
- * @return array
- *   An array of available jQuery Easing options as fallback for browsers that
- *   don't support pure CSS easing methods.
- */
-function _slick_easing_options() {
-  $easings = &drupal_static(__FUNCTION__, NULL);
-
-  if (!isset($easings)) {
-    $easings = array(
-      'linear' => 'Linear',
-      'swing' => 'Swing',
-      'easeInQuad' => 'easeInQuad',
-      'easeOutQuad' => 'easeOutQuad',
-      'easeInOutQuad' => 'easeInOutQuad',
-      'easeInCubic' => 'easeInCubic',
-      'easeOutCubic' => 'easeOutCubic',
-      'easeInOutCubic' => 'easeInOutCubic',
-      'easeInQuart' => 'easeInQuart',
-      'easeOutQuart' => 'easeOutQuart',
-      'easeInOutQuart' => 'easeInOutQuart',
-      'easeInQuint' => 'easeInQuint',
-      'easeOutQuint' => 'easeOutQuint',
-      'easeInOutQuint' => 'easeInOutQuint',
-      'easeInSine' => 'easeInSine',
-      'easeOutSine' => 'easeOutSine',
-      'easeInOutSine' => 'easeInOutSine',
-      'easeInExpo' => 'easeInExpo',
-      'easeOutExpo' => 'easeOutExpo',
-      'easeInOutExpo' => 'easeInOutExpo',
-      'easeInCirc' => 'easeInCirc',
-      'easeOutCirc' => 'easeOutCirc',
-      'easeInOutCirc' => 'easeInOutCirc',
-      'easeInElastic' => 'easeInElastic',
-      'easeOutElastic' => 'easeOutElastic',
-      'easeInOutElastic' => 'easeInOutElastic',
-      'easeInBack' => 'easeInBack',
-      'easeOutBack' => 'easeOutBack',
-      'easeInOutBack' => 'easeInOutBack',
-      'easeInBounce' => 'easeInBounce',
-      'easeOutBounce' => 'easeOutBounce',
-      'easeInOutBounce' => 'easeInOutBounce',
-    );
-  }
-  return $easings;
-}
-
-/**
- * Maps existing jQuery easing value to equivalent CSS easing methods.
- *
- * @param string $easing
- *   The name of the human readable easing.
- *
- * @return string
- *   A string of unfriendly bezier equivalent for the Slick, or NULL.
- */
-function _slick_css_easing_mapping($easing = NULL) {
-  $css_easing = '';
-  if ($easing) {
-    $easings = _slick_css_easing_options(TRUE);
-    list($readable_easing, $bezier) = array_pad(array_map('trim', explode("|", $easings[$easing], 2)), 2, NULL);
-    $css_easing = $bezier;
-  }
-  return $css_easing;
-}
-
-/**
- * List of available pure CSS easing methods.
- *
- * @param bool $all
- *   Flag to output the array as is for further processing.
- *
- * @return array
- *   An array of CSS easings for select options, or all for the mappings.
- *
- * @see https://github.com/kenwheeler/slick/issues/118
- * @see http://matthewlein.com/ceaser/
- * @see http://www.w3.org/TR/css3-transitions/
- */
-function _slick_css_easing_options($all = FALSE) {
-  $css_easings = &drupal_static(__FUNCTION__, NULL);
-
-  if (!isset($css_easings)) {
-    $css_easings = array();
-    $available_easings = array(
-      // Defaults/ Native.
-      'ease' => 'ease|ease',
-      'linear' => 'linear|linear',
-      'ease-in' => 'ease-in|ease-in',
-      'ease-out' => 'ease-out|ease-out',
-      'swing' => 'swing|ease-in-out',
-      // Penner Equations (approximated).
-      'easeInQuad' => 'easeInQuad|cubic-bezier(0.550, 0.085, 0.680, 0.530)',
-      'easeInCubic' => 'easeInCubic|cubic-bezier(0.550, 0.055, 0.675, 0.190)',
-      'easeInQuart' => 'easeInQuart|cubic-bezier(0.895, 0.030, 0.685, 0.220)',
-      'easeInQuint' => 'easeInQuint|cubic-bezier(0.755, 0.050, 0.855, 0.060)',
-      'easeInSine' => 'easeInSine|cubic-bezier(0.470, 0.000, 0.745, 0.715)',
-      'easeInExpo' => 'easeInExpo|cubic-bezier(0.950, 0.050, 0.795, 0.035)',
-      'easeInCirc' => 'easeInCirc|cubic-bezier(0.600, 0.040, 0.980, 0.335)',
-      'easeInBack' => 'easeInBack|cubic-bezier(0.600, -0.280, 0.735, 0.045)',
-      'easeOutQuad' => 'easeOutQuad|cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-      'easeOutCubic' => 'easeOutCubic|cubic-bezier(0.215, 0.610, 0.355, 1.000)',
-      'easeOutQuart' => 'easeOutQuart|cubic-bezier(0.165, 0.840, 0.440, 1.000)',
-      'easeOutQuint' => 'easeOutQuint|cubic-bezier(0.230, 1.000, 0.320, 1.000)',
-      'easeOutSine' => 'easeOutSine|cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-      'easeOutExpo' => 'easeOutExpo|cubic-bezier(0.190, 1.000, 0.220, 1.000)',
-      'easeOutCirc' => 'easeOutCirc|cubic-bezier(0.075, 0.820, 0.165, 1.000)',
-      'easeOutBack' => 'easeOutBack|cubic-bezier(0.175, 0.885, 0.320, 1.275)',
-      'easeInOutQuad' => 'easeInOutQuad|cubic-bezier(0.455, 0.030, 0.515, 0.955)',
-      'easeInOutCubic' => 'easeInOutCubic|cubic-bezier(0.645, 0.045, 0.355, 1.000)',
-      'easeInOutQuart' => 'easeInOutQuart|cubic-bezier(0.770, 0.000, 0.175, 1.000)',
-      'easeInOutQuint' => 'easeInOutQuint|cubic-bezier(0.860, 0.000, 0.070, 1.000)',
-      'easeInOutSine' => 'easeInOutSine|cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-      'easeInOutExpo' => 'easeInOutExpo|cubic-bezier(1.000, 0.000, 0.000, 1.000)',
-      'easeInOutCirc' => 'easeInOutCirc|cubic-bezier(0.785, 0.135, 0.150, 0.860)',
-      'easeInOutBack' => 'easeInOutBack|cubic-bezier(0.680, -0.550, 0.265, 1.550)',
-    );
-
-    foreach ($available_easings as $key => $easing) {
-      list($readable_easing, $css_easing) = array_pad(array_map('trim', explode("|", $easing, 2)), 2, NULL);
-      $css_easings[$key] = $all ? $easing : $readable_easing;
-    }
-  }
-  return $css_easings;
-}
-
-/**
  * Defines a list of options available for the Slick.
  *
  * @return array
@@ -828,95 +418,374 @@ function slick_get_responsive_options($count = 0) {
 }
 
 /**
- * Adjusts colors by step/number (0-255).
+ * Default settings for a newly created option set.
  *
- * @param string $hex
- *   A string hex value.
+ * @param string $key
+ *   Gets a specific default value [optional].
  *
- * @param int $steps
- *   An int step between -255 and 255 where negative means darker, and positive
- *   lighter.
+ * @param string $set
+ *   Gets a specific group of values [optional]: settings, general, responsives.
  *
- * @return string
- *   A new hex color string value dependent on steps.
+ * @param int $breakpoints
+ *   The number of breakpoints if specified.
+ *
+ * @return array
+ *   An array of default options, or a specific group if $set is specified.
  */
-function slick_color_brightness($hex, $steps) {
-  // Steps should be -255 and 255.
-  $steps = max(-255, min(255, $steps));
+function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL) {
 
-  // Format the hex color string.
-  $hex = str_replace('#', '', $hex);
-  if (strlen($hex) == 3) {
-    $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
+  // Main slick settings.
+  $slick_options = slick_get_options();
+  $defaults = array();
+  foreach ($slick_options as $name => $values) {
+    $defaults['settings'][$name] = $values['default'];
   }
 
-  // Get decimal values.
-  $r = hexdec(substr($hex, 0, 2));
-  $g = hexdec(substr($hex, 2, 2));
-  $b = hexdec(substr($hex, 4, 2));
+  // Breakpoint settings.
+  if ($breakpoints) {
+    $slick_responsive_options = slick_get_responsive_options($breakpoints);
+    foreach ($slick_responsive_options as $i => $items) {
+      foreach ($items as $name => $groups) {
+        if (is_array($groups)) {
+          if (isset($groups['default'])) {
+            $defaults['responsives']['responsive'][$i][$name] = $groups['default'];
+          }
+          else {
+            foreach ($groups as $k => $group) {
+              if (is_array($group) && isset($group['default'])) {
+                $defaults['responsives']['responsive'][$i][$name][$k] = $group['default'];
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
-  // Adjust number of steps and keep it inside 0 to 255.
-  $r = max(0, min(255, $r + $steps));
-  $g = max(0, min(255, $g + $steps));
-  $b = max(0, min(255, $b + $steps));
+  $defaults['general']['normal'] = '';
+  $defaults['general']['thumbnail'] = '';
+  // $defaults['general']['transition'] = '';
+  $defaults['general']['template_class'] = '';
+  $defaults['general']['goodies'] = array();
 
-  $r_hex = str_pad(dechex($r), 2, '0', STR_PAD_LEFT);
-  $g_hex = str_pad(dechex($g), 2, '0', STR_PAD_LEFT);
-  $b_hex = str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
+  // Typecast the values.
+  _slick_typecast_optionset($defaults, $breakpoints);
 
-  return '#' . $r_hex . $g_hex . $b_hex;
+  // Return the specific item out of the JS settings alone.
+  if (isset($key) && $key && $set && array_key_exists($key, $defaults[$set])) {
+    return $defaults[$set][$key];
+  }
+
+  // Returns a specific group, or all items.
+  return !empty($set) && $defaults[$set] ? $defaults[$set] : $defaults;
 }
 
 /**
- * Converts hex to RGB.
+ * Strip out options with default values from the Option Set options.
  *
- * @param string $hex
- *   A string hex value.
+ * @param object $optionset
+ *   An array of Option Set options, default is loaded if none specified.
  *
- * @return string
- *   A comma separated RGB color string value.
+ * @param array $customs
+ *   An array of hand-coded JS options defined using #options property if passed
+ *   via theme_slick().
+ *
+ * @return array
+ *   An array of reduced duplicated Option set options performance wise.
  */
-function slick_hex2rgb($hex) {
-  $hex = str_replace("#", "", $hex);
+function _slick_remove_default_optionset_options($optionset, $customs = array()) {
+  $config = array();
 
-  if (strlen($hex) == 3) {
-    $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
-    $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
-    $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
-  }
-  else {
-    $r = hexdec(substr($hex, 0, 2));
-    $g = hexdec(substr($hex, 2, 2));
-    $b = hexdec(substr($hex, 4, 2));
-  }
-  $rgb = array($r, $g, $b);
+  $options = $optionset->options;
+  $breakpoints = $optionset->breakpoints ? $optionset->breakpoints : 0;
+  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
 
-  return implode(",", $rgb);
+  // Clean up the main options.
+  $settings = $customs ? $customs : $options['settings'];
+  $config = array_diff_assoc($settings, $defaults['settings']);
+
+  // Must be empty if all is default optionset.
+  if ($config) {
+    // Remove wasted dependent options if disabled, even if not empty.
+    if (empty($config['autoplay'])) {
+      unset($config['pauseOnHover'], $config['pauseOnDotsHover'], $config['autoplaySpeed']);
+    }
+    if (empty($config['centerMode'])) {
+      unset($config['centerPadding']);
+    }
+    if (isset($config['arrows']) && !$config['arrows']) {
+      unset($config['prevArrow'], $config['nextArrow'], $config['appendArrows']);
+    }
+    if (empty($config['dots'])) {
+      unset($config['dotsClass'], $config['appendDots']);
+    }
+    if (empty($config['swipe'])) {
+      unset($config['swipeToSlide']);
+    }
+    if (isset($config['cssEaseOverride']) && $config['cssEaseOverride']) {
+      $config['cssEase'] = _slick_css_easing_mapping($config['cssEaseOverride']);
+      unset($config['cssEaseOverride']);
+    }
+  }
+
+  // Clean up responsive options if similar to main defaults. JS takes care of
+  // the copy based on defaults, so we can avoid dup options in the markups.
+  $cleaned_responsives = array();
+  if (isset($options['responsives']['responsive'])) {
+    $responsives = $options['responsives'];
+    foreach ($responsives['responsive'] as $key => $responsive) {
+      if (empty($responsives['responsive'][$key]['breakpoint'])) {
+        unset($responsives['responsive'][$key]);
+      }
+      if (isset($responsives['responsive'][$key])) {
+        $cleaned_responsives[$key] = $responsive;
+      }
+    }
+    if ($cleaned_responsives) {
+      $cleaned = array();
+      foreach ($cleaned_responsives as $key => $responsive) {
+        $cleaned[$key]['breakpoint'] = $cleaned_responsives[$key]['breakpoint'];
+        $cleaned[$key]['settings'] = array_diff_assoc($cleaned_responsives[$key]['settings'], $defaults['settings']);
+
+        // Remove wasted dependent options if disabled, even if not empty.
+        if (empty($cleaned[$key]['settings']['autoplay'])) {
+          unset(
+            $cleaned[$key]['settings']['pauseOnHover'],
+            $cleaned[$key]['settings']['pauseOnDotsHover'],
+            $cleaned[$key]['settings']['autoplaySpeed']
+          );
+        }
+        if (empty($cleaned[$key]['settings']['centerMode'])) {
+          unset($cleaned[$key]['settings']['centerPadding']);
+        }
+        if (empty($cleaned[$key]['settings']['swipe'])) {
+          unset($cleaned[$key]['settings']['swipeToSlide']);
+        }
+        if (empty($cleaned[$key]['settings']['dots'])) {
+          unset(
+            $cleaned[$key]['settings']['dotsClass'],
+            $cleaned[$key]['settings']['appendDots']
+          );
+        }
+        if (isset($cleaned[$key]['settings']['cssEaseOverride']) && $cleaned[$key]['settings']['cssEaseOverride']) {
+          $cleaned[$key]['settings']['cssEase'] = _slick_css_easing_mapping($cleaned[$key]['settings']['cssEaseOverride']);
+          unset($cleaned[$key]['settings']['cssEaseOverride']);
+        }
+      }
+
+      // Make sure to follow JS array.
+      $config['responsive'] = $cleaned;
+    }
+  }
+
+  return $config;
 }
 
 /**
- * Gets a media URL from the rendered iframe already containing all the params.
+ * Adds the typecasting to the given values.
  *
- * This is quicker than rebuilding media params per media contrib module.
- * Basically, to merge all media audio/video templates into one.
+ * With this, the generated JSON object has the right values.
  *
- * @param string $rendered_media
- *   The HTML markups of media output, mostly are iframes.
+ * @param array $options
+ *   An array of Option Set options, default is loaded if none specified.
  *
- * @return string
- *   A URL extracted from the iframe SRC attribute.
+ * @param int $breakpoints
+ *   The number of breakpoints if specified.
+ *
+ * @return array
+ *   An array of valid typecast values ready to consume by jQuery.
  */
-function slick_get_media_url($rendered_media) {
-  $url = '';
+function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
+  if (isset($options) && !empty($options)) {
+    $slick_options = slick_get_options();
+    foreach ($slick_options as $name => $values) {
+      if (isset($slick_options[$name]['cast'])) {
+        settype($options['settings'][$name], $slick_options[$name]['cast']);
+      }
+    }
 
-  if (!empty($rendered_media) && strpos($rendered_media, 'src') !== FALSE) {
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(TRUE);
-    $dom->loadHTML($rendered_media);
-    $url = $dom->getElementsByTagName('iframe')->item(0)->getAttribute('src');
+    if (isset($options['responsives']['responsive']) && $breakpoints) {
+      $slick_responsive_options = slick_get_responsive_options($breakpoints);
+      foreach ($slick_responsive_options as $i => $items) {
+        foreach ($items as $name => $groups) {
+          if (is_array($groups)) {
+            if ($name == 'breakpoint' && isset($groups['cast'])) {
+              settype($options['responsives']['responsive'][$i][$name], $groups['cast']);
+            }
+            elseif ($name == 'settings') {
+              foreach ($groups as $key => $group) {
+                if (is_array($group) && isset($group['cast']) && isset($group['default'])) {
+                  settype($options['responsives']['responsive'][$i][$name][$key], $group['cast']);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Gets supported Slick skins, and additional ones.
+ *
+ * @param bool $options
+ *   Flag to limit the returned values for select options.
+ *
+ * @return array
+ *   An array of available skins.
+ */
+function slick_skins($options = FALSE) {
+  $skins = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($skins)) {
+    // Collects a list of the currently available skins.
+    $skins = module_invoke_all('slick_skins_info');
+
+    // Allows skin information to be altered.
+    drupal_alter('slick_skins_info', $skins);
+
+    if ($options) {
+      $available_skins = array();
+      foreach ($skins as $skin => $properties) {
+        $available_skins[$skin] = $properties['name'];
+      }
+      $skins = $available_skins;
+    }
   }
 
-  return $url;
+  return $skins;
+}
+
+/**
+ * List of all easing methods available from jQuery Easing v1.3.
+ *
+ * @return array
+ *   An array of available jQuery Easing options as fallback for browsers that
+ *   don't support pure CSS easing methods.
+ */
+function _slick_easing_options() {
+  $easings = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($easings)) {
+    $easings = array(
+      'linear' => 'Linear',
+      'swing' => 'Swing',
+      'easeInQuad' => 'easeInQuad',
+      'easeOutQuad' => 'easeOutQuad',
+      'easeInOutQuad' => 'easeInOutQuad',
+      'easeInCubic' => 'easeInCubic',
+      'easeOutCubic' => 'easeOutCubic',
+      'easeInOutCubic' => 'easeInOutCubic',
+      'easeInQuart' => 'easeInQuart',
+      'easeOutQuart' => 'easeOutQuart',
+      'easeInOutQuart' => 'easeInOutQuart',
+      'easeInQuint' => 'easeInQuint',
+      'easeOutQuint' => 'easeOutQuint',
+      'easeInOutQuint' => 'easeInOutQuint',
+      'easeInSine' => 'easeInSine',
+      'easeOutSine' => 'easeOutSine',
+      'easeInOutSine' => 'easeInOutSine',
+      'easeInExpo' => 'easeInExpo',
+      'easeOutExpo' => 'easeOutExpo',
+      'easeInOutExpo' => 'easeInOutExpo',
+      'easeInCirc' => 'easeInCirc',
+      'easeOutCirc' => 'easeOutCirc',
+      'easeInOutCirc' => 'easeInOutCirc',
+      'easeInElastic' => 'easeInElastic',
+      'easeOutElastic' => 'easeOutElastic',
+      'easeInOutElastic' => 'easeInOutElastic',
+      'easeInBack' => 'easeInBack',
+      'easeOutBack' => 'easeOutBack',
+      'easeInOutBack' => 'easeInOutBack',
+      'easeInBounce' => 'easeInBounce',
+      'easeOutBounce' => 'easeOutBounce',
+      'easeInOutBounce' => 'easeInOutBounce',
+    );
+  }
+  return $easings;
+}
+
+/**
+ * Maps existing jQuery easing value to equivalent CSS easing methods.
+ *
+ * @param string $easing
+ *   The name of the human readable easing.
+ *
+ * @return string
+ *   A string of unfriendly bezier equivalent for the Slick, or NULL.
+ */
+function _slick_css_easing_mapping($easing = NULL) {
+  $css_easing = '';
+
+  if ($easing) {
+    $easings = _slick_css_easing_options(TRUE);
+    list($readable_easing, $bezier) = array_pad(array_map('trim', explode("|", $easings[$easing], 2)), 2, NULL);
+    $css_easing = $bezier;
+  }
+
+  return $css_easing;
+}
+
+/**
+ * List of available pure CSS easing methods.
+ *
+ * @param bool $all
+ *   Flag to output the array as is for further processing.
+ *
+ * @return array
+ *   An array of CSS easings for select options, or all for the mappings.
+ *
+ * @see https://github.com/kenwheeler/slick/issues/118
+ * @see http://matthewlein.com/ceaser/
+ * @see http://www.w3.org/TR/css3-transitions/
+ */
+function _slick_css_easing_options($all = FALSE) {
+  $css_easings = &drupal_static(__FUNCTION__, NULL);
+
+  if (!isset($css_easings)) {
+    $css_easings = array();
+    $available_easings = array(
+      // Defaults/ Native.
+      'ease' => 'ease|ease',
+      'linear' => 'linear|linear',
+      'ease-in' => 'ease-in|ease-in',
+      'ease-out' => 'ease-out|ease-out',
+      'swing' => 'swing|ease-in-out',
+      // Penner Equations (approximated).
+      'easeInQuad' => 'easeInQuad|cubic-bezier(0.550, 0.085, 0.680, 0.530)',
+      'easeInCubic' => 'easeInCubic|cubic-bezier(0.550, 0.055, 0.675, 0.190)',
+      'easeInQuart' => 'easeInQuart|cubic-bezier(0.895, 0.030, 0.685, 0.220)',
+      'easeInQuint' => 'easeInQuint|cubic-bezier(0.755, 0.050, 0.855, 0.060)',
+      'easeInSine' => 'easeInSine|cubic-bezier(0.470, 0.000, 0.745, 0.715)',
+      'easeInExpo' => 'easeInExpo|cubic-bezier(0.950, 0.050, 0.795, 0.035)',
+      'easeInCirc' => 'easeInCirc|cubic-bezier(0.600, 0.040, 0.980, 0.335)',
+      'easeInBack' => 'easeInBack|cubic-bezier(0.600, -0.280, 0.735, 0.045)',
+      'easeOutQuad' => 'easeOutQuad|cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+      'easeOutCubic' => 'easeOutCubic|cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+      'easeOutQuart' => 'easeOutQuart|cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+      'easeOutQuint' => 'easeOutQuint|cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+      'easeOutSine' => 'easeOutSine|cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+      'easeOutExpo' => 'easeOutExpo|cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+      'easeOutCirc' => 'easeOutCirc|cubic-bezier(0.075, 0.820, 0.165, 1.000)',
+      'easeOutBack' => 'easeOutBack|cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+      'easeInOutQuad' => 'easeInOutQuad|cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+      'easeInOutCubic' => 'easeInOutCubic|cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+      'easeInOutQuart' => 'easeInOutQuart|cubic-bezier(0.770, 0.000, 0.175, 1.000)',
+      'easeInOutQuint' => 'easeInOutQuint|cubic-bezier(0.860, 0.000, 0.070, 1.000)',
+      'easeInOutSine' => 'easeInOutSine|cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+      'easeInOutExpo' => 'easeInOutExpo|cubic-bezier(1.000, 0.000, 0.000, 1.000)',
+      'easeInOutCirc' => 'easeInOutCirc|cubic-bezier(0.785, 0.135, 0.150, 0.860)',
+      'easeInOutBack' => 'easeInOutBack|cubic-bezier(0.680, -0.550, 0.265, 1.550)',
+    );
+
+    foreach ($available_easings as $key => $easing) {
+      list($readable_easing, $css_easing) = array_pad(array_map('trim', explode("|", $easing, 2)), 2, NULL);
+      $css_easings[$key] = $all ? $easing : $readable_easing;
+    }
+  }
+
+  return $css_easings;
 }
 
 /**
@@ -970,6 +839,7 @@ function slick_optionset_load_all() {
     // Ensure the optionset is typecast after being loaded from DB.
     _slick_typecast_optionset($optionset->options, $optionset->breakpoints);
   }
+
   return $optionsets;
 }
 
@@ -985,107 +855,6 @@ function slick_optionset_load($optionset_name) {
   // Ensure the optionset is typecast after being loaded from DB.
   _slick_typecast_optionset($optionset->options, $optionset->breakpoints);
   return $optionset;
-}
-
-/**
- * Load all slick optionsets as select options.
- *
- * @return array
- *   An array containing slicks indexed by their names.
- */
-function slick_optionset_options() {
-  $optionsets = &drupal_static(__FUNCTION__, NULL);
-
-  if (!isset($optionsets)) {
-    $optionsets = array();
-    $slicks = slick_optionset_load_all();
-    foreach ($slicks as $key => $optionset) {
-      $optionsets[$key] = check_plain($optionset->label);
-    }
-    asort($optionsets);
-  }
-  return $optionsets;
-}
-
-/**
- * Checks whether an option set with the given name already exists.
- */
-function slick_optionset_exists($optionset_name) {
-  ctools_include('export');
-  $optionset = ctools_export_crud_load('slick_optionset', $optionset_name);
-  return isset($optionset->name);
-}
-
-/**
- * Saves the given option set to the database.
- *
- * Set the $new flag if this set has not been written before.
- *
- * @return object
- *   Returns the newly saved object, FALSE otherwise.
- */
-function slick_optionset_save($optionset, $new = FALSE) {
-  // If the machine name is missing or already in use, return an error.
-  if (empty($optionset->name) or (FALSE != slick_optionset_exists($optionset->name) and $new)) {
-    return FALSE;
-  }
-
-  // Check for an invalid list of options.
-  if (isset($optionset->options) and !is_array($optionset->options)) {
-    return FALSE;
-  }
-
-  if (empty($optionset->label)) {
-    $optionset->label = $optionset->name;
-  }
-
-  // Merge default settings with any given settings.
-  $breakpoints = 0;
-  if (isset($optionset->breakpoints)) {
-    $breakpoints = $optionset->breakpoints;
-  }
-
-  $optionset_defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
-  $optionset->options = $optionset_defaults += $optionset->options;
-
-  // Prepare the database values.
-  $db_values = array(
-    'name' => $optionset->name,
-    'label' => $optionset->label,
-    'breakpoints' => $breakpoints,
-    'options' => _slick_typecast_optionset($optionset->options, $breakpoints),
-  );
-
-  if ($new) {
-    $result = drupal_write_record('slick_optionset', $db_values);
-  }
-  else {
-    $result = drupal_write_record('slick_optionset', $db_values, 'name');
-  }
-
-  // Return the object if the values were saved successfully.
-  if (($new and SAVED_NEW == $result) or (!$new and SAVED_UPDATED == $result)) {
-    return $optionset;
-  }
-
-  // Otherwise, an error occured.
-  return FALSE;
-}
-
-/**
- * Deletes the given option set from the database.
- *
- * @param string|object $optionset
- *   Optionset object, or machine name.
- */
-function slick_optionset_delete($optionset) {
-  if (isset($optionset->name)) {
-    $name = $optionset->name;
-  }
-  else {
-    $name = $optionset;
-  }
-  db_delete('slick_optionset')->condition('name', $name)->execute();
 }
 
 /**

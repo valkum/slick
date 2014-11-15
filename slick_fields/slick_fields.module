@@ -97,6 +97,7 @@ function slick_fields_field_formatter_settings_form($field, $instance, $view_mod
     $field_type = $instance['entity_type'];
   }
 
+  module_load_include('inc', 'slick', 'includes/slick.admin');
   module_load_include('inc', 'slick_fields', 'includes/slick_fields.formatters.admin');
 
   $is_picture  = function_exists('picture_get_mapping_options');

@@ -13,6 +13,11 @@ Supported fields
 - Media
 - Field collection
 
+Additional supported fields
+===========================
+- Scald for the audio/video overlay, alternative to Media, within Field collection
+- Color field module to colorize individual slide text within Field collection
+
 
 Usage
 =====
@@ -99,11 +104,16 @@ Option #4
 
 Merge all options as needed.
 
-Notes:
-------
+Notes (deprecated):
+-------------------
 Current slick do not support variable height, so even short slides will have the
 tallest heights, so use consistent relevant Slide layout options above, e.g.:
 Mixing "Caption below the slide" with others will result inconsistent heights.
-  
+
+Notes (updated):
+----------------
+As of version 1.3.10 (or so ?), there is option adaptiveHeight that support
+variable height.
+
 More info relevant to each option is available at their form display by hovering
 over them, and click a dark question mark.

@@ -78,8 +78,7 @@
 /* Overrides too tiny bullets from core slick.css */
 // I don't like dots styling, should be pure CSS, but leave it for now.
 .slick-dots li button:before {
-  font-size: 12px;
-  font-size: 0.75rem;
+  @include font-size(12px);
 }
 
 /* Overrides .slick-slider to make caption text selectable. */
@@ -94,7 +93,6 @@
 #content .slide__title {
   margin: 10px 0 5px;
   line-height: 1.2;
-
 }
 
 #content .slick--carousel .slide__title {

@@ -28,7 +28,7 @@ Displaying multiple (rendered) entities for the slides.
   View mode.
 
 Themeing is related to their own entity display outside the Views UI.
-Example use case: Blogs, teams, testimonials, case studies sliders.
+Example use case: Blogs, teams, testimonials, case studies sliders, etc.
 
 Usage #2
 --------
@@ -62,11 +62,11 @@ Example use case: front or inner individual slideshow based on the entity ID.
 
 Gotchas:
 =======
-If you are choosing a single multi-value field (such as images, media files, or
-field collection fields) rather displaying various fields from multiple nodes,
+If you are choosing a single multi-value field (such as images, Media files, or
+Field collection fields) rather displaying various fields from multiple nodes,
 make sure to:
 - Choose a "Unformatted list" Format, not "Slick carousel".
-- Choose "Slick carousel" for the field when configuring the field instead.
+- Choose "Slick carousel" for the actual field when configuring the field.
 - Check "Use field template" under "Style Settings"so that the Slick field
   themeing is picked-up.
   

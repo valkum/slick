@@ -41,6 +41,9 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
    */
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
+
+    module_load_include('inc', 'slick', 'includes/slick.admin');
+
     $slick_module_path = drupal_get_path('module', 'slick');
     $element = array();
     $settings = $this->options;

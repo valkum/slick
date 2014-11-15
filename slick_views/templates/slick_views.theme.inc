@@ -36,6 +36,7 @@ function template_preprocess_slick_views(&$variables) {
         ),
         'slide' => array(),
       );
+      $thumb = array();
 
       if (!empty($settings['slide_field_wrapper'])) {
         $slide_image = $settings['slide_image'];

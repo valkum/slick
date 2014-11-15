@@ -5,7 +5,7 @@
  * Slick carousel integration, the last carousel you'll ever need.
  */
 
-define('SLICK_VERSION', '1.3.14');
+define('SLICK_VERSION', '1.3');
 
 /**
  * Implements hook_theme().
@@ -441,39 +441,6 @@ function slick_add() {
   // @see https://drupal.org/node/1855918
   drupal_add_library('slick', 'drupal.slick');
 
-  $already_added = TRUE;
-}
-
-/**
- * Example to return the settings for a slick instance if using old approach.
- *
- * @param array $settings
- *   An array of the Slick library JS settings.
- *
- * We don't use regular JS settings injection into the <head>.
- * Instead we add individual settings as JSON object ready to consume by jQuery
- * via HTML5 data attributes, at slick container via #attached property to get
- * along well with Drupal 8.
- *
- * This is only needed if you want to use regular JS <head> injection outside
- * theme_slick(). In this case you have to load/ call it accordingly.
- * However it is recommended to use #attached property passed to theme_slick().
- *
- * @todo drop unsupported functions.
- */
-function _slick_add_settings($settings = NULL) {
-  static $already_added = FALSE;
-
-  // Don't add the JavaScript and CSS multiple times.
-  if ($already_added) {
-    return;
-  }
-
-  if (empty($settings)) {
-    $settings = _slick_optionset_defaults(NULL, 'settings');
-  }
-
-  drupal_add_js(array('slick' => $settings), 'setting');
   $already_added = TRUE;
 }
 

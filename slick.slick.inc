@@ -11,9 +11,9 @@
  * All the skins are very basic, to perform possible variants. It doesn't care
  * about looking great, and other element stylings, but basic one and layouts.
  * Detailed styling is all yours to match your actual design.
- * It should be used in relation to individual slide layout to get most out of
- * it, see README.txt on slick_fields.module for possible Slide layout using a
- * field.
+ * It should be used in relation to individual slide layout to get the most out
+ * of it, see README.txt on slick_fields.module for possible Slide layouts using
+ * a field with Field collection.
  *
  * Each skin supports 4 keys:
  * - name: The human readable name of the skin.
@@ -49,7 +49,7 @@ function slick_slick_skins_info() {
     ),
     'classic' => array(
       'name' => t('Classic'),
-      'description' => t('Adds dark background color over white caption, only good for slider (single slide visible), not carousel (multiple slides visible), where small captions are placed over images.'),
+      'description' => t('Adds dark background color over white caption, only good for slider (single slide visible), not carousel (multiple slides visible), where small captions are placed over images, and animated based on their placement.'),
       'css' => array(
         $module_path . '/css/theme/slick.theme--classic.css',
       ),
@@ -63,7 +63,7 @@ function slick_slick_skins_info() {
     ),
     'fullwidth' => array(
       'name' => t('Full width'),
-      'description' => t('Adds .slide__constrained wrapper to hold caption overlay within the max-container.'),
+      'description' => t('Adds .slide__constrained wrapper to hold caption overlay within the max-container (1170px for large monitor).'),
       'css' => array(
         $module_path . '/css/theme/slick.theme--fullwidth.css',
       ),

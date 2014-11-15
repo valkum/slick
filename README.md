@@ -28,7 +28,7 @@ creating database table to store option sets.
   D8 in core: CMI.
 - libraries (>=2.x)
   D8: dropped.
-- jquery_update with jQuery > 1.7, perhaps 1.8 if trouble with latest Slick.
+- jquery_update with jQuery > 1.7, perhaps 1.8 if trouble with the latest Slick.
   D8: dropped.
 - jqeasing, so available at:
   sites/../libraries/easing/jquery.easing.min.js
@@ -62,7 +62,7 @@ These will be available at Manage display field format, and Views UI.
 Slick works with Views and as field display formatters.
 Slick Views is available as a style plugin included at slick_views.module.
 Slick Fields is available as a display formatter included at slick_fields.module
-which supports core and contrib fields: core Image, Media, Field collection.
+which supports core and contrib fields: Image, Media, Field collection.
 
 See README.txt on slick_views.module for more info on Views integration.
 
@@ -76,20 +76,24 @@ per field to get more control over caption placements. However a combination of
 skins and options may lead to unpredictable layouts, get dirty yourself.
 
 Some default complex layout skins applied to desktop only, adjust for the mobile
-accordingly. The provided skins are very basic to support the layouts, it is
-not the module job to match your design requirements.
+accordingly. The provided skins are very basic to support the necessary layouts.
+It is not the module job to match your design requirements.
 
 Optional skins:
 --------------
 - None
   Doesn't load any extra CSS other than the basic styles required by slick.
-  Skins defined by sub-modules fallback to the Skin defined at the optionset.
+  Skins defined by sub-modules fallback to those defined at the optionset.
   Re-save existing Optionset to disable the skin at all.
   If you are using individual slide layout, you may have to do the layouts
   yourself.
 - 3d back
   Adds 3d view with focal point at back, works best with 3 slidesToShow,
   centerMode, and caption below the slide.
+- Classic
+  Adds dark background color over white caption, only good for slider (single
+  slide visible), not carousel (multiple slides visible), where small captions
+  are placed over images, and animated based on their placement.
 - Full screen
   Works best with 1 slidesToShow. Use z-index layering > 8 to position elements
   over the slides, and place it at large regions. Currently only works with
@@ -98,6 +102,8 @@ Optional skins:
   caption fields.
 - Full width
   Adds additional wrapper to wrap overlay audio/video and captions properly.
+  This is designated for large slider in the header or spanning width to window
+  edges at least 1170px width for large monitor.
 - Boxed
   Added a 0 60px margin to slick-list container and hide neighboring slides.
   An alternative to centerPadding which still reveals neighboring slides.
@@ -108,8 +114,8 @@ Optional skins:
   slidesToShow option > 2.
 - Boxed split
   Caption and image/media are split half, and have edge margin 0 60px.
-- Rounded
-  This will round the main image display, reasonable for small carousels, maybe
+- Rounded, should be named circle
+  This will circle the main image display, reasonable for small carousels, maybe
   with a small caption below to make it nice. Use slidesToShow option > 2.
   Expecting square images.
 
@@ -128,17 +134,14 @@ When upgrading from Slick v1.3.6 to later version, try to resave options at:
 - admin/structure/types/manage/CONTENT_TYPE/display
 - admin/structure/views/view/VIEW
 only if trouble to see the new options, or when options don't apply properly.
-This is most likely true specific to the new appendArrows at v1.3.7, the old
-thumbnail options, or new thumbnail navigation options. Other existing options
-don't change much unless core Slick add new ones.
+This is most likely true when the library adds/changes options, or the module 
+does something new.
 Always clear the cache when updating the module to ensure things are picked up.
 
 More info relevant to each option is available at their form display by hovering
 over them, and click a dark question mark.
 
-
 ## Read more
-
 See the project page on drupal.org: http://drupal.org/project/slick.
 See the Slick docs at:
 - http://kenwheeler.github.io/slick/
