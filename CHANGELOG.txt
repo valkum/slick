@@ -1,4 +1,8 @@
 
+Slick 7.x-2.0-dev, 2014-11-15
+-----------------------------
+Issue #2375659 by jtwalters: Fixed dots do not work with breakpoints.
+
 Slick 7.x-2.0-dev, 2014-11-14
 -----------------------------
 Offloaded dormant/optional functions into separate files:

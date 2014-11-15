@@ -387,7 +387,7 @@ function slick_attach(array $attach) {
     $defaults = _slick_optionset_defaults(NULL, 'settings');
     // Prevent JS error with Slick > 1.3.11 within responsive display clone.
     // Error: Syntax error, unrecognized expression: $(element).
-    $defaults['appendDots'] = '';
+    unset($defaults['appendDots']);
     $defaults['appendArrows'] = '.slick__arrow';
     $load['js'][] = array(
       'data' => array('slick' => $defaults),
