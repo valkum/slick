@@ -1,4 +1,9 @@
 
+Slick 7.x-2.0-dev, 2014-11-20
+-----------------------------
+Fixed for arrows not properly updated on resize with responsive settings.
+Updated slick_views typo "slick_wrapper" class into "slick-wrapper".
+
 Slick 7.x-2.0-dev, 2014-11-15
 -----------------------------
 Issue #2375659 by jtwalters: Fixed dots do not work with breakpoints.

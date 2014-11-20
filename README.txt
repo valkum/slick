@@ -1,5 +1,5 @@
-Drupal module for Slick
-=======================
+Slick Carousel Module
+================================================================================
 
 Drupal module for Ken Wheeler's Slick carousel.
 See http://kenwheeler.github.io/slick.
@@ -13,11 +13,17 @@ See http://kenwheeler.github.io/slick.
 * Works with Views, core and contrib fields: Image, Media or Field collection.
 * Exportable via CTools.
 
-## Versions
+
+
+VERSIONS:
+--------------------------------------------------------------------------------
 Make sure to run update, when upgrading from 7.x-1.x to 7.x-2.x to allow
 creating database table to store option sets.
 
-## Requirements
+
+
+REQUIREMENTS:
+--------------------------------------------------------------------------------
 - Slick library:
   * Download archive from https://github.com/kenwheeler/slick/,
   * Extract it as is, so the needed assets available at:
@@ -34,7 +40,10 @@ creating database table to store option sets.
   sites/../libraries/easing/jquery.easing.min.js
   This is a fallback for non-supporting browsers.
 
-## Optional integration
+
+
+OPTIONAL INTEGRATION:
+--------------------------------------------------------------------------------
 Slick supports enhancements and more complex layouts.
 - Colorbox
 - Picture, to get truly responsive image using art direction technique.
@@ -53,12 +62,18 @@ Slick supports enhancements and more complex layouts.
 See README.txt on slick_fields.module for more info on slide layouts and fields
 integration.
 
-## Optionsets
+
+
+OPTIONSETS:
+--------------------------------------------------------------------------------
 To create your option sets, go to:
 "admin/config/media/slick"
 These will be available at Manage display field format, and Views UI.
 
-## Views and Fields
+
+
+VIEWS AND FIELDS:
+--------------------------------------------------------------------------------
 Slick works with Views and as field display formatters.
 Slick Views is available as a style plugin included at slick_views.module.
 Slick Fields is available as a display formatter included at slick_fields.module
@@ -66,10 +81,16 @@ which supports core and contrib fields: Image, Media, Field collection.
 
 See README.txt on slick_views.module for more info on Views integration.
 
-## Programmatically
+
+
+PROGRAMATICALLY:
+--------------------------------------------------------------------------------
 Use renderable arrays, see slick_fields.module.
 
-## Skins
+
+
+SKINS:
+--------------------------------------------------------------------------------
 Skins allow swappable layouts like next/prev links, split image and caption, etc.
 Make sure to enable slick_fields.module and provide a dedicated slide layout
 per field to get more control over caption placements. However a combination of
@@ -128,20 +149,26 @@ Tips:
   context as needed, useful to build asNavFor aka thumbnail navigation.
 - If having JS error with jQuery v1.7, you may need to upgrade it to v1.8.
 
-## Troubleshooting
+
+
+TROUBLESHOOTING:
+--------------------------------------------------------------------------------
 When upgrading from Slick v1.3.6 to later version, try to resave options at:
 - admin/config/media/slick
 - admin/structure/types/manage/CONTENT_TYPE/display
 - admin/structure/views/view/VIEW
 only if trouble to see the new options, or when options don't apply properly.
-This is most likely true when the library adds/changes options, or the module 
+This is most likely true when the library adds/changes options, or the module
 does something new.
 Always clear the cache when updating the module to ensure things are picked up.
 
 More info relevant to each option is available at their form display by hovering
 over them, and click a dark question mark.
 
-## Read more
+
+
+READ MORE:
+--------------------------------------------------------------------------------
 See the project page on drupal.org: http://drupal.org/project/slick.
 See the Slick docs at:
 - http://kenwheeler.github.io/slick/

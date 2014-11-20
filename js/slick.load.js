@@ -16,19 +16,9 @@
           defaults = settings.slick || {},
           configs = t.data('config') || {},
           merged = $.extend({}, defaults, configs),
-          slides = '.slick__slide:not(.slick-cloned)',
-          index = t.closest(slides).index(),
-          total = $(slides, self).length,
-          $prevArrow = $('.slick__arrow .slick-prev', self),
-          $nextArrow = $('.slick__arrow .slick-next', self),
+          index = $('.slick__slide:not(.slick-cloned)', self).index(),
           callbacks = Drupal.slick.runCallbacks(t, index) || {},
-          globals = Drupal.slick.globals(self, merged),
-          toShow = parseInt(merged.slidesToShow);
-
-        // @see https://github.com/kenwheeler/slick/issues/745
-        if (total <= toShow) {
-          $('.slick__arrow', self).remove();
-        }
+          globals = Drupal.slick.globals(self, merged);
 
         // Populate defaults + globals into breakpoints.
         if (typeof configs.responsive !== 'undefined') {
@@ -81,6 +71,30 @@
   };
 
   /**
+   * Update arrows.
+   *   @see https://github.com/kenwheeler/slick/issues/745
+   *   @todo drop if any fix.
+   */
+  Drupal.slick.updateArrows = function(t, merged) {
+    var $arrows = $('.slick__arrow', t);
+    if (!$arrows.length) {
+      return;
+    }
+
+    var total = $('.slick__slide:not(.slick-cloned)', t).length,
+      toShow = parseInt(merged.slidesToShow);
+
+    // Only rely on the first largest breakpoint, otherwise complex loop.
+    if (typeof merged.responsive[0].breakpoint !== 'undefined') {
+      if ($(window).width() <= merged.responsive[0].breakpoint) {
+        toShow = parseInt(merged.responsive[0].settings.slidesToShow);
+      }
+    }
+
+    var arrows = total <= toShow ? $arrows.hide() : $arrows.show();
+  };
+
+  /**
    * Declare global options explicitly to copy into responsives.
    */
   Drupal.slick.globals = function(t, merged) {
@@ -99,6 +113,10 @@
       onInit: function (slider) {
         Drupal.theme('slickThumbnails', t);
         Drupal.slick.setCurrent(t, slider.currentSlide);
+        Drupal.slick.updateArrows(t, merged);
+      },
+      onReInit: function (slider) {
+        Drupal.slick.updateArrows(t, merged);
       },
       onAfterChange: function (slider, index) {
         Drupal.slick.setCurrent(t, slider.currentSlide);

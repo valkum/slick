@@ -88,7 +88,7 @@ function template_preprocess_slick_views(&$variables) {
 
       $items[] = $item;
 
-      if (isset($thumb['slide']) && $thumb['slide']) {
+      if ($thumb) {
         $thumb['item']['type'] = 'views';
         $thumb['item']['view_name'] = $view->name;
         // @todo thumbnails may have captions, but not now.
@@ -142,7 +142,7 @@ function template_preprocess_slick_views(&$variables) {
     $variables['rows'] = $element;
 
     // Build the Slick wrapper attributes.
-    $variables['attributes_array']['class'] = array('slick_wrapper');
+    $variables['attributes_array']['class'] = array('slick-wrapper');
     if (isset($settings['skin']) && $settings['skin']) {
       $variables['attributes_array']['class'][] = drupal_clean_css_identifier('slick-wrapper--' . $settings['skin']);
     }

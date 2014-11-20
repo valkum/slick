@@ -33,7 +33,7 @@ function template_preprocess_slick(&$variables) {
     'mousewheel'           => FALSE,
     'arrows'               => FALSE,
     'aspect_ratio_overlay' => FALSE,
-    'current_display'      => isset($settings['current_display']) && $settings['current_display'] ? $settings['current_display'] : 'main',
+    'current_display'      => 'main',
   );
 
   $settings = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
@@ -195,8 +195,10 @@ function template_preprocess_slick(&$variables) {
   // Limit sanitization with button and a few reasonable selectors.
   $allowed_tags = array('a', 'em', 'strong', 'button', 'p', 'div', 'i', 'span');
   if ($settings['arrows'] = $js['arrows']) {
-    $settings['prev_arrow'] = isset($js['prevArrow']) && $js['prevArrow'] ? filter_xss($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
-    $settings['next_arrow'] = isset($js['next_arrow']) && $js['next_arrow'] ? filter_xss($js['next_arrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
+    $is_prev = isset($js['prevArrow']) && $js['prevArrow'];
+    $is_next = isset($js['next_arrow']) && $js['next_arrow'];
+    $settings['prev_arrow'] = $is_prev ? filter_xss($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
+    $settings['next_arrow'] = $is_next ? filter_xss($js['next_arrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
 
     // This is the only default supported appendArrows selector.
     $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');

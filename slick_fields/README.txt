@@ -1,5 +1,5 @@
-About
-=====
+Slick Fields Module
+================================================================================
 
 Adds a field display formatter to allow you to display field content using
 Slick carousel. The module doesn't require Field UI to be enabled by default
@@ -7,20 +7,19 @@ Slick carousel. The module doesn't require Field UI to be enabled by default
 to use to setup your display settings.
 
 
-Supported fields
-===============
+SUPPORTED FIELDS:
+--------------------------------------------------------------------------------
 - Image
 - Media
 - Field collection
 
-Additional supported fields
-===========================
+Additional supported fields:
 - Scald for the audio/video overlay, alternative to Media, within Field collection
 - Color field module to colorize individual slide text within Field collection
 
 
-Usage
-=====
+USAGE:
+--------------------------------------------------------------------------------
 
 Manage the fields on any entity (e.g.: node of type Article):
 
@@ -36,16 +35,16 @@ If using Media or Field collection, make sure to provide relevant View mode,
 and the fields are made visible at their own Manage display page.
 
 
-Optionsets
-==========
+OPTIONSETS:
+--------------------------------------------------------------------------------
 
 To create your option sets, go to:
 
 "admin/config/media/slick"
 
 
-Slide layout
-===========
+SLIDE LAYOUTS:
+--------------------------------------------------------------------------------
 Core image field supports several caption placements/ layout that affect the
 entire slides.
 
@@ -104,14 +103,15 @@ Option #4
 
 Merge all options as needed.
 
-Notes (deprecated):
--------------------
+
+NOTES (deprecated):
+--------------------------------------------------------------------------------
 Current slick do not support variable height, so even short slides will have the
 tallest heights, so use consistent relevant Slide layout options above, e.g.:
 Mixing "Caption below the slide" with others will result inconsistent heights.
 
-Notes (updated):
-----------------
+NOTES (updated):
+--------------------------------------------------------------------------------
 As of version 1.3.10 (or so ?), there is option adaptiveHeight that support
 variable height.
 

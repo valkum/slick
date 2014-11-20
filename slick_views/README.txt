@@ -1,5 +1,5 @@
-About
-=====
+Slick Views Module
+================================================================================
 
 This adds a new display style to views called "Slick carousel". Similar to how
 you select "HTML List" or "Unformatted List" as display styles.
@@ -8,15 +8,17 @@ This module doesn't require Views UI to be enabled but it is required if you
 want to configure your Views display using Slick carousel through the web
 interface. This ensures you can leave Views UI off once everything is setup.
 
-Optionsets
-==========
+
+OPTIONSETS:
+--------------------------------------------------------------------------------
 
 Arm yourself with proper optionsets. To create one, go to:
 
 "admin/config/media/slick"
 
-Usage
-=====
+
+USAGE:
+--------------------------------------------------------------------------------
 Go to Views UI "admin/structure/views", add a new view, and a block.
 
 Usage #1
@@ -60,8 +62,8 @@ the goodness of Views to provide better markups manually.
 
 Example use case: front or inner individual slideshow based on the entity ID.
 
-Gotchas:
-=======
+GOTCHAS:
+--------------------------------------------------------------------------------
 If you are choosing a single multi-value field (such as images, Media files, or
 Field collection fields) rather displaying various fields from multiple nodes,
 make sure to:
