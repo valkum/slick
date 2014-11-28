@@ -32,6 +32,12 @@
         // Build the Slick.
         t.slick($.extend(configs, globals, callbacks));
 
+        // @todo drop if total <= slideToShow fixed, or onAfterChange works.
+        $('.slick__slide', t).on('click', function () {
+          $('.slide--current', t).removeClass('slide--current');
+          $(this).addClass('slide--current');
+        });
+
         // @todo drop when mousewheel does get in.
         // @see https://github.com/kenwheeler/slick/issues/122
         if ($.isFunction($.fn.mousewheel) && merged.mousewheel) {
@@ -71,26 +77,34 @@
   };
 
   /**
+   * Gets slidesToShow depending on current settings.
+   */
+  Drupal.slick.toShow = function(merged) {
+
+    var toShow = merged.slidesToShow;
+
+    // Only rely on the first largest breakpoint, otherwise complex loop.
+    if (typeof merged.responsive !== 'undefined' && typeof merged.responsive[0].breakpoint !== 'undefined') {
+      if ($(window).width() <= merged.responsive[0].breakpoint) {
+        toShow = merged.responsive[0].settings.slidesToShow;
+      }
+    }
+
+    return parseInt(toShow);
+  };
+
+  /**
    * Update arrows.
    *   @see https://github.com/kenwheeler/slick/issues/745
    *   @todo drop if any fix.
    */
-  Drupal.slick.updateArrows = function(t, merged) {
+  Drupal.slick.updateArrows = function(t, merged, total) {
     var $arrows = $('.slick__arrow', t);
     if (!$arrows.length) {
       return;
     }
 
-    var total = $('.slick__slide:not(.slick-cloned)', t).length,
-      toShow = parseInt(merged.slidesToShow);
-
-    // Only rely on the first largest breakpoint, otherwise complex loop.
-    if (typeof merged.responsive[0].breakpoint !== 'undefined') {
-      if ($(window).width() <= merged.responsive[0].breakpoint) {
-        toShow = parseInt(merged.responsive[0].settings.slidesToShow);
-      }
-    }
-
+    var toShow = Drupal.slick.toShow(merged);
     var arrows = total <= toShow ? $arrows.hide() : $arrows.show();
   };
 
@@ -98,6 +112,7 @@
    * Declare global options explicitly to copy into responsives.
    */
   Drupal.slick.globals = function(t, merged) {
+
     var globals = {
       asNavFor: merged.asNavFor,
       slide: merged.slide,
@@ -112,13 +127,24 @@
       },
       onInit: function (slider) {
         Drupal.theme('slickThumbnails', t);
-        Drupal.slick.setCurrent(t, slider.currentSlide);
-        Drupal.slick.updateArrows(t, merged);
+        Drupal.slick.updateArrows(t, merged, slider.slideCount);
+        // @todo drop if any fix for currentSlide active after initialized.
+        // With centerMode.
+        // When total = slidesToShow, the first + last have slick-center classes.
+        // When total < slidesToShow, the first has slick-center class, even odd.
+        $('.slick__slide[index="' + slider.currentSlide + '"]', t).click().addClass('slide--current');
       },
       onReInit: function (slider) {
-        Drupal.slick.updateArrows(t, merged);
+        Drupal.slick.updateArrows(t, merged, slider.slideCount);
       },
       onAfterChange: function (slider, index) {
+        // @fixthem.
+        // If total < slidesToShow, onAfterChange uselessly triggered on load,
+        // otherwise not working at all.
+        Drupal.slick.setCurrent(t, slider.currentSlide);
+      },
+      onSetPosition: function (slider) {
+        // @todo drop when onAfterChange works. Only if total > slidesToShow.
         Drupal.slick.setCurrent(t, slider.currentSlide);
       }
     };
@@ -127,12 +153,11 @@
 
   /**
    * Without centerMode, .slick-active can be as many as visible slides, hence
-   * added a specific class.
+   * added a specific class. Also fix for total <= slidesToShow with centerMode.
    */
   Drupal.slick.setCurrent = function(t, index) {
     $('.slide--current', t).removeClass('slide--current');
-    var $selector = $('.slick-center', t) || $('.slick__slide[index="' + index + '"]', t);
-    $selector.addClass('slide--current');
+    $('.slick__slide[index="' + index + '"]', t).addClass('slide--current');
   };
 
   /**

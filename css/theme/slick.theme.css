@@ -78,7 +78,7 @@ img {
   pointer-events: none;
 }
 
-/* Overrides problematic hidden arrows by core slick.css */
+/* Overrides problematic hidden arrows at core slick.css */
 .slick-prev {
   left: 0;
 }
@@ -153,7 +153,6 @@ img {
   padding-top: 0;
 }
 .slick--center .slide__content {
-  margin: 2px;
   overflow: hidden;
   position: relative;
 }
@@ -170,7 +169,7 @@ img {
 }
 
 /**
- * Thumbnails.
+ * Thumbnails inside bullets.
  */
 .slick__slide .slide__thumbnail--placeholder {
   position: absolute !important;
@@ -181,6 +180,7 @@ img {
   word-wrap: normal;
 }
 
+/* The main thumbnail container */
 .slick__thumbnail {
   list-style: none;
   *zoom: 1;
@@ -208,7 +208,7 @@ img {
   overflow: hidden;
   position: relative;
   vertical-align: top;
-  /* Adjust accordingly to actual thumbnail size */
+  /* Individual thumbnail, adjust accordingly to actual thumbnail size */
 }
 .slick__thumbnail li img {
   background: #fff;

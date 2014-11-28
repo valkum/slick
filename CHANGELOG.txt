@@ -1,4 +1,10 @@
 
+Slick 7.x-2.0-dev, 2014-11-28
+-----------------------------
+Fixed for slick.theme--classic.css .slide--caption--bottom .slide__caption.
+Updated slick.load.js to fix some regression at core library, and type error.
+Updated slick.media.js to change empty iframe SRC attribute to about:blank.
+
 Slick 7.x-2.0-dev, 2014-11-20
 -----------------------------
 Fixed for arrows not properly updated on resize with responsive settings.

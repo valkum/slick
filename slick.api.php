@@ -51,12 +51,10 @@ function hook_slick_skins_info() {
  * @see hook_slick_skins_info()
  */
 function hook_slick_skins_info_alter(&$skins) {
-  // Modify the default skin's name and description
+  // Modify the default skin's name and description.
   $skins['default']['name'] = t('My skin');
   $skins['default']['description'] = t('My owsem skin.');
 
   // Replace the default skin styling.
-  // Namespace your asset files accordingly to avoid conflict since Drupal loads
-  // CSS by basename.
-  $skins['default']['css'] = drupal_get_path('module', 'module_name') . '/module-name.slick.theme--owsem.css';
+  $skins['default']['css'][] = drupal_get_path('module', 'module_name') . '/module-name.slick.theme--owsem.css';
 }

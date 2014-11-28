@@ -15,7 +15,7 @@
           $slider = t.closest('.slick');
 
         // Remove SRC attributes to avoid direct autoplay, if mistakenly enabled.
-        t.find('iframe').attr('src', '');
+        t.find('iframe').attr('src', 'about:blank');
 
         t.on('click.media-play', '.media-icon--play', function (e) {
           var p = $(this),

@@ -16,11 +16,7 @@ supports no-js */
   position: relative;
 }
 
-// Leave it to core now.
-// .slick-slide img {
-// @include transform(none);
-// }
-
+// @todo verify the class is not removed, otherwise drop.
 .slick-loading {
   // background: white url(./ajax-loader.gif) center center no-repeat;
   // Prevent all slides visible at once until ready.

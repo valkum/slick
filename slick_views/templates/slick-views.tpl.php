@@ -6,7 +6,6 @@
  *
  * - $rows: The array of items.
  * - $options: Array of available settings via Views UI.
- * - $attach: Available conditional JS and CSS assets.
  */
 ?>
 <div<?php print $attributes; ?>>

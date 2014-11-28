@@ -74,11 +74,10 @@
     width: 100%;
   }
   .slick--skin--classic .slide--caption--bottom .slide__caption {
+    bottom: 0;
     -ms-transform: translateY(210px);
     -webkit-transform: translateY(210px);
     transform: translateY(210px);
-  }
-  .slick--skin--classic .slide--caption--below .slide__caption {
     min-height: 120px;
     position: relative;
     top: auto;
