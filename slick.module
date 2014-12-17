@@ -52,8 +52,9 @@ function slick_theme($existing, $type, $theme, $path) {
         'options' => array(),
       ),
     ),
-    // Slick lazy load image. Uses variables to get easy with core theme_image.
-    // @todo drop, use slick_image_formatter_lazy alone.
+    // Slick lazy load image.
+    // This is required at D7 due to hardcoded SRC attributes, but dropped at D8
+    // that better supports inline image.
     'slick_image_lazy' => $base + array(
       'variables' => array(
         'style_name' => NULL,
@@ -390,7 +391,7 @@ function slick_attach(array $attach) {
   // have since responsives got no inheritance and no context without, pity.
   if ($attach['attach_default']) {
     $defaults = _slick_optionset_defaults(NULL, 'settings');
-    // Prevent JS error with Slick > 1.3.11 within responsive display clone.
+    // Prevents JS error with Slick > 1.3.11 within responsive display clone.
     // Error: Syntax error, unrecognized expression: $(element).
     unset($defaults['appendDots']);
     $defaults['appendArrows'] = '.slick__arrow';

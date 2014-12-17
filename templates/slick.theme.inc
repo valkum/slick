@@ -343,11 +343,11 @@ function template_preprocess_slick_item(&$variables) {
     $attributes['class'][] = drupal_clean_css_identifier('slide--' . $settings['type']);
   }
 
-  // @todo, disabled for thumb by now.
+  // @todo, disabled for thumb by now when Slick resolves selector issue.
   $variables['caption'] = '';
   $variables['slide_pattern'] = '';
 
-  // @todo, thumbnails may also have captions, but not now.
+  // @todo, thumbnails may have captions when Slick resolves selector issue.
   if ($settings['current_item'] != 'thumbnail') {
     // Add layout/ caption position classes if so configured.
     if (!empty($captions['layout'])) {
@@ -400,7 +400,7 @@ function template_preprocess_slick_item(&$variables) {
     }
 
     // Exclude colorbox switcher as it has its own pattern DIV within A tag.
-    // @see theme_slick_image_lazy.
+    // @see theme_slick_image_lazy().
     if (isset($settings['has_pattern']) && $settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
       $variables['slide_pattern'] = '<div class="slide__pattern"></div>';
     }
@@ -419,6 +419,35 @@ function template_preprocess_slick_item(&$variables) {
  */
 function template_process_slick_item(&$variables) {
   $variables['attributes'] = empty($variables['attributes_array']) ? '' : drupal_attributes($variables['attributes_array']);
+}
+
+/**
+ * Implements hook_process_HOOK().
+ *
+ * Tips:
+ *   - Avoid variableWidth and adaptiveHeight.
+ *   - Use slidesToSHow > 1 to build more complex grids.
+ */
+function template_preprocess_slick_grid(&$variables) {
+  $element = $variables['element'];
+  $settings = $element['#settings'];
+
+  $build = array();
+
+  // Implementors should be responsible to pass proper grid chunks.
+  foreach ($element['#items'] as $delta => $item) {
+    $settings['current_item'] = 'grid';
+
+    $build[$delta] = array(
+      '#theme' => 'slick_item',
+      '#item' => isset($item['slide']) ? $item['slide'] : '',
+      '#delta' => $delta,
+      '#settings' => $settings,
+      '#caption' => isset($item['caption']) ? $item['caption'] : array(),
+    );
+  }
+
+  $variables['items'] = $build;
 }
 
 /**
@@ -501,7 +530,7 @@ function template_preprocess_slick_media(&$variables) {
       $variables['alternative_content'] = check_plain($settings['media_filename']);
     }
 
-    // Applies to all media types, including core image field.
+    // Colorbox switcher applies to all media types, including core image field.
     if ($settings['media_switch'] == 'colorbox-switch') {
       $attributes['class'][] = 'media--switch--colorbox';
     }
@@ -532,6 +561,7 @@ function template_process_slick_media(&$variables) {
 function template_preprocess_slick_wrapper(&$variables) {
   $element = $variables['element'];
   $settings = $element['#settings'] ? $element['#settings'] : array();
+
   $variables['items'] = array();
   foreach ($element['#items'] as $delta => $item) {
     if (!empty($item)) {
@@ -552,35 +582,6 @@ function template_preprocess_slick_wrapper(&$variables) {
   // Populate classes_array expected by Omega 3.
   // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
   $variables['classes_array'] = $variables['attributes_array']['class'];
-}
-
-/**
- * Implements hook_process_HOOK().
- *
- * Tips:
- *   - Avoid variableWidth and adaptiveHeight.
- *   - Use slidesToSHow > 1 to build more complex grids.
- */
-function template_preprocess_slick_grid(&$variables) {
-  $element = $variables['element'];
-  $settings = $element['#settings'];
-
-  $build = array();
-
-  // Implementors should be responsible to pass proper grid chunks.
-  foreach ($element['#items'] as $delta => $item) {
-    $settings['current_item'] = 'grid';
-
-    $build[$delta] = array(
-      '#theme' => 'slick_item',
-      '#item' => isset($item['slide']) ? $item['slide'] : '',
-      '#delta' => $delta,
-      '#settings' => $settings,
-      '#caption' => isset($item['caption']) ? $item['caption'] : array(),
-    );
-  }
-
-  $variables['items'] = $build;
 }
 
 /**
@@ -657,7 +658,7 @@ function theme_slick_image_lazy($variables) {
     else {
       $attributes['class'][] = 'lazy';
 
-      // @fixme.
+      // @fixem, then @fixme.
       // v1.3.7 allows dummy/ placeholder image:
       // https://github.com/kenwheeler/slick/pull/223
       // However lazyLoad ondemand has issue failing to generate _newly created
@@ -679,6 +680,9 @@ function theme_slick_image_lazy($variables) {
       // https://github.com/kenwheeler/slick/pull/540
       // https://github.com/kenwheeler/slick/issues/668
       if ($variables['lazy'] == 'progressive') {
+        // This is why we have this function, D7 core theme_image() only expects
+        // a file, not inline image. Should be dropped at D8 that supports it
+        // and merged to theme_slick_image_formatter_lazy() instead.
         $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       }
       elseif ($variables['lazy'] == 'ondemand') {

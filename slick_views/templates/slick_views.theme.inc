@@ -92,7 +92,7 @@ function template_preprocess_slick_views(&$variables) {
       if ($thumb) {
         $thumb['item']['type'] = 'views';
         $thumb['item']['view_name'] = $view->name;
-        // @todo thumbnails may have captions, but not now.
+        // @todo thumbnails may have caption when Slick resolves selector issue.
         $thumb['caption'] = array();
         $thumbs[] = $thumb;
       }
@@ -134,7 +134,7 @@ function template_preprocess_slick_views(&$variables) {
       $items = $grids;
     }
 
-    // Slick main display.
+    // Build the Slick main display.
     $element[0] = array(
       '#theme' => 'slick',
       '#items' => $items,
@@ -142,7 +142,7 @@ function template_preprocess_slick_views(&$variables) {
       '#attached' => slick_attach($attach),
     );
 
-    // Slick thumbnail display.
+    // Build the Slick thumbnail display.
     if (isset($settings['optionset_thumbnail']) && $settings['optionset_thumbnail'] && $thumbs) {
       if ($settings['id']) {
         $settings['attributes']['id'] = $settings['id'] . '-thumbnail';

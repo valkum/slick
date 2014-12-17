@@ -137,6 +137,7 @@ Optional skins:
   Caption and image/media are split half, and have edge margin 0 60px.
 - Grid, to create the last grid carousel. Use slidesToShow > 1 to have more grid
   combination, only if you have considerable amount of grids, otherwise 1.
+  Avoid variableWidth and adaptiveHeight. Use consistent dimensions.
   Uses the Foundation 5.5 block-grid as a starter, and disabled if you choose
   your own skin.
 - Rounded, should be named circle

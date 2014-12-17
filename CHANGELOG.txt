@@ -1,6 +1,8 @@
 
 Slick 7.x-2.0-dev, 2014-12-17
 -----------------------------
+Added various descriptive texts to clarify intention.
+Fixed the list negative margin used at Foundation grid.
 Added notice to README about the Grid skin.
 Added new theme_slick_grid() to handle the Grid.
 Added skin Grid to quickly build Slick grid carousel, slick.theme--grid.css

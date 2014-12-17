@@ -110,14 +110,14 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-    $grid_options = drupal_map_assoc(array(1,2,3,4,5,6,7,8,9,10));
+    $grid_options = drupal_map_assoc(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     $element['grid'] = array(
       '#type' => 'select',
       '#title' => t('Grid large'),
       '#options' => $grid_options,
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['grid'],
-      '#description' => t('The amount of block grid columns for large monitors 64.063em to 90em. Use skin Grid for starter, and slidesToShow > 1 to have more grid combination.'),
+      '#description' => t('The amount of block grid columns for large monitors 64.063em - 90em. Use skin Grid for starter, and plays with slidesToShow to have more grid combination.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -127,7 +127,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#options' => $grid_options,
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['grid'],
-      '#description' => t('The amount of block grid columns for medium devices 40.063em to 64em.'),
+      '#description' => t('The amount of block grid columns for medium devices 40.063em - 64em.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -137,7 +137,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#options' => $grid_options,
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['grid'],
-      '#description' => t('The amount of block grid columns for small devices 0 to 40em.'),
+      '#description' => t('The amount of block grid columns for small devices 0 - 40em.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -276,7 +276,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $element['slide_caption'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Caption fields'),
-      '#description' => t("Select a field to be used as the caption. This can also be set manually by adding the '.slide__caption' class to a field."),
+      '#description' => t("Select fields for the caption. This can also be set manually by adding the '.slide__caption' class to a field."),
       '#options' => $caption_options,
       '#default_value' => $slide_captions,
       '#attributes' => array('class' => array('is-tooltip')),
