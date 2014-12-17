@@ -1,4 +1,12 @@
 
+Slick 7.x-2.0-dev, 2014-12-17
+-----------------------------
+Added new theme_slick_grid() to handle the Grid.
+Added skin Grid to quickly build Slick grid carousel, slick.theme--grid.css
+  as a starter. Use your own grid system, and overrides the classes as needed.
+Added new options to Slick Views related to the Grid, Views only by now.
+Issue #2392193 by chefnelone: Creating a grid Slick slider
+
 Slick 7.x-2.0-dev, 2014-11-28
 -----------------------------
 Fixed for slick.theme--classic.css .slide--caption--bottom .slide__caption.

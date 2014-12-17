@@ -20,12 +20,12 @@
  * @see template_preprocess_slick_item()
  */
 ?>
-<div<?php print $attributes; ?>>
+<<?php print $tag; ?><?php print $attributes; ?>>
   <?php if ($settings['current_item'] == 'thumbnail'): ?>
     <?php print render($item); ?>
   <?php else: ?>
 
-    <div class="slide__content">
+    <<?php print $content_tag; ?><?php print $content_attributes; ?>>
 
       <?php print render($item_prefix); ?>
       <?php print render($item); ?>
@@ -62,6 +62,6 @@
         <?php print render($title_suffix); ?>
       <?php endif; ?>
 
-    </div>
+    </<?php print $content_tag; ?>>
   <?php endif; ?>
-</div>
+</<?php print $tag; ?>>

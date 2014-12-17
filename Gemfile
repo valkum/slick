@@ -3,9 +3,11 @@ source 'https://rubygems.org'
 group :development do
 
   # Sass, Compass and extensions.
-  gem 'sass'                    # Sass.
+  # Foundation 5.5
+  gem "sass", "~> 3.4.0"
+  gem "compass", "1.0.0"
+
   gem 'sass-globbing', '1.1.0'  # Import Sass files based on globbing pattern.
-  gem 'compass'                 # Framework built on Sass.
   gem 'compass-validator'       # So you can `compass validate`.
   gem 'breakpoint'              # Manages CSS media queries.
   gem 'css_parser'              # Helps `compass stats` output statistics.

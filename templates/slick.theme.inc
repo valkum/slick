@@ -17,27 +17,30 @@
 function template_preprocess_slick(&$variables) {
 
   $element = $variables['element'];
-  $items   = $element['#items'];
-  $count   = count($items);
+  $items = $element['#items'];
+  $count = count($items);
 
   // HTML or layout related settings, none of JS settings, except mousewheel.
   $settings = array(
-    'optionset'            => '',
-    'optionset_thumbnail'  => '',
-    'skin'                 => '',
-    'skin_thumbnail'       => '',
-    'media_switch'         => FALSE,
-    'is_carousel'          => FALSE,
-    'has_pattern'          => FALSE,
-    'has_arrow_down'       => FALSE,
-    'mousewheel'           => FALSE,
-    'arrows'               => FALSE,
+    'optionset' => '',
+    'optionset_thumbnail' => '',
+    'skin' => '',
+    'skin_thumbnail' => '',
+    'grid' => '',
+    'visible_slides' => '',
+    'media_switch' => FALSE,
+    'is_carousel' => FALSE,
+    'has_pattern' => FALSE,
+    'has_arrow_down' => FALSE,
+    'mousewheel' => FALSE,
+    'arrows' => FALSE,
     'aspect_ratio_overlay' => FALSE,
-    'current_display'      => 'main',
+    'current_display' => 'main',
+    'count' => $count,
   );
 
   $settings = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
-  $customs  = isset($element['#options']) ? $element['#options'] : array();
+  $customs = isset($element['#options']) ? $element['#options'] : array();
 
   // Optionset may be defined via custom code, CTools UI, or sub-modules.
   $optionset = isset($customs['optionset']) ? $customs['optionset'] : $settings['optionset'];
@@ -193,7 +196,16 @@ function template_preprocess_slick(&$variables) {
   // Arrows may be unset and empty if arrows option is disabled, so fallback to
   // the default in code.
   // Limit sanitization with button and a few reasonable selectors.
-  $allowed_tags = array('a', 'em', 'strong', 'button', 'p', 'div', 'i', 'span');
+  $allowed_tags = array(
+    'a',
+    'em',
+    'strong',
+    'button',
+    'p',
+    'div',
+    'i',
+    'span',
+  );
   if ($settings['arrows'] = $js['arrows']) {
     $is_prev = isset($js['prevArrow']) && $js['prevArrow'];
     $is_next = isset($js['next_arrow']) && $js['next_arrow'];
@@ -235,7 +247,7 @@ function template_preprocess_slick(&$variables) {
 
     $build[$delta] = array(
       '#theme' => 'slick_item',
-      '#item' => $item['slide'],
+      '#item' => isset($item['slide']) ? $item['slide'] : $item,
       '#delta' => $delta,
       '#settings' => $settings,
       '#caption' => isset($item['caption']) ? $item['caption'] : array(),
@@ -249,7 +261,7 @@ function template_preprocess_slick(&$variables) {
   // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
   $variables['classes_array'] = $variables['attributes_array']['class'];
 
-  // Add the basic library if no sub-modules in use.
+  // Add the basic library if no sub-modules, nor #attached in use.
   if ($count > 1 && !isset($element['#attached'])) {
     slick_add();
   }
@@ -266,9 +278,8 @@ function template_process_slick(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function template_preprocess_slick_item(&$variables) {
-
-  $element  = $variables['element'];
-  $item     = $element['#item'];
+  $element = $variables['element'];
+  $item = $element['#item'];
   $settings = $element['#settings'];
   $captions = $element['#caption'];
 
@@ -282,10 +293,49 @@ function template_preprocess_slick_item(&$variables) {
   // Configure attributes for containing elements.
   $attributes = $variables['attributes_array'];
   $attributes['class'] = $variables['classes_array'];
-  $attributes['class'][] = 'slick__slide';
-  $attributes['class'][] = 'slide';
-  // Useful to add custom text color based on delta.
-  $attributes['class'][] = 'slide--' . $element['#delta'];
+
+  $variables['tag'] = $variables['content_tag'] = 'div';
+
+  if ($settings['current_item'] == 'grid') {
+    $one = 'slide__grid';
+    $two = 'grid';
+    $three = 'grid--' . $element['#delta'];
+    $variables['content_attributes_array']['class'][] = 'grid__content';
+
+    // Borrows Foundation block-grid so that reusable site wide.
+    $variables['tag'] = 'li';
+    $variables['content_tag'] = 'div';
+  }
+  else {
+    $one = 'slick__slide';
+    $two = 'slide';
+    // Useful to add custom text color based on delta.
+    $three = 'slide--' . $element['#delta'];
+    $variables['content_attributes_array']['class'][] = 'slide__content';
+    $variables['tag'] = 'div';
+  }
+
+  $attributes['class'][] = $one;
+  $attributes['class'][] = $two;
+  $attributes['class'][] = $three;
+
+  // Only add relevant Foundation block-grid classes if the skin is Grid so that
+  // you can use own grid system, otherwise overrides at several levels.
+  if ($settings['grid'] && $settings['current_item'] == 'main') {
+    if ($settings['skin'] == 'grid') {
+      if ($settings['grid_small']) {
+        $variables['content_attributes_array']['class'][] = 'small-block-grid-' . $settings['grid_small'];
+      }
+      if ($settings['grid_medium']) {
+        $variables['content_attributes_array']['class'][] = 'medium-block-grid-' . $settings['grid_medium'];
+      }
+      $variables['content_attributes_array']['class'][] = 'large-block-grid-' . $settings['grid'];
+    }
+
+    $attributes['class'][] = 'slide--grid';
+
+    $variables['content_tag'] = 'ul';
+  }
 
   // Main image/background. Media module has type: image, audio, video, etc.
   // as opposed to field_type.
@@ -293,12 +343,12 @@ function template_preprocess_slick_item(&$variables) {
     $attributes['class'][] = drupal_clean_css_identifier('slide--' . $settings['type']);
   }
 
-  // @todo disable for thumb.
+  // @todo, disabled for thumb by now.
   $variables['caption'] = '';
   $variables['slide_pattern'] = '';
 
   // @todo, thumbnails may also have captions, but not now.
-  if ($settings['current_item'] == 'main') {
+  if ($settings['current_item'] != 'thumbnail') {
     // Add layout/ caption position classes if so configured.
     if (!empty($captions['layout'])) {
       $layout = drupal_clean_css_identifier('slide--caption--' . $captions['layout']);
@@ -337,7 +387,7 @@ function template_preprocess_slick_item(&$variables) {
 
     // We split image from captions with a wrapper if we do have captions, and
     // main image. This allows more complex slide layout.
-    if ((!empty($stage) && !empty($item)) || (strpos($settings['skin'], '3d') !== FALSE)) {
+    if ((!empty($stage) && $item) || (strpos($settings['skin'], '3d') !== FALSE)) {
       $variables['item_prefix'] = '<div class="slide__media">';
       $variables['item_suffix'] = '</div>';
     }
@@ -351,7 +401,7 @@ function template_preprocess_slick_item(&$variables) {
 
     // Exclude colorbox switcher as it has its own pattern DIV within A tag.
     // @see theme_slick_image_lazy.
-    if ($settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
+    if (isset($settings['has_pattern']) && $settings['has_pattern'] && $settings['media_switch'] != 'colorbox-switch') {
       $variables['slide_pattern'] = '<div class="slide__pattern"></div>';
     }
   }
@@ -406,8 +456,7 @@ function template_preprocess_slick_media(&$variables) {
 
       // Soundcloud has no #options.
       if (isset($media['#options'])) {
-        if (($scheme == 'youtube' && $media['#options']['enablejsapi'])
-           || ($scheme == 'vimeo' && $media['#options']['api'])) {
+        if (($scheme == 'youtube' && $media['#options']['enablejsapi']) || ($scheme == 'vimeo' && $media['#options']['api'])) {
           $variables['content_attributes_array']['id'] = $settings['api_id_attribute'];
         }
       }
@@ -503,6 +552,35 @@ function template_preprocess_slick_wrapper(&$variables) {
   // Populate classes_array expected by Omega 3.
   // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
   $variables['classes_array'] = $variables['attributes_array']['class'];
+}
+
+/**
+ * Implements hook_process_HOOK().
+ *
+ * Tips:
+ *   - Avoid variableWidth and adaptiveHeight.
+ *   - Use slidesToSHow > 1 to build more complex grids.
+ */
+function template_preprocess_slick_grid(&$variables) {
+  $element = $variables['element'];
+  $settings = $element['#settings'];
+
+  $build = array();
+
+  // Implementors should be responsible to pass proper grid chunks.
+  foreach ($element['#items'] as $delta => $item) {
+    $settings['current_item'] = 'grid';
+
+    $build[$delta] = array(
+      '#theme' => 'slick_item',
+      '#item' => isset($item['slide']) ? $item['slide'] : '',
+      '#delta' => $delta,
+      '#settings' => $settings,
+      '#caption' => isset($item['caption']) ? $item['caption'] : array(),
+    );
+  }
+
+  $variables['items'] = $build;
 }
 
 /**

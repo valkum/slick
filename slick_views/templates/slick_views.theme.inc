@@ -15,6 +15,7 @@ function template_preprocess_slick_views(&$variables) {
   if (!empty($variables['view'])) {
     $view = $variables['view'];
     $settings = $variables['options'];
+    $count = count($variables['rows']);
 
     $items = array();
     $thumbs = array();
@@ -113,7 +114,25 @@ function template_preprocess_slick_views(&$variables) {
     if ($settings['id']) {
       $settings['attributes']['id'] = $settings['id'];
     }
+
     $settings['attributes']['class'][] = drupal_clean_css_identifier('slick--view--' . $view->name);
+
+    // Build the Slick grid if we do have a serious grid :p.
+    if ($grid = $settings['grid'] && $count > 6 && $visible_slides = $settings['visible_slides']) {
+      $grid_items = array_chunk($items, $visible_slides);
+
+      $grids = array();
+      foreach ($grid_items as $delta => $grid_children) {
+        $grids[] = array(
+          '#theme' => 'slick_grid',
+          '#items' => $grid_children,
+          '#delta' => $delta,
+          '#settings' => $settings,
+        );
+      }
+
+      $items = $grids;
+    }
 
     // Slick main display.
     $element[0] = array(

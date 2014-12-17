@@ -31,6 +31,11 @@ function slick_theme($existing, $type, $theme, $path) {
       'render element' => 'element',
       'template' => 'slick-item',
     ),
+    // Handles grid items within a single slide.
+    'slick_grid' => $base + array(
+      'render element' => 'element',
+      'template' => 'slick-grid',
+    ),
     // Slick media file field.
     'slick_media' => $base + array(
       'render element' => 'element',

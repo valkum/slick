@@ -38,7 +38,7 @@
             }
 
           // First, reset any video to avoid multiple videos from playing.
-          $(player).removeClass('is-playing').find('iframe').attr('src', '');
+          $(player).removeClass('is-playing').find('iframe').attr('src', 'about:blank');
 
           // Clean up any pause marker.
           $('.is-paused').removeClass('is-paused');
@@ -52,7 +52,7 @@
         })
         // Closes the video.
         .on('click.media-close', '.media-icon--close', function (e) {
-          $(this).closest(player).removeClass('is-playing').find('iframe').attr('src', '');
+          $(this).closest(player).removeClass('is-playing').find('iframe').attr('src', 'about:blank');
           $('.is-paused').removeClass('is-paused');
           return false;
         });

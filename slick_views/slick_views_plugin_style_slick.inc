@@ -22,6 +22,10 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       'skin_thumbnail' => array('default' => ''),
       'asnavfor_main' => array('default' => ''),
       'asnavfor_thumbnail' => array('default' => ''),
+      'grid' => array('default' => ''),
+      'grid_medium' => array('default' => ''),
+      'grid_small' => array('default' => ''),
+      'visible_slides' => array('default' => ''),
       'slide_field_wrapper' => array('default' => FALSE),
       'slide_title' => array('default' => ''),
       'slide_image' => array('default' => ''),
@@ -103,6 +107,47 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#title' => t('asNavFor thumbnail'),
       '#default_value' => $settings['asnavfor_thumbnail'],
       '#description' => t('Valid CSS selector (with "." or "#") to override asNavFor target for the thumbnail display, e.g.: #slick-main or .slick--for. This should address the main display class or ID attributes. Also provide thumbnail field below.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $grid_options = drupal_map_assoc(array(1,2,3,4,5,6,7,8,9,10));
+    $element['grid'] = array(
+      '#type' => 'select',
+      '#title' => t('Grid large'),
+      '#options' => $grid_options,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['grid'],
+      '#description' => t('The amount of block grid columns for large monitors 64.063em to 90em. Use skin Grid for starter, and slidesToShow > 1 to have more grid combination.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['grid_medium'] = array(
+      '#type' => 'select',
+      '#title' => t('Grid medium'),
+      '#options' => $grid_options,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['grid'],
+      '#description' => t('The amount of block grid columns for medium devices 40.063em to 64em.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['grid_small'] = array(
+      '#type' => 'select',
+      '#title' => t('Grid small'),
+      '#options' => $grid_options,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['grid'],
+      '#description' => t('The amount of block grid columns for small devices 0 to 40em.'),
+      '#attributes' => array('class' => array('is-tooltip')),
+    );
+
+    $element['visible_slides'] = array(
+      '#type' => 'select',
+      '#title' => t('Visible slides'),
+      '#options' => $grid_options,
+      '#empty_option' => t('- None -'),
+      '#default_value' => $settings['visible_slides'],
+      '#description' => t('How many items per slide displayed at a time related to this grid.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
@@ -270,6 +315,10 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
         'id',
         'asnavfor_main',
         'asnavfor_thumbnail',
+        'grid',
+        'grid_medium',
+        'grid_small',
+        'visible_slides',
       ))) {
         $form['slick'][$key]['#states'] = array(
           'visible' => array(
@@ -282,6 +331,13 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
           'invisible' => array(
             array('select[name*="[optionset_thumbnail]"]' => array('value' => '')),
             array(':input[name*="[slide_field_wrapper]"]' => array('checked' => FALSE)),
+          ),
+        );
+      }
+      if (in_array($key, array('grid_medium', 'grid_small', 'visible_slides'))) {
+        $form['slick'][$key]['#states'] = array(
+          'invisible' => array(
+            array('select[name$="[grid]"]' => array('value' => '')),
           ),
         );
       }

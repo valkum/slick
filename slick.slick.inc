@@ -75,6 +75,13 @@ function slick_slick_skins_info() {
         $module_path . '/css/theme/slick.theme--boxed.css',
       ),
     ),
+    'grid' => array(
+      'name' => t('Grid'),
+      'description' => t('The last grid carousel. Use slidesToShow > 1 to have more grid combination, only if you have considerable amount of grids, otherwise 1.'),
+      'css' => array(
+        $module_path . '/css/theme/slick.theme--grid.css',
+      ),
+    ),
     'split' => array(
       'name' => t('Split'),
       'description' => t('Puts image and caption side by side, related to slide layout options.'),
