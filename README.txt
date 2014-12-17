@@ -135,6 +135,10 @@ Optional skins:
   slidesToShow option > 2.
 - Boxed split
   Caption and image/media are split half, and have edge margin 0 60px.
+- Grid, to create the last grid carousel. Use slidesToShow > 1 to have more grid
+  combination, only if you have considerable amount of grids, otherwise 1.
+  Uses the Foundation 5.5 block-grid as a starter, and disabled if you choose
+  your own skin.
 - Rounded, should be named circle
   This will circle the main image display, reasonable for small carousels, maybe
   with a small caption below to make it nice. Use slidesToShow option > 2.
