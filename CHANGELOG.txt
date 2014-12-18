@@ -1,6 +1,7 @@
 
 Slick 7.x-2.0-dev, 2014-12-18
 -----------------------------
+Fixed wrong grid values for small devices.
 Added more visible slides from 10 to 32.
 
 Slick 7.x-2.0-dev, 2014-12-17

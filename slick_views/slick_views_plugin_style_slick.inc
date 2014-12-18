@@ -126,7 +126,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#title' => t('Grid medium'),
       '#options' => $grid_options,
       '#empty_option' => t('- None -'),
-      '#default_value' => $settings['grid'],
+      '#default_value' => $settings['grid_medium'],
       '#description' => t('The amount of block grid columns for medium devices 40.063em - 64em.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
@@ -136,7 +136,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#title' => t('Grid small'),
       '#options' => $grid_options,
       '#empty_option' => t('- None -'),
-      '#default_value' => $settings['grid'],
+      '#default_value' => $settings['grid_small'],
       '#description' => t('The amount of block grid columns for small devices 0 - 40em.'),
       '#attributes' => array('class' => array('is-tooltip')),
     );
