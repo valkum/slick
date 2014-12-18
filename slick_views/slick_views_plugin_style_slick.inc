@@ -110,7 +110,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-    $grid_options = drupal_map_assoc(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    $grid_options = drupal_map_assoc(range(1, 12));
     $element['grid'] = array(
       '#type' => 'select',
       '#title' => t('Grid large'),
@@ -144,7 +144,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
     $element['visible_slides'] = array(
       '#type' => 'select',
       '#title' => t('Visible slides'),
-      '#options' => $grid_options,
+      '#options' => drupal_map_assoc(range(1, 32)),
       '#empty_option' => t('- None -'),
       '#default_value' => $settings['visible_slides'],
       '#description' => t('How many items per slide displayed at a time related to this grid.'),

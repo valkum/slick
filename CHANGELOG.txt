@@ -1,4 +1,8 @@
 
+Slick 7.x-2.0-dev, 2014-12-18
+-----------------------------
+Added more visible slides from 10 to 32.
+
 Slick 7.x-2.0-dev, 2014-12-17
 -----------------------------
 Added various descriptive texts to clarify intention.

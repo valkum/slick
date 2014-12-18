@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Hooks and preprocess functions for the slick themes module.
+ * Hooks and preprocess functions for the Slick module.
  */
 
 /**
@@ -512,7 +512,7 @@ function template_preprocess_slick_media(&$variables) {
       else {
         $attributes['class'][] = 'media--switch';
 
-        // If no colorbox, it is an media player iframe.
+        // If no colorbox, it is a media player iframe.
         if ($settings['media_switch'] != 'colorbox-switch') {
           $attributes['class'][] = 'media--player';
           $attributes['class'][] = 'media--switch--player';

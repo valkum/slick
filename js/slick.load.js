@@ -138,7 +138,7 @@
         Drupal.slick.updateArrows(t, merged, slider.slideCount);
       },
       onAfterChange: function (slider, index) {
-        // @fixthem.
+        // @fixem, then @fixme.
         // If total < slidesToShow, onAfterChange uselessly triggered on load,
         // otherwise not working at all.
         Drupal.slick.setCurrent(t, slider.currentSlide);

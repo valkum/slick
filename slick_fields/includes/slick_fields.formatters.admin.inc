@@ -79,7 +79,7 @@ function _slick_fields_get_fc_fields($instance, $field_types) {
  */
 function _slick_fields_get_media_fields($instance, $widget_types = NULL) {
   $media_options = array();
-  $types  = drupal_map_assoc(array('audio', 'image', 'video'));
+  $types = drupal_map_assoc(array('audio', 'image', 'video'));
 
   // Expose all media sub-fields, and merge them as available options.
   foreach ($types as $media_type) {
