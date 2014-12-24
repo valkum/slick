@@ -635,7 +635,7 @@ function theme_slick_wrapper($variables) {
  * However lazyLoad ondemand has issue failing to generate _newly created image
  * derivatives, causing 403. It has no issue if derivatives are in place
  * already. Only _new images fail. lazyLoad progressive has no issue with it.
-
+ *
  * May relate to itok: https://www.drupal.org/drupal-7.20-release-notes
  * Possible fixes without compromising security:
  *   - https://www.drupal.org/project/imageinfo_cache, to have derivatives

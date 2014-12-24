@@ -1,6 +1,7 @@
 
 Slick 7.x-2.0-dev, 2014-12-24
 -----------------------------
+Fixed coder review complain with missing asterix on the block comment.
 Fixed Shiny admin theme issue clearing every form-item which should be displayed
   inline.
 
