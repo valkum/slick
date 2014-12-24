@@ -200,7 +200,7 @@ function slick_get_options() {
 
     $options['lazyLoad'] = array(
       'title' => t('Lazy load'),
-      'description' => t("Set lazy loading technique. Accepts 'ondemand' or 'progressive'. Note: dummy image is no good for ondemand, and if ondemand fails to generate images, try progressive instead. If you need to share images for Pinterest, leave empty, otherwise Pinterest have no way to read image src."),
+      'description' => t("Note: dummy image is no good for ondemand. If ondemand fails to generate images, try progressive instead. Or use <a href='@url' target='_blank'>imageinfo_cache</a>. To share images for Pinterest, leave empty, otherwise no way to read actual image src.", array('@url' => '//www.drupal.org/project/imageinfo_cache')),
       'type' => 'select',
       'cast' => 'string',
       'default' => 'ondemand',

@@ -28,6 +28,7 @@
     margin: 0;
    
     @include breakpoint($breakpoint-start) {
+      display: inline-block;
       padding: 20px 0 12px;
       width: 50%;
       label {

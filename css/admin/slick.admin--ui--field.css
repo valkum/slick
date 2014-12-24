@@ -28,6 +28,7 @@
 @media (min-width: 64em) {
   #field-display-overview .field-formatter-settings-edit-form .form--slick .form-item,
   .form--field.form--slick .form-item {
+    display: inline-block;
     padding: 20px 0 12px;
     width: 50%;
   }

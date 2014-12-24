@@ -1,4 +1,22 @@
 
+Slick 7.x-2.0-dev, 2014-12-24
+-----------------------------
+Fixed Shiny admin theme issue clearing every form-item which should be displayed
+  inline.
+
+Dropped workaround for "on demand" lazyLoad. The issue is no longer valid.
+However if the issue persists at your end, please try two possible fixes below.
+Related old info:
+Default lazyLoad "on demand" may have issue to generate newly created images,
+causing 403.
+Maybe related to itok: https://www.drupal.org/drupal-7.20-release-notes
+Possible fixes without compromising security:
+- https://www.drupal.org/project/imageinfo_cache, to have derivatives in place.
+- Use lazyLoad "progressive" instead.
+
+lazyLoad ondemand also has issue with dummy image excessive height, so use it
+with care. Dummy image is for valid HTML5.
+
 Slick 7.x-2.0-dev, 2014-12-18
 -----------------------------
 Fixed wrong grid values for small devices.

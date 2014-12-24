@@ -222,7 +222,7 @@ function template_preprocess_slick(&$variables) {
   $js['mousewheel'] = $settings['mousewheel'] ? TRUE : FALSE;
 
   // Add the configuration as JSON object into slick container.
-  // @todo https://github.com/kenwheeler/slick/pull/407
+  // Avoid possible future common namedspaced: data-slick.
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js);
 
@@ -303,6 +303,9 @@ function template_preprocess_slick_item(&$variables) {
     $variables['content_attributes_array']['class'][] = 'grid__content';
 
     // Borrows Foundation block-grid so that reusable site wide.
+    // Override/empty skin Grid css when Foundation grid already in place, and
+    // block-grid classes are maintained.
+    // @see hook_slick_skins_info_alter(), or other ways to override CSS.
     $variables['tag'] = 'li';
     $variables['content_tag'] = 'div';
   }
@@ -322,6 +325,7 @@ function template_preprocess_slick_item(&$variables) {
   // Only add relevant Foundation block-grid classes if the skin is Grid so that
   // you can use own grid system, otherwise overrides at several levels.
   if ($settings['grid'] && $settings['current_item'] == 'main') {
+    // Allows semantic grid.
     if ($settings['skin'] == 'grid') {
       if ($settings['grid_small']) {
         $variables['content_attributes_array']['class'][] = 'small-block-grid-' . $settings['grid_small'];
@@ -498,7 +502,7 @@ function template_preprocess_slick_media(&$variables) {
       $variables['content_attributes_array']['width'] = $settings['media_width'];
 
       // Non-JS fallback.
-      // The media URL containing all the params from their iframe.
+      // The media URL containing all the params extracted from their iframe.
       if ($settings['url']) {
         $variables['url'] = $settings['url'];
         $variables['content_attributes_array']['src'] = $variables['url'];
@@ -622,7 +626,24 @@ function theme_slick_wrapper($variables) {
 /**
  * Overrides theme_image with lazy loading.
  *
- * @todo https://github.com/BBC-News/Imager.js as fallback for a single image?
+ * Notes:
+ * The issue here is no longer valid with the latest Slick. However if the issue
+ * persists at your end, please try two possible fixes below.
+ *
+ * v1.3.7 allows dummy/ placeholder image:
+ * https://github.com/kenwheeler/slick/pull/223
+ * However lazyLoad ondemand has issue failing to generate _newly created image
+ * derivatives, causing 403. It has no issue if derivatives are in place
+ * already. Only _new images fail. lazyLoad progressive has no issue with it.
+
+ * May relate to itok: https://www.drupal.org/drupal-7.20-release-notes
+ * Possible fixes without compromising security:
+ *   - https://www.drupal.org/project/imageinfo_cache, to have derivatives
+ *     in place earlier.
+ *   - Or use lazyLoad "progressive" instead.
+ *
+ * ondemand also has issue with dummy image excessive height, so use it
+ * with care. Dummy image is for valid HTML5.
  *
  * @ingroup themeable
  */
@@ -658,38 +679,10 @@ function theme_slick_image_lazy($variables) {
     else {
       $attributes['class'][] = 'lazy';
 
-      // @fixem, then @fixme.
-      // v1.3.7 allows dummy/ placeholder image:
-      // https://github.com/kenwheeler/slick/pull/223
-      // However lazyLoad ondemand has issue failing to generate _newly created
-      // image derivatives, causing 403. It has no issue if derivatives are in
-      // place already. Only _new images fail.
-      // lazyLoad progressive has no issue with it.
-
-      // Maybe data-lazy is removed before having a chance to generate one.
-      // ondemand also has issue with dummy image excessive height, so only
-      // progressive can have dummy image as of now.
-      // Dummy image is for valid HTML5.
-
-      // @todo drop ondemand part, when ondemand is fixed somewhere.
-      // Maybe lazyLoadAhead solves it:
-      // https://github.com/kenwheeler/slick/issues/466
-      // https://github.com/kenwheeler/slick/issues/636
-      // https://github.com/kenwheeler/slick/issues/358
-      // @todo check if this fixes it:
-      // https://github.com/kenwheeler/slick/pull/540
-      // https://github.com/kenwheeler/slick/issues/668
-      if ($variables['lazy'] == 'progressive') {
-        // This is why we have this function, D7 core theme_image() only expects
-        // a file, not inline image. Should be dropped at D8 that supports it
-        // and merged to theme_slick_image_formatter_lazy() instead.
-        $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-      }
-      elseif ($variables['lazy'] == 'ondemand') {
-        // Temp fix for failing image derivatives, negating lazyLoad at all.
-        $attributes['src'] = $path;
-      }
-
+      // This is why we have this function, D7 core theme_image() only expects
+      // a file, not inline image. Dropped at D8 that supports it, and merged to
+      // theme_slick_image_formatter_lazy() instead.
+      $attributes['src'] = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       $attributes['data-lazy'] = $path;
     }
 

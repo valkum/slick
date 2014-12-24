@@ -17,7 +17,7 @@
  *
  * Each skin supports 4 keys:
  * - name: The human readable name of the skin.
- * - description: The description about the skin.
+ * - description: The description about the skin, for help and manage pages.
  * - css: An array of CSS files to attach.
  * - js: An array of JS files to attach.
  *

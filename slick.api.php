@@ -19,14 +19,14 @@
  * slick--skin--my-module-slick-carousel-rounded
  *
  * A skin can specify an unlimited number of CSS and JS files to include when
- * the Slick is displayed.
+ * the Slick is displayed, but of course nobody will do it.
  */
 function hook_slick_skins_info() {
   return array(
     'skin_name' => array(
       // Human readable skin name.
       'name' => t('Skin name'),
-      // Description of the skin.
+      // Description of the skin, future use for help and manage pages.
       'description' => t('Skin description.'),
       'css' => array(
         // Full path to a CSS file to include with the skin.

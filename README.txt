@@ -108,38 +108,48 @@ Optional skins:
   Re-save existing Optionset to disable the skin at all.
   If you are using individual slide layout, you may have to do the layouts
   yourself.
+
 - 3d back
   Adds 3d view with focal point at back, works best with 3 slidesToShow,
   centerMode, and caption below the slide.
+
 - Classic
   Adds dark background color over white caption, only good for slider (single
   slide visible), not carousel (multiple slides visible), where small captions
   are placed over images, and animated based on their placement.
+
 - Full screen
   Works best with 1 slidesToShow. Use z-index layering > 8 to position elements
   over the slides, and place it at large regions. Currently only works with
   Slick fields, use Views to make it a block. Use block_reference inside FC to
   have more complex contents inside individual slide, and assign it to Slide
   caption fields.
+
 - Full width
   Adds additional wrapper to wrap overlay audio/video and captions properly.
   This is designated for large slider in the header or spanning width to window
   edges at least 1170px width for large monitor.
+
 - Boxed
   Added a 0 60px margin to slick-list container and hide neighboring slides.
   An alternative to centerPadding which still reveals neighboring slides.
+
 - Split
   Caption and image/media are split half, and placed side by side.
+
 - Box carousel
   Added box-shadow to the carousel slides, multiple visible slides. Use
   slidesToShow option > 2.
+
 - Boxed split
   Caption and image/media are split half, and have edge margin 0 60px.
+
 - Grid, to create the last grid carousel. Use slidesToShow > 1 to have more grid
   combination, only if you have considerable amount of grids, otherwise 1.
   Avoid variableWidth and adaptiveHeight. Use consistent dimensions.
   Uses the Foundation 5.5 block-grid as a starter, and disabled if you choose
   your own skin.
+
 - Rounded, should be named circle
   This will circle the main image display, reasonable for small carousels, maybe
   with a small caption below to make it nice. Use slidesToShow option > 2.
@@ -166,6 +176,19 @@ only if trouble to see the new options, or when options don't apply properly.
 This is most likely true when the library adds/changes options, or the module
 does something new.
 Always clear the cache when updating the module to ensure things are picked up.
+
+Dropped workaround for "on demand" lazyLoad. The issue is no longer valid.
+However if the issue persists at your end, please try two possible fixes below.
+Related old info:
+Default lazyLoad "on demand" may have issue to generate newly created images,
+causing 403.
+Maybe related to itok: https://www.drupal.org/drupal-7.20-release-notes
+Possible fixes without compromising security:
+- https://www.drupal.org/project/imageinfo_cache, to have derivatives in place.
+- Use lazyLoad "progressive" instead.
+
+lazyLoad ondemand also has issue with dummy image excessive height, so use it
+with care. Dummy image is for valid HTML5.
 
 More info relevant to each option is available at their form display by hovering
 over them, and click a dark question mark.
