@@ -835,8 +835,8 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
         $settings['colorbox_ready'] = TRUE;
         $settings['picture_ready']  = TRUE;
         module_load_include('inc', 'slick_fields', 'includes/slick_fields.formatters.media');
-        $build = _slick_fields_format_media($settings, $items, $field, $view_mode, $langcode);
-        $thumb = _slick_fields_format_media($settings, $items, $field, $view_mode, $langcode, TRUE);
+        $build = _slick_fields_format_media($settings, $items, $field, $view_mode);
+        $thumb = _slick_fields_format_media($settings, $items, $field, $view_mode, TRUE);
         break;
 
       case 'field_collection':
@@ -881,4 +881,27 @@ function slick_fields_field_formatter_view($entity_type, $entity, $field, $insta
   }
 
   return $element;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function slick_fields_entity_info_alter(&$entity_info) {
+  $view_mode = 'slick_carousel';
+  foreach ($entity_info as $key => $entity) {
+    switch ($key) {
+      case 'file':
+      case 'field_collection_item':
+        if (!isset($entity_info[$key]['view modes'][$view_mode])) {
+          $entity_info[$key]['view modes'][$view_mode] = array(
+            'label' => t('@label' , array('@label' => ucwords(str_replace("_", " ", $view_mode)))),
+            'custom settings' => FALSE,
+          );
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
 }

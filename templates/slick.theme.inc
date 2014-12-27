@@ -208,9 +208,9 @@ function template_preprocess_slick(&$variables) {
   );
   if ($settings['arrows'] = $js['arrows']) {
     $is_prev = isset($js['prevArrow']) && $js['prevArrow'];
-    $is_next = isset($js['next_arrow']) && $js['next_arrow'];
+    $is_next = isset($js['nextArrow']) && $js['nextArrow'];
     $settings['prev_arrow'] = $is_prev ? filter_xss($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
-    $settings['next_arrow'] = $is_next ? filter_xss($js['next_arrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
+    $settings['next_arrow'] = $is_next ? filter_xss($js['nextArrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
 
     // This is the only default supported appendArrows selector.
     $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');

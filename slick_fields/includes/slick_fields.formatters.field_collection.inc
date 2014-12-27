@@ -183,7 +183,7 @@ function _slick_fields_format_field_collection(&$settings, $items, $field, $view
                   $file->type = file_get_type($file);
                 }
 
-                $media = file_view_file($file, $view_mode, $langcode);
+                $media = file_view_file($file, $view_mode);
                 $scheme = file_uri_scheme($uri);
 
                 $settings['scheme'] = $scheme;

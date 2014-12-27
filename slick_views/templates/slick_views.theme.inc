@@ -15,7 +15,6 @@ function template_preprocess_slick_views(&$variables) {
   if (!empty($variables['view'])) {
     $view = $variables['view'];
     $settings = $variables['options'];
-    $count = count($variables['rows']);
 
     $items = array();
     $thumbs = array();
@@ -117,21 +116,27 @@ function template_preprocess_slick_views(&$variables) {
 
     $settings['attributes']['class'][] = drupal_clean_css_identifier('slick--view--' . $view->name);
 
-    // Build the Slick grid if we do have a serious grid :p.
-    if ($grid = $settings['grid'] && $count > 6 && $visible_slides = $settings['visible_slides']) {
-      $grid_items = array_chunk($items, $visible_slides);
+    // Build the Slick grid.
+    $grid = isset($settings['grid']) && $settings['grid'] ? $settings['grid'] : '';
+    if ($grid) {
+      $visible_slides = $settings['visible_slides'];
+      // Only if we do have a reasonable amount of grid items.
+      if ($visible_slides && count($variables['rows']) > $visible_slides) {
+        $grid_items = array_chunk($items, $visible_slides);
 
-      $grids = array();
-      foreach ($grid_items as $delta => $grid_children) {
-        $grids[] = array(
-          '#theme' => 'slick_grid',
-          '#items' => $grid_children,
-          '#delta' => $delta,
-          '#settings' => $settings,
-        );
+        $grids = array();
+        foreach ($grid_items as $delta => $grid_children) {
+          $grids[] = array(
+            '#theme' => 'slick_grid',
+            '#items' => $grid_children,
+            '#delta' => $delta,
+            '#settings' => $settings,
+          );
+        }
+
+        // Update the $items with grid chunks.
+        $items = $grids;
       }
-
-      $items = $grids;
     }
 
     // Build the Slick main display.

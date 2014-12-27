@@ -357,6 +357,7 @@ supports no-js */
     text-align: center;
   }
   .slide--caption--right .slide__caption {
+    left: auto;
     right: 0;
   }
   .slide--caption--top .slide__caption, .slide--caption--bottom .slide__caption {

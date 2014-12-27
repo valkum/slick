@@ -8,7 +8,7 @@
 /**
  * Format image/media file data.
  */
-function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $langcode, $thumb_nav = FALSE) {
+function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $thumb_nav = FALSE) {
   module_load_include('inc', 'slick', 'includes/slick.extras');
 
   $build = array();
@@ -48,7 +48,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       $file->type = file_get_type($file);
     }
 
-    $media = file_view_file($file, $view_mode, $langcode);
+    $media = file_view_file($file, $view_mode);
 
     if ($media && isset($media['#uri'])) {
       $settings['is_media'] = TRUE;
@@ -91,7 +91,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
     if (!$thumb_nav) {
       // Title, if so configured.
       if (!empty($settings['slide_title'])) {
-        if ($field_title = field_get_items('file', $file, $settings['slide_title'], $langcode)) {
+        if ($field_title = field_get_items('file', $file, $settings['slide_title'])) {
           $title = $field_title[0]['safe_value'];
           $slide['caption']['title'] = $title;
         }
@@ -101,7 +101,7 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
       if (!empty($settings['slide_caption'])) {
         $caption_items = array();
         foreach ($settings['slide_caption'] as $i => $caption_field) {
-          $caption = field_view_field('file', $file, $caption_field, $view_mode, $langcode);
+          $caption = field_view_field('file', $file, $caption_field, $view_mode);
           if ($caption) {
             $caption_items[$i] = $caption;
           }
@@ -111,15 +111,15 @@ function _slick_fields_format_media(&$settings, $items, $field, $view_mode, $lan
 
       // Link, if so configured.
       if (!empty($settings['slide_link'])) {
-        if ($field_link = field_get_items('file', $file, $settings['slide_link'], $langcode)) {
-          $link = field_view_field('file', $file, $settings['slide_link'], $view_mode, $langcode);
+        if ($field_link = field_get_items('file', $file, $settings['slide_link'])) {
+          $link = field_view_field('file', $file, $settings['slide_link'], $view_mode);
           $slide['caption']['link'] = $link;
         }
       }
 
       // Layout, if so configured.
       if (!empty($settings['slide_layout'])) {
-        if ($field_layout = field_get_items('file', $file, $settings['slide_layout'], $langcode)) {
+        if ($field_layout = field_get_items('file', $file, $settings['slide_layout'])) {
           $layout = $field_layout[0]['value'];
           $slide['caption']['layout'] = check_plain($layout);
         }

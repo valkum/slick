@@ -210,7 +210,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
       '#default_value' => $settings['slide_layout'],
       '#options' => $layout_options,
       '#empty_option' => t('- None -'),
-      '#description' => t('Make sure to choose "key", not "Default" under Formatter. If you provide a dedicate list text field, it will affect individual slide, otherwise it affects the entire slides within the current slick uniformly. Leave empty to DIY. Or use field formatter to allow more control with a dedicated slide layout field.'),
+      '#description' => t('Be sure to choose "key", not "Default" under Formatter. If you provide a dedicate list text field, it will affect individual slide, otherwise it affects the entire slides within the current slick uniformly. Leave empty to DIY. Or use field formatter to allow more control with a dedicated slide layout field.'),
       '#attributes' => array('class' => array('is-tooltip')),
       '#prefix' => '<h3 class="form--slick__title">' . t('Fields') . '</h3>',
     );
@@ -435,7 +435,7 @@ class SlickViewsPluginStyleSlick extends views_plugin_style {
           if (!empty($this->options['slide_layout'])) {
             $slide_layout = $this->options['slide_layout'];
             // Slide layout may be a list field, or builtin layout options.
-            if (strpos('field_', $slide_layout) !== FALSE) {
+            if (strpos($slide_layout, 'field_') !== FALSE) {
               $rows[$index]->layout = $this->get_field($index, $slide_layout);
             }
             else {

@@ -1,4 +1,13 @@
 
+Slick 7.x-2.0-dev, 2014-12-26
+-----------------------------
+Fixed compatibility with Entity translation for the Slick fields media by
+  dropping optional $langcode argument.
+Added view mode "Slick carousel" to file and field collection entity view modes.
+Fixed next_arrow typo to nextArrow for JS.
+Fixed slide_layout for Slick Views not being recognized if using List (text).
+Fixed caption right placement being overriden by caption left.
+
 Slick 7.x-2.0-dev, 2014-12-24
 -----------------------------
 Fixed coder review complain with missing asterix on the block comment.
