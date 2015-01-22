@@ -1,0 +1,6 @@
+name: Slick
+type: module
+description: 'Slick Slider'
+package: Slider
+version: VERSION
+core: 8.x

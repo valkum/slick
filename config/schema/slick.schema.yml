@@ -1,0 +1,22 @@
+slick.optionset.*:
+  type: config_entity
+  label: 'Optionset'
+  mapping:
+    id:
+      type: string
+      label: 'Optionset ID'
+    label:
+      type: label
+      label: 'Name'
+    breakpoints:
+      type: integer
+      label: 'Number of Breakpoints'
+    skin:
+      type: string
+      label: 'Skin'
+    options:
+      type: sequence
+      label: 'Options'
+      sequence:
+        - type: sequence
+          label: 'Options'

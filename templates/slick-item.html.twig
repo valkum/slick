@@ -1,0 +1,66 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the individual Slick item/slide template.
+ *
+ * Available variables:
+ * - $attributes: An array of attributes to apply to the element.
+ * - $item: A renderable array of the main image/background.
+ * - $caption: A renderable array containing caption fields if provided:
+ *   - Title: slide title.
+ *   - Alt: core Image field Alt as caption.
+ *   - Link: slide links or buttons.
+ *   - Overlay: may be audio/video Media, or image.
+ *   - Data: any possible field for more complex data if crazy enough.
+ *
+ * Notes:
+ * .slide__pattern is also to fix draggable issue in Firefox, apart from
+ * displaying overlay pattern. It is conditionally provided based on settings.
+ * @see template_preprocess_slick_item()
+ */
+#}
+<{{ tag }}{{ attributes }}>
+  {% if settings['current_item'] == 'thumbnail' %}
+    {{ item }}
+  {% else %}
+
+    <{{ content_tag }}{{ content_attributes }}>
+
+      {{ item_prefix }}
+      {{ item }}
+      {{ slide_pattern }}
+      {{ item_suffix }}
+
+      {% if caption %}
+        {{ title_prefix }}
+
+        <div class="slide__caption">
+          {% if caption['overlay'] %}
+            <div class="slide__overlay">{{ caption['overlay'] }}</div>
+          {% endif %}
+
+          {% if caption['data'] or caption['title'] %}
+            <div class="slide__data">
+              {% if caption['title'] %}
+                <h2 class="slide__title">{{ caption['title'] }}</h2>
+              {% endif %}
+
+              {% if caption['alt'] %}
+                <p class="slide__description">{{ caption['alt'] }}</p>
+              {% endif %}
+
+              {{ caption['data'] }}
+
+              {% if caption['link'] %}
+                <div class="slide__link">{{ caption['link'] }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+        {{ title_suffix }}
+      {% endif %}
+
+    </{{ content_tag }}>
+  {% endif %}
+</{{ tag }}>

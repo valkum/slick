@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the Slick carousel template.
+ *
+ * Available variables:
+ * - items: The array of items containing main image/video/audio, and optional
+ *     image/video/audio overlay and captions.
+ * - attributes: The array of attributes to hold classes, id and optional
+ *     data-config containing JSON object aka JS settings the Slick expects to
+ *     override default options. We don't store these JS settings in the normal
+ *     <head>, but inline within data-config attribute instead.
+ * - arrows: Enable or not the arro navigator.
+ * - prev_arrow: The Prev Arrow.
+ * - next_arrow: The Next Arrow.
+ */
+#}
+<div{{ attributes }}>
+
+  {% for item in items %}
+    {{ item }}
+  {% endfor %}
+
+  {# //@todo: ceck for count($items) > 1 #}
+  {% if arrows %}
+    <nav class="slick__arrow">
+      {% if prev_arrow %}
+        {{ prev_arrow }}
+      {% endif %}
+      {% if has_arrow_down %}
+        <button class="slick-down jump-scroll"{{ arrow_down_target }}{{ arrow_down_offset}} ></button>
+      {% endif %}
+      {% if next_arrow %}
+        {{ next_arrow }}
+      {% endif %}
+    </nav>
+  {% endif %}
+
+</div>

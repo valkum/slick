@@ -1,0 +1,9 @@
+
+slick.optionset_list:
+  path: '/admin/config/slick'
+  defaults:
+    # Must be the same as our config entity type id.
+    _entity_list: 'slick_optionset'
+    _title: 'Slick Optionsets'
+  requirements:
+    _permission: 'administer themes'

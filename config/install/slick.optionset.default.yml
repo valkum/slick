@@ -1,0 +1,50 @@
+id: default
+label: 'Default'
+breakpoints: 0
+skin: ''
+options:
+  settings:
+    asNavFor: ''
+    accessibility: TRUE
+    adaptiveHeight: FALSE
+    autoplay: FALSE
+    autoplaySpeed: 3000
+    pauseOnHover: TRUE
+    pauseOnDotsHover: FALSE
+    arrows: TRUE
+    appendArrows: '$(element)'
+    prevArrow: '<button type="button" data-role="none" class="slick-prev">Previous</button>'
+    nextArrow: '<button type="button" data-role="none" class="slick-next">Next</button>'
+    centerMode: FALSE
+    centerPadding: '50px'
+    dots: FALSE
+    dotsClass: 'slick-dots'
+    appendDots: '$(element)'
+    draggable: TRUE
+    fade: FALSE
+    focusOnSelect: FALSE
+    infinite: TRUE
+    initialSlide: 0
+    lazyLoad: 'ondemand'
+    respondTo: 'window'
+    rtl: FALSE
+    slide: 'div'
+    slidesToShow: 1
+    slidesToScroll: 1
+    speed: 500
+    swipe: TRUE
+    swipeToSlide: FALSE
+    touchMove: TRUE
+    touchThreshold: 5
+    useCSS: TRUE
+    cssEase: 'ease'
+    cssEaseOverride: ''
+    easing: 'linear'
+    variableWidth: FALSE
+    vertical: FALSE
+    waitForAnimate: TRUE
+  general:
+    normal: ''
+    thumbnail: ''
+    template_class: ''
+    goodies: []
