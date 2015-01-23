@@ -63,7 +63,7 @@ function template_preprocess_slick(&$variables) {
   }
   debug($optionset->options);
   $options = $optionset->options;
-  $general = $options['general'];
+  $general = $optionset->general;
   $goodies = $general['goodies'];
 
   // The Slick JS settings defined either via custom #options, or CTools UI.
@@ -280,6 +280,7 @@ function template_preprocess_slick(&$variables) {
 function template_preprocess_slick_item(&$variables) {
   $element = $variables['element'];
   $item = $element['#item'];
+  debug($item);
   $settings = $element['#settings'];
   $captions = $element['#caption'];
 
@@ -646,7 +647,7 @@ function theme_slick_image_lazy($variables) {
   $path = $variables['path'];
   $variables['attributes']['class'][] = 'slick__image';
 
-  // Make sure to avoid images with breakpoints and without image style.
+  // Make sure to avoid images with points and without image style.
   if (!isset($variables['breakpoints']) && isset($variables['style_name'])) {
     $attributes = $variables['attributes'];
     foreach (array('width', 'height', 'alt', 'title') as $key) {
