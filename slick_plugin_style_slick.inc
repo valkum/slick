@@ -44,7 +44,7 @@ class slick_plugin_style_slick extends views_plugin_style {
         '#title' => $values['title'],
         '#description' => $values['description'],
         '#type' => ($values['type'] == 'boolean') ? 'checkbox' : 'textfield',
-        '#default_value' => $this->options[$name],
+        '#default_value' => $this->options['slick_settings'][$name],
       );
     }
   }

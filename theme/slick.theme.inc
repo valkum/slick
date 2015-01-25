@@ -11,7 +11,7 @@
 function template_preprocess_slick(&$variables) {
   $options = $variables['options'];
   $slick_options = slick_get_options();
-  $settings = array_intersect_key($options, $slick_options);
+  $settings = array_intersect_key($options['slick_settings'], $slick_options);
 
   // Add libraries.
   drupal_add_library('slick', 'slick');
