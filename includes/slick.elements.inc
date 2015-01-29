@@ -214,7 +214,10 @@ function slick_get_options() {
       'type' => 'select',
       'cast' => 'string',
       'default' => 'window',
-      'options' => array_combine(array('window', 'slider', 'min'), array('window', 'slider', 'min')),
+      'options' => array_combine(
+        array('window', 'slider', 'min'),
+        array('window', 'slider', 'min')
+      ),
     );
 
     $options['rtl'] = array(
@@ -422,10 +425,8 @@ function slick_get_responsive_options($count = 0) {
  *
  * @param string $key
  *   Gets a specific default value [optional].
- *
  * @param string $set
  *   Gets a specific group of values [optional]: settings, general, responsives.
- *
  * @param int $breakpoints
  *   The number of breakpoints if specified.
  *
@@ -485,7 +486,6 @@ function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL
  *
  * @param object $optionset
  *   An array of Option Set options, default is loaded if none specified.
- *
  * @param array $customs
  *   An array of hand-coded JS options defined using #options property if passed
  *   via theme_slick().
@@ -588,14 +588,12 @@ function _slick_remove_default_optionset_options($optionset, $customs = array())
  *
  * @param array $options
  *   An array of Option Set options, default is loaded if none specified.
- *
  * @param int $breakpoints
  *   The number of breakpoints if specified.
  *
- * @return array
- *   An array of valid typecast values ready to consume by jQuery.
+ * @deprecated
  */
-function _slick_typecast_optionset(&$options, $breakpoints = NULL) {
+function _slick_typecast_optionset(array &$options, $breakpoints = NULL) {
   if (isset($options) && !empty($options)) {
     $slick_options = slick_get_options();
     foreach ($slick_options as $name => $values) {
@@ -640,10 +638,10 @@ function slick_skins($options = FALSE) {
 
   if (!isset($skins)) {
     // Collects a list of the currently available skins.
-    $skins = module_invoke_all('slick_skins_info');
+    $skins = \Drupal::moduleHandler()->invokeAll('slick_skins_info');
 
     // Allows skin information to be altered.
-    drupal_alter('slick_skins_info', $skins);
+    \Drupal::moduleHandler()->alter('slick_skins_info', $skins);
 
     if ($options) {
       $available_skins = array();
@@ -792,6 +790,7 @@ function _slick_css_easing_options($all = FALSE) {
  * Create a new optionset object.
  *
  * Note that this function does not save the optionset to the database.
+ *
  * @see slick_optionset_save()
  */
 function slick_optionset_create($values = array()) {
@@ -831,7 +830,7 @@ function slick_optionset_create($values = array()) {
  *   The associative array of all options.
  */
 function slick_optionset_load_all() {
-  $optionsets = entity_load_multiple('optionset');
+  $optionsets = entity_load_multiple('slick_optionset');
   foreach ($optionsets as $optionset) {
     // Ensure the optionset is typecast after being loaded from DB.
     _slick_typecast_optionset($optionset->options, $optionset->breakpoints);

@@ -1,9 +1,30 @@
-
 slick.optionset_list:
-  path: '/admin/config/slick'
+  path: '/admin/config/media/slick/optionsets'
   defaults:
     # Must be the same as our config entity type id.
     _entity_list: 'slick_optionset'
     _title: 'Slick Optionsets'
+  requirements:
+    _permission: 'administer themes'
+
+slick.optionset_add:
+  path: '/admin/config/media/slick/optionset/add'
+  defaults:
+    _entity_form: 'slick_optionset.add'
+    _title: 'Add optionset'
+  requirements:
+    _permission: 'administer themes'
+entity.slick_optionset.edit_form:
+  path: '/admin/config/media/slick/optionset/{slick_optionset}'
+  defaults:
+    _entity_form: 'slick_optionset.edit'
+    _title: 'Edit optionset'
+  requirements:
+    _permission: 'administer themes'
+entity.slick_optionset.delete_form:
+  path: '/admin/config/media/slick/optionset/{slick_optionset}/delete'
+  defaults:
+    _entity_form: 'slick_optionset.delete'
+    _title: 'Delete optionset'
   requirements:
     _permission: 'administer themes'

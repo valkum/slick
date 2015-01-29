@@ -1,0 +1,5 @@
+slick.optionset_list:
+  title: 'Slick Optionsets'
+  description: 'Configure optionset that can customize the slick slider.'
+  parent: system.admin_config_media
+  route_name: slick.optionset_list

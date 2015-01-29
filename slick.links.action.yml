@@ -1,0 +1,5 @@
+optionset_add_action:
+  route_name: slick.optionset_add
+  title: 'Add optionset'
+  appears_on:
+    - slick.optionset_list

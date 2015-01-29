@@ -3,9 +3,10 @@
  * @file
  * Allows support of a new view handler.
  */
+
 use \Drupal\slick\Entity\Optionset;
 
- /**
+/**
  * Implements hook_theme().
  */
 function slick_theme($existing, $type, $theme, $path) {
@@ -50,22 +51,14 @@ function slick_theme($existing, $type, $theme, $path) {
         'options' => array(),
       ),
     ),
+    'slick_view' => $base + array(
+      'variables' => array(
+        'view' => NULL,
+        'row' => NULL,
+      ),
+    ),
   );
 }
-
-
-/**
- * Implements hook_views_pre_render().
- */
-function slick_views_pre_render($view) {
-  if ($view->storage->id === 'test') {
-    //$view->element['#attached']['js'][] = array('type' => 'setting', 'data' => $settings);
-    //$view->element['#attached']['library'][] = 'views/views.ajax';
-  }
-
-  return $view;
-}
-
 
 /**
  * Off-load the following slick elements to another file.

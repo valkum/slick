@@ -8,6 +8,8 @@
 use Drupal\Core\Template\Attribute;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\String;
+use Drupal\Component\Utility\Xss;
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -17,7 +19,8 @@ use Drupal\Component\Utility\Html;
  *   related to JS settings, mostly slide layouts or attaching assets.
  * - #options is set programmatically, or hand-crafted, and only accepts direct
  *   key|value pairs related to JS settings, or at least optionset name.
- * @todo: Remove settings array.
+ *
+ * @todo: Improve customs and settings array.
  */
 function template_preprocess_slick(&$variables) {
 
@@ -61,7 +64,7 @@ function template_preprocess_slick(&$variables) {
     $optionset = slick_optionset_load('default');
     \Drupal::logger('slick')->notice("Fallback to default optionset.");
   }
-  debug($optionset->options);
+
   $options = $optionset->options;
   $general = $options['general'];
   $goodies = $general['goodies'];
@@ -84,12 +87,12 @@ function template_preprocess_slick(&$variables) {
   if ($settings['optionset_thumbnail']) {
     if ($settings['current_display'] == 'main') {
       if (isset($settings['asnavfor_main']) && $settings['asnavfor_main']) {
-        $js['asNavFor'] = check_plain($settings['asnavfor_main']);
+        $js['asNavFor'] = String::checkPlain($settings['asnavfor_main']);
       }
     }
     elseif ($settings['current_display'] == 'thumbnail') {
       if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
-        $js['asNavFor'] = check_plain($settings['asnavfor_thumbnail']);
+        $js['asNavFor'] = String::checkPlain($settings['asnavfor_thumbnail']);
       }
     }
   }
@@ -158,7 +161,7 @@ function template_preprocess_slick(&$variables) {
   // $attributes['class'][] = 'slick--has-transition';
   // $attributes['class'][] = $general['transition'];
   // }
-
+  //
   // @todo refactor some classes into skin instead.
   // Some settings are only reasonable for the main display, not thumbnail.
   if ($settings['current_display'] == 'main') {
@@ -216,8 +219,8 @@ function template_preprocess_slick(&$variables) {
   if ($settings['arrows'] = $js['arrows']) {
     $is_prev = isset($js['prevArrow']) && $js['prevArrow'];
     $is_next = isset($js['nextArrow']) && $js['nextArrow'];
-    $settings['prev_arrow'] = $is_prev ? filter_xss($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
-    $settings['next_arrow'] = $is_next ? filter_xss($js['nextArrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
+    $settings['prev_arrow'] = $is_prev ? Xss::filter($js['prevArrow'], $allowed_tags) : _slick_optionset_defaults('prevArrow', 'settings');
+    $settings['next_arrow'] = $is_next ? Xss::filter($js['nextArrow'], $allowed_tags) : _slick_optionset_defaults('nextArrow', 'settings');
 
     // This is the only default supported appendArrows selector.
     $default_append_arrows = _slick_optionset_defaults('appendArrows', 'settings');
@@ -228,6 +231,7 @@ function template_preprocess_slick(&$variables) {
 
   // Add the configuration as JSON object into slick container.
   // Avoid possible future common namedspaced: data-slick.
+  // @todo: Use Drupal\Component\Utility\DiffArray.
   if (!isset($attributes['data-config']) && $count > 1) {
     $js_data = _slick_remove_default_optionset_options($optionset, $js);
 
@@ -261,9 +265,8 @@ function template_preprocess_slick(&$variables) {
   $variables['items'] = $build;
   $variables += $settings;
 
-  // Add the basic library if no sub-modules, nor #attached in use.
+  // Add basic library.
   if ($count > 1) {
-    //slick_add();
     $variables['#attached']['library'][] = 'slick/jquery.slick';
   }
 }
@@ -271,8 +274,8 @@ function template_preprocess_slick(&$variables) {
 /**
  * Implements hook_process_HOOK().
  */
-//function template_process_slick(&$variables) {
-//}
+function template_process_slick(&$variables) {
+}
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -286,7 +289,6 @@ function template_preprocess_slick_item(&$variables) {
   $variables['item'] = $item;
   $variables['item_prefix'] = array();
   $variables['item_suffix'] = array();
-
 
   // Configure attributes for containing elements.
   $variables['attributes'] = new Attribute();
@@ -416,8 +418,8 @@ function template_preprocess_slick_item(&$variables) {
 /**
  * Implements hook_process_HOOK().
  */
-//function template_process_slick_item(&$variables) {
-//}
+function template_process_slick_item(&$variables) {
+}
 
 /**
  * Implements hook_process_HOOK().
@@ -525,7 +527,7 @@ function template_preprocess_slick_media(&$variables) {
         $variables['content_attributes_array']['data-media'] = drupal_json_encode($data_media);
         $variables['content_attributes_array']['data-lazy'] = $variables['url'];
       }
-      $variables['alternative_content'] = check_plain($settings['media_filename']);
+      $variables['alternative_content'] = String::checkPlain($settings['media_filename']);
     }
 
     // Colorbox switcher applies to all media types, including core image field.
@@ -548,7 +550,6 @@ function template_preprocess_slick_media(&$variables) {
  * Implements hook_process_HOOK().
  */
 function template_process_slick_media(&$variables) {
-  $variables['attributes'] = empty($variables['attributes_array']) ? '' : drupal_attributes($variables['attributes_array']);
 }
 
 /**
@@ -585,8 +586,8 @@ function template_preprocess_slick_wrapper(&$variables) {
 /**
  * Implements hook_process_HOOK().
  */
-//function template_process_slick_wrapper(&$variables) {
-//}
+function template_process_slick_wrapper(&$variables) {
+}
 
 /**
  * Returns HTML for a slick_wrapper.
@@ -602,7 +603,7 @@ function template_preprocess_slick_wrapper(&$variables) {
  *
  * @ingroup themeable
  */
-function theme_slick_wrapper($variables) {
+function theme_slick_wrapper(array $variables) {
   $build = '';
 
   // Render the items.
@@ -639,8 +640,10 @@ function theme_slick_wrapper($variables) {
  * with care. Dummy image is for valid HTML5.
  *
  * @ingroup themeable
+ *
+ * @todo: Need cleanup/refactor for D8
  */
-function theme_slick_image_lazy($variables) {
+function theme_slick_image_lazy(array $variables) {
   $build = '';
 
   $path = $variables['path'];
@@ -705,8 +708,10 @@ function theme_slick_image_lazy($variables) {
  *   - path: An array containing the link 'path' and link 'options'.
  *
  * @ingroup themeable
+ *
+ * @todo: Need cleanup/refactor for D8
  */
-function theme_slick_image_formatter_lazy($variables) {
+function theme_slick_image_formatter_lazy(array $variables) {
   $item = $variables['item'];
   $output = '';
   $image = array(
@@ -767,4 +772,179 @@ function theme_slick_image_formatter_lazy($variables) {
   }
 
   return $output;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function template_preprocess_slick_view(&$variables) {
+  // Prepare all data to be passed to theme_slick().
+  if (!empty($variables['view'])) {
+    $view = $variables['view'];
+    $rows = $variables['rows'];
+    $variables['attributes'] = new Attribute();
+
+    $style = $view->style_plugin;
+    $settings = $style->options;
+
+    $items = array();
+    $thumbs = array();
+
+    $attach = array(
+      'attach_media' => FALSE,
+      'attach_colorbox' => FALSE,
+      'attach_skin' => NULL,
+      'attach_skin_thumbnail' => NULL,
+    );
+
+    foreach ($variables['rows'] as $id => $row) {
+      // Sets row_index to get the rendered fields.
+      $view->row_index = $id;
+      $item = array(
+        'item' => array(
+          'type' => 'views',
+          'view_name' => String::checkPlain($view->storage->id()),
+        ),
+        'slide' => array(),
+      );
+      $thumb = array();
+
+      if (!empty($settings['slick']['slide_field_wrapper'])) {
+        $slide_image = $settings['slick']['slide_image'];
+
+        // Main image, if so configured.
+        if (isset($row->image) && !empty($row->image)) {
+          $attach['attach_media'] = TRUE;
+          $item['slide'] = $row->image;
+          // @todo refine for asNavFor.
+          if (isset($row->thumbnail) && !empty($row->thumbnail)) {
+            $settings['slick']['thumbnail_style'] = TRUE;
+            $thumb['slide'] = $row->thumbnail;
+          }
+        }
+
+        // Caption fields.
+        $item['caption'] = array();
+        if (isset($row->caption) && !empty($row->caption)) {
+          $item['caption']['data'] = $row->caption;
+        }
+
+        // Overlay, if so configured.
+        if (isset($row->overlay) && !empty($row->overlay)) {
+          $attach['attach_media'] = TRUE;
+          $item['caption']['overlay'] = $row->overlay;
+        }
+
+        // Title, if so configured.
+        if (isset($row->title) && !empty($row->title)) {
+          $item['caption']['title'] = filter_xss_admin($row->title);
+        }
+
+        // Link, if so configured.
+        if (isset($row->link) && !empty($row->link)) {
+          $item['caption']['link'] = $row->link;
+        }
+
+        // Layout, if so configured.
+        if (isset($row->layout) && !empty($row->layout)) {
+          $item['caption']['layout'] = String::checkPlain($row->layout);
+        }
+      }
+      else {
+        // @todo refine more.
+        // $attach['attach_colorbox'] = TRUE;
+        $attach['attach_media'] = TRUE;
+        $item['slide'] = $row;
+      }
+
+      $items[] = $item;
+
+      if ($thumb) {
+        $thumb['item']['type'] = 'views';
+        $thumb['item']['view_name'] = $view->storage->id();
+        // @todo thumbnails may have caption when Slick resolves selector issue.
+        $thumb['caption'] = array();
+        $thumbs[] = $thumb;
+      }
+    }
+
+    unset($view->row_index);
+    $options = array();
+    $options['attributes'] = new Attribute();
+
+    // Add the settings.
+    $settings['slick']['current_display'] = 'main';
+    if ($settings['slick']['skin']) {
+      $attach['attach_skin'] = $settings['slick']['skin'];
+    }
+
+    if (isset($settings['slick']['skin_thumbnail']) && $settings['slick']['skin_thumbnail']) {
+      $attach['attach_skin_thumbnail'] = $settings['slick']['skin_thumbnail'];
+    }
+    $settings['attributes'] = new Attribute();
+    // Build the Slick attributes.
+    if (!empty($settings['slick']['id'])) {
+      $options['attributes']['id'] = $settings['slick']['id'];
+    }
+
+    $options['attributes']['class'][] = Html::cleanCssIdentifier('slick--view--' . $view->name);
+
+    // Build the Slick grid.
+    $grid = isset($settings['slick']['grid']) && $settings['slick']['grid'] ? $settings['slick']['grid'] : '';
+    if ($grid) {
+      $visible_slides = $settings['slick']['visible_slides'];
+      // Only if we do have a reasonable amount of grid items.
+      if ($visible_slides && count($variables['rows']) > $visible_slides) {
+        $grid_items = array_chunk($items, $visible_slides);
+
+        $grids = array();
+        foreach ($grid_items as $delta => $grid_children) {
+          $grids[] = array(
+            '#theme' => 'slick_grid',
+            '#items' => $grid_children,
+            '#delta' => $delta,
+            '#settings' => $options,
+          );
+        }
+
+        // Update the $items with grid chunks.
+        $items = $grids;
+      }
+    }
+
+    // Build the Slick main display.
+    $element[0] = array(
+      '#theme' => 'slick',
+      '#items' => $items,
+      '#settings' => $options,
+    );
+
+    // Build the Slick thumbnail display.
+    if (isset($settings['optionset_thumbnail']) && $settings['optionset_thumbnail'] && $thumbs) {
+      if ($settings['id']) {
+        $options['attributes']['id'] = $settings['id'] . '-thumbnail';
+      }
+      $options['optionset'] = $settings['slick']['optionset_thumbnail'];
+      $options['current_display'] = 'thumbnail';
+      $element[1] = array(
+        '#theme' => 'slick',
+        '#items' => $thumbs,
+        '#settings' => $options,
+        '#attached' => array(),
+      );
+    }
+
+    // Updates rows to contain Slick instances now.
+    $variables['rows'] = $element;
+
+    // Build the Slick wrapper attributes.
+    $variables['attributes']['class'][] = 'slick-wrapper';
+    if (isset($settings['skin']) && $settings['skin']) {
+      $variables['attributes']['class'][] = Html::cleanCssIdentifier('slick-wrapper--' . $settings['slick']['skin']);
+    }
+
+    if (isset($settings['slick']['asnavfor_thumbnail']) && $settings['slick']['asnavfor_thumbnail']) {
+      $variables['attributes']['class'][] = Html::cleanCssIdentifier('slick-wrapper--asnavfor');
+    }
+  }
 }

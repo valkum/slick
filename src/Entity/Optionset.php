@@ -1,9 +1,8 @@
 <?php
-
 /**
  * @file
- * Containes \Drupal\slick\Entity\Optionset
-  */
+ * Containes \Drupal\slick\Entity\Optionset.
+ */
 
 namespace Drupal\slick\Entity;
 
@@ -22,8 +21,9 @@ use \Drupal\slick\OptionsetInterface;
  *     "storage" = "Drupal\slick\OptionsetStorage",
  *     "list_builder" = "Drupal\slick\OptionsetListBuilder",
  *     "form" = {
- *       "default" = "Drupal\slick\OptionsetFormController",
- *       "delete" = "Drupal\slick\OptionsetDeleteForm"
+ *       "edit" = "Drupal\slick\Form\OptionsetEditForm",
+ *       "add" = "Drupal\slick\Form\OptionsetEditForm",
+ *       "delete" = "Drupal\slick\Form\OptionsetDeleteForm"
  *     }
  *   },
  *   config_prefix = "optionset",
@@ -32,10 +32,14 @@ use \Drupal\slick\OptionsetInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label"
+ *   },
+ *   links = {
+ *     "edit-form" = "entity.slick_optionset.edit_form",
+ *     "delete-form" = "entity.slick_optionset.delete_form"
  *   }
  * )
  */
- class Optionset extends ConfigEntityBase implements OptionsetInterface {
+class Optionset extends ConfigEntityBase implements OptionsetInterface {
   /**
    * The machinen-readable of this option set.
    *
@@ -67,4 +71,4 @@ use \Drupal\slick\OptionsetInterface;
    */
   public $options;
 
- }
+}
