@@ -830,12 +830,7 @@ function slick_optionset_create($values = array()) {
  *   The associative array of all options.
  */
 function slick_optionset_load_all() {
-  $optionsets = entity_load_multiple('slick_optionset');
-  foreach ($optionsets as $optionset) {
-    // Ensure the optionset is typecast after being loaded from DB.
-    _slick_typecast_optionset($optionset->options, $optionset->breakpoints);
-  }
-
+  $optionsets = entity_load_multiple('optionset');
   return $optionsets;
 }
 
@@ -847,8 +842,6 @@ function slick_optionset_load_all() {
  */
 function slick_optionset_load($optionset_name) {
   $optionset = entity_load('slick_optionset', $optionset_name);
-  // Ensure the optionset is typecast after being loaded from DB.
-  _slick_typecast_optionset($optionset->options, $optionset->breakpoints);
   return $optionset;
 }
 

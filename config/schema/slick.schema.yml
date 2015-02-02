@@ -8,15 +8,163 @@ slick.optionset.*:
     label:
       type: label
       label: 'Name'
-    breakpoints:
+    breakpointCount:
       type: integer
       label: 'Number of Breakpoints'
     skin:
       type: string
       label: 'Skin'
-    options:
-      type: sequence
+    general:
+      type: mapping
+      label: 'General'
+      mapping:
+        normal:
+          type: string
+          label: 'Normal'
+        thumbnail:
+          type: string
+          label: 'Thumbnail'
+        templateClass:
+          type: string
+          label: 'Template Class'
+        goodies:
+          type: any
+          label: 'Goodies'
+    settings:
+      type: slick_optionset.settings
       label: 'Options'
+    breakpoints:
+      type: sequence
+      label: 'Breakpoints'
       sequence:
-        - type: sequence
-          label: 'Options'
+        - type: mapping
+          label: 'Breakpoint'
+          mappping:
+            breakpoint:
+              type: integer
+              label: 'Breakpoint'
+            settings:
+              type: slick_optionset.settings
+              label: 'Breakpoint Settings'
+
+slick_optionset.settings:
+  type: mapping
+  mapping:
+    asNavFor:
+      type: string
+      label: 'asNavFor target'
+    accessibility:
+      type: boolean
+      label: 'Accessibility'
+    adaptiveHeight:
+      type: boolean
+      label: 'Adaptive Height'
+    autoplay:
+      type: boolean
+      label: 'Autoplay'
+    autoplaySpeed:
+      type: integer
+      label: 'Autoplay speed'
+    pauseOnHover:
+      type: boolean
+      label: 'Pause on hover'
+    pauseOnDotsHover:
+      type: boolean
+      label: 'Pause on dots hover'
+    arrows:
+      type: boolean
+      label: 'Arrows'
+    appendArrows:
+      type: string
+      label: 'Append arrows'
+    prevArrow:
+      type: text
+      label: 'Previous arrow'
+    nextArrow:
+      type: text
+      label: 'Next arrow'
+    centerMode:
+      type: boolean
+      label: 'Center Mode'
+    centerPadding:
+      type: string
+      label: 'Center padding'
+    dots:
+      type: boolean
+      label: 'Dots'
+    dotsClass:
+      type: string
+      label: 'Dot class'
+    appendDots:
+      type: string
+      label: 'Append dots'
+    draggable:
+      type: boolean
+      label: 'Draggable'
+    fade:
+      type: boolean
+      label: 'Fade'
+    focusOnSelect:
+      type: boolean
+      label: 'Focus on select'
+    infinite:
+      type: boolean
+      label: 'Infinite'
+    initialSlide:
+      type: integer
+      label: 'Initial slide'
+    lazyLoad:
+      type: string
+      label: 'Lazy load'
+    respondTo:
+      type: string
+      label: ' Respond to'
+    rtl:
+      type: boolean
+      label: 'RTL'
+    slide:
+      type: string
+      label: 'Slide element'
+    slidesToShow:
+      type: integer
+      label: 'Slides to show'
+    slidesToScroll:
+      type: integer
+      label: 'Slides to scroll'
+    speed:
+      type: integer
+      label: 'Speed'
+    swipe:
+      type: boolean
+      label: 'Swipe'
+    swipeToSlide:
+      type: boolean
+      label: 'Swipe to slide'
+    touchMove:
+      type: boolean
+      label: 'Touch move'
+    touchThreshold:
+      type: integer
+      label: 'Touch threshold'
+    useCSS:
+      type: boolean
+      label: 'Use CSS'
+    cssEase:
+      type: string
+      label: 'CSS ease'
+    cssEaseOverride:
+      type: string
+      label: 'CSS ease override'
+    easing:
+      type: string
+      label: 'jQuery easing'
+    variableWidth:
+      type: boolean
+      label: 'variableWidth'
+    vertical:
+      type: boolean
+      label: 'Verical'
+    waitForAnimate:
+      type: boolean
+      label: 'waitForAnimate'
+
