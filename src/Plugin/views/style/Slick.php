@@ -79,7 +79,7 @@ class Slick extends StylePluginBase {
     module_load_include('inc', 'slick', 'includes/slick.admin');
 
     $element = array();
-    $settings = $this->options;
+    $settings = $this->settings;
     $optionsets = slick_optionset_options();
     $skins = slick_skins(TRUE);
 

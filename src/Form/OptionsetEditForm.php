@@ -41,7 +41,8 @@ class OptionsetEditForm extends OptionsetFormBase {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
-
+    $form['#title'] = $this->t('Edit optionset %name', array('%name' => $this->entity->label()));
+    $form['#tree'] = TRUE;
     return parent::form($form, $form_state);
   }
 

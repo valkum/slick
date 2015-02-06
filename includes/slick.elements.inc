@@ -496,12 +496,12 @@ function _slick_optionset_defaults($key = NULL, $set = NULL, $breakpoints = NULL
 function _slick_remove_default_optionset_options($optionset, $customs = array()) {
   $config = array();
 
-  $options = $optionset->options;
-  $breakpoints = $optionset->breakpoints ? $optionset->breakpoints : 0;
-  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoints);
+  $options = $optionset->settings;
+  $breakpointCount = $optionset->breakpointCount ? $optionset->breakpointCount : 0;
+  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpointCount);
 
   // Clean up the main options.
-  $settings = $customs ? $customs : $options['settings'];
+  $settings = $customs ? $customs : $options;
   $config = array_diff_assoc($settings, $defaults['settings']);
 
   // Must be empty if all is default optionset.
@@ -830,7 +830,7 @@ function slick_optionset_create($values = array()) {
  *   The associative array of all options.
  */
 function slick_optionset_load_all() {
-  $optionsets = entity_load_multiple('optionset');
+  $optionsets = entity_load_multiple('slick_optionset');
   return $optionsets;
 }
 

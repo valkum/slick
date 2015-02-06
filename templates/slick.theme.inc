@@ -48,10 +48,10 @@ function template_preprocess_slick(&$variables) {
   );
 
   $settings = isset($element['#settings']) ? array_merge($settings, $element['#settings']) : $settings;
-  $customs = isset($element['#options']) ? $element['#options'] : array();
+  $custom_settings = isset($element['#options']) ? $element['#options'] : array();
 
   // Optionset may be defined via custom code, CTools UI, or sub-modules.
-  $optionset = isset($customs['optionset']) ? $customs['optionset'] : $settings['optionset'];
+  $optionset = isset($custom_settings['optionset']) ? $custom_settings['optionset'] : $settings['optionset'];
 
   // Load the selected optionset.
   if (!empty($optionset)) {
@@ -65,18 +65,20 @@ function template_preprocess_slick(&$variables) {
     \Drupal::logger('slick')->notice("Fallback to default optionset.");
   }
 
-  $options = $optionset->options;
   $general = $optionset->general;
   $goodies = $general['goodies'];
 
   // The Slick JS settings defined either via custom #options, or CTools UI.
-  $js = $customs ? array_merge($options['settings'], $customs) : $options['settings'];
+  $js = $custom_settings ? array_merge($optionset->settings, $custom_settings) : $optionset->settings;
+
   // Anon DIV is problematic, since Slick will slide every div element within
   // its container which makes it impossible to add a div to wrap buttons (such
   // as arrow down) nor wrap them for advanced customPaging. Hence we override
   // with more specific class .slick__slide instead.
   // Note: Having list type is irrelevant to the JS generated markups.
-  $js['slide'] = $js['slide'] == 'div' ? '.slick__slide' : $js['slide'];
+  if($js['slide'] == 'div') {
+    $js['slide'] = '.slick__slide';
+  }
 
   // Field or Views options override the optionset ones.
   $settings['has_arrow_down'] = $settings['has_arrow_down'] ? TRUE : isset($goodies['arrow-down']) && $goodies['arrow-down'];
@@ -283,7 +285,6 @@ function template_process_slick(&$variables) {
 function template_preprocess_slick_item(&$variables) {
   $element = $variables['element'];
   $item = $element['#item'];
-  debug($item);
   $settings = $element['#settings'];
   $captions = $element['#caption'];
 

@@ -57,7 +57,7 @@ class Optionset extends ConfigEntityBase implements OptionsetInterface {
    *
    * @var int
    */
-  public $breakpoints;
+  public $breakpointCount;
   /**
    * The The slick skin.
    *
@@ -65,10 +65,20 @@ class Optionset extends ConfigEntityBase implements OptionsetInterface {
    */
   public $skin;
   /**
-   * The UUID of this rule.
+   * The global settings of this optionset.
    *
    * @var array
    */
-  public $options;
+  public $settings;
+  /**
+   * The general settings.
+   * @var array
+   */
+  public $general;
+  /**
+   * The settings for Breakpoints.
+   * @var array
+   */
+  public $breakpoints;
 
 }
