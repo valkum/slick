@@ -497,8 +497,8 @@ function _slick_remove_default_optionset_options($optionset, $customs = array())
   $config = array();
 
   $options = $optionset->settings;
-  $breakpointCount = $optionset->breakpointCount ? $optionset->breakpointCount : 0;
-  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpointCount);
+  $breakpoint_count = $optionset->breakpointCount ? $optionset->breakpointCount : 0;
+  $defaults = _slick_optionset_defaults(NULL, NULL, $breakpoint_count);
 
   // Clean up the main options.
   $settings = $customs ? $customs : $options;

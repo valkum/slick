@@ -54,7 +54,6 @@ abstract class OptionsetFormBase extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     // @todo: JS and CSS needs fix for D8.
     // $form['#attached']['library'][] = 'slick/slick.admin';
-
     $form['#attributes']['class'][] = 'no-js';
     $form['#attributes']['class'][] = 'form--slick';
     $form['#attributes']['class'][] = 'form--compact';
@@ -170,7 +169,6 @@ abstract class OptionsetFormBase extends EntityForm {
       }
     }
 
-
     return parent::form($form, $form_state);
   }
 
@@ -182,7 +180,12 @@ abstract class OptionsetFormBase extends EntityForm {
     $form_state->setRedirectUrl($this->entity->urlInfo('edit-form'));
   }
 
-
+  /**
+   * Helper function for basic Options as in elements.inc.
+   *
+   * @return array
+   *   Options to set in global settings and breakpoint settings.
+   */
   public function getBasicOptions() {
     $options = &drupal_static(__FUNCTION__, NULL);
 
@@ -398,10 +401,10 @@ abstract class OptionsetFormBase extends EntityForm {
 
       $options['slide'] = array(
         'title' => t('Slide element'),
-        'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers."),
+        'description' => t("Element query to use as slide. Make sure to be specific with the slide item class, default to .slick__slide if using Fields formatter, or the provided theme_slick(). Otherwise Slick will wrap all DIV as slide item which is problematic to add extra stuffs like arrows container or thumbnail pagers. Avoid using DIV as Slick will cycle through all DIVs (arrows, structured slides, etc.)."),
         'type' => 'textfield',
         'cast' => 'string',
-        'default' => 'div',
+        'default' => '.slick__slide',
       );
 
       $options['slidesToShow'] = array(

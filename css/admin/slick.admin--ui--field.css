@@ -26,6 +26,7 @@
   margin: 0;
 }
 @media (min-width: 64em) {
+
   #field-display-overview .field-formatter-settings-edit-form .form--slick .form-item,
   .form--field.form--slick .form-item {
     display: inline-block;

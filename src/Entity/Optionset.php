@@ -72,11 +72,13 @@ class Optionset extends ConfigEntityBase implements OptionsetInterface {
   public $settings;
   /**
    * The general settings.
+   *
    * @var array
    */
   public $general;
   /**
    * The settings for Breakpoints.
+   *
    * @var array
    */
   public $breakpoints;

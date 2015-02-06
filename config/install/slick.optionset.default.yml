@@ -32,7 +32,7 @@ settings:
   lazyLoad: 'ondemand'
   respondTo: 'window'
   rtl: FALSE
-  slide: 'div'
+  slide: '.slick__slide'
   slidesToShow: 1
   slidesToScroll: 1
   speed: 500

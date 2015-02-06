@@ -71,15 +71,6 @@ function template_preprocess_slick(&$variables) {
   // The Slick JS settings defined either via custom #options, or CTools UI.
   $js = $custom_settings ? array_merge($optionset->settings, $custom_settings) : $optionset->settings;
 
-  // Anon DIV is problematic, since Slick will slide every div element within
-  // its container which makes it impossible to add a div to wrap buttons (such
-  // as arrow down) nor wrap them for advanced customPaging. Hence we override
-  // with more specific class .slick__slide instead.
-  // Note: Having list type is irrelevant to the JS generated markups.
-  if($js['slide'] == 'div') {
-    $js['slide'] = '.slick__slide';
-  }
-
   // Field or Views options override the optionset ones.
   $settings['has_arrow_down'] = $settings['has_arrow_down'] ? TRUE : isset($goodies['arrow-down']) && $goodies['arrow-down'];
 

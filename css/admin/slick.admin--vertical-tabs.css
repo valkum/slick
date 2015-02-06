@@ -53,7 +53,8 @@
   text-align: right;
   text-decoration: none !important;
 }
-.form--slick div.vertical-tabs ul li.vertical-tab-button a:hover, .form--slick div.vertical-tabs ul li.vertical-tab-button a:focus {
+.form--slick div.vertical-tabs ul li.vertical-tab-button a:hover,
+.form--slick div.vertical-tabs ul li.vertical-tab-button a:focus {
   background: none;
   outline: 0;
   color: #000;
@@ -72,10 +73,14 @@
   font-size: 0.6875rem;
   padding-top: 0.4em;
 }
-.form--slick div.vertical-tabs ul li.vertical-tab-button a, .form--slick div.vertical-tabs ul li.first a {
+.form--slick div.vertical-tabs ul li.vertical-tab-button a,
+.form--slick div.vertical-tabs ul li.first a {
   border-top: 0;
 }
-.form--slick div.vertical-tabs ul li.selected a, .form--slick div.vertical-tabs ul li.selected a:hover, .form--slick div.vertical-tabs ul li.selected a:focus, .form--slick div.vertical-tabs ul li.selected a:active {
+.form--slick div.vertical-tabs ul li.selected a,
+.form--slick div.vertical-tabs ul li.selected a:hover,
+.form--slick div.vertical-tabs ul li.selected a:focus,
+.form--slick div.vertical-tabs ul li.selected a:active {
   background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=');
   background-size: 100%;
   background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(50%, rgba(255, 255, 255, 0.5)), color-stop(100%, #ffffff));
@@ -125,6 +130,7 @@
 }
 
 @media all and (max-width: 768px) {
+
   .form--slick div.vertical-tabs .vertical-tabs-panes {
     margin: 0;
   }
@@ -138,7 +144,10 @@
     float: none;
     display: inline-block;
   }
-  .form--slick div.vertical-tabs ul li.selected a, .form--slick div.vertical-tabs ul li.selected a:hover, .form--slick div.vertical-tabs ul li.selected a:focus, .form--slick div.vertical-tabs ul li.selected a:active {
+  .form--slick div.vertical-tabs ul li.selected a,
+  .form--slick div.vertical-tabs ul li.selected a:hover,
+  .form--slick div.vertical-tabs ul li.selected a:focus,
+  .form--slick div.vertical-tabs ul li.selected a:active {
     border: 1px solid #dadada;
     border-radius: 0;
     background: #fff;
