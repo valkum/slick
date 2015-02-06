@@ -29,3 +29,5 @@ slick.admin:
     - core/jquery
     - core/drupal
     - core/drupalSettings
+
+#@todo: Add other libraries as media etc.
