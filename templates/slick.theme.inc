@@ -91,8 +91,7 @@ function template_preprocess_slick(&$variables) {
   }
 
   // Configure attributes for containing elements.
-  $variables['attributes'] = new Attribute();
-  $variables['attributes']['class'] = array('slick');
+  $variables['attributes']['class'][] = 'slick';
 
   // Merge with defined attributes.
   if (isset($settings['attributes']) && is_array($settings['attributes'])) {
@@ -282,10 +281,6 @@ function template_preprocess_slick_item(&$variables) {
   $variables['item'] = $item;
   $variables['item_prefix'] = array();
   $variables['item_suffix'] = array();
-
-  // Configure attributes for containing elements.
-  $variables['attributes'] = new Attribute();
-  $variables['attributes']['class'] = array();
 
   $variables['tag'] = $variables['content_tag'] = 'div';
   $variables['content_attributes'] = new Attribute();
@@ -561,19 +556,15 @@ function template_preprocess_slick_wrapper(&$variables) {
     }
   }
 
-  $variables['attributes_array'] = array('class' => array('slick-wrapper'));
+  $variables['attributes']['class'][] = 'slick-wrapper';
 
   if (isset($settings['skin']) && $settings['skin']) {
-    $variables['attributes_array']['class'][] = Html::cleanCssIdentifier('slick-wrapper--' . $settings['skin']);
+    $variables['attributes']['class'][] = Html::cleanCssIdentifier('slick-wrapper--' . $settings['skin']);
   }
 
   if (isset($settings['asnavfor_thumbnail']) && $settings['asnavfor_thumbnail']) {
-    $variables['attributes_array']['class'][] = Html::cleanCssIdentifier('slick-wrapper--asnavfor');
+    $variables['attributes']['class'][] = Html::cleanCssIdentifier('slick-wrapper--asnavfor');
   }
-
-  // Populate classes_array expected by Omega 3.
-  // @todo drop it when Omega3/5 has a better preprocess like Omega 4.
-  $variables['classes_array'] = $variables['attributes_array']['class'];
 }
 
 /**
@@ -595,6 +586,7 @@ function template_process_slick_wrapper(&$variables) {
  * @see template_process_slick_wrapper()
  *
  * @ingroup themeable
+ * @todo The function drupal_render is deprecated. Drop this?
  */
 function theme_slick_wrapper(array $variables) {
   $build = '';
@@ -634,7 +626,7 @@ function theme_slick_wrapper(array $variables) {
  *
  * @ingroup themeable
  *
- * @todo: Need cleanup/refactor for D8
+ * @todo: As theme_image now accpets inline image drop this?
  */
 function theme_slick_image_lazy(array $variables) {
   $build = '';
@@ -775,7 +767,6 @@ function template_preprocess_slick_view(&$variables) {
   if (!empty($variables['view'])) {
     $view = $variables['view'];
     $rows = $variables['rows'];
-    $variables['attributes'] = new Attribute();
 
     $style = $view->style_plugin;
     $settings = $style->options;
@@ -802,6 +793,7 @@ function template_preprocess_slick_view(&$variables) {
       );
       $thumb = array();
 
+      // @todo Is this even working?
       if (!empty($settings['slick']['slide_field_wrapper'])) {
         $slide_image = $settings['slick']['slide_image'];
 
@@ -879,8 +871,6 @@ function template_preprocess_slick_view(&$variables) {
     if (!empty($settings['slick']['id'])) {
       $options['attributes']['id'] = $settings['slick']['id'];
     }
-
-    $options['attributes']['class'][] = Html::cleanCssIdentifier('slick--view--' . $view->name);
 
     // Build the Slick grid.
     $grid = isset($settings['slick']['grid']) && $settings['slick']['grid'] ? $settings['slick']['grid'] : '';
