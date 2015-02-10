@@ -1,50 +1,50 @@
 id: default
-label: 'Default'
+label: Default
 breakpointCount: 0
 skin: ''
 general:
   normal: ''
   thumbnail: ''
   templateClass: ''
-  goodies: []
+  goodies: {  }
 settings:
   asNavFor: ''
-  accessibility: TRUE
-  adaptiveHeight: FALSE
-  autoplay: FALSE
+  accessibility: true
+  adaptiveHeight: false
+  autoplay: false
   autoplaySpeed: 3000
-  pauseOnHover: TRUE
-  pauseOnDotsHover: FALSE
-  arrows: TRUE
-  appendArrows: '$(element)'
+  pauseOnHover: true
+  pauseOnDotsHover: false
+  arrows: true
+  appendArrows: $(element)
   prevArrow: '<button type="button" data-role="none" class="slick-prev">Previous</button>'
   nextArrow: '<button type="button" data-role="none" class="slick-next">Next</button>'
-  centerMode: FALSE
-  centerPadding: '50px'
-  dots: FALSE
-  dotsClass: 'slick-dots'
-  appendDots: '$(element)'
-  draggable: TRUE
-  fade: FALSE
-  focusOnSelect: FALSE
-  infinite: TRUE
+  centerMode: false
+  centerPadding: 50px
+  dots: false
+  dotsClass: slick-dots
+  appendDots: $(element)
+  draggable: true
+  fade: false
+  focusOnSelect: false
+  infinite: true
   initialSlide: 0
-  lazyLoad: 'ondemand'
-  respondTo: 'window'
-  rtl: FALSE
-  slide: '.slick__slide'
+  lazyLoad: ondemand
+  respondTo: window
+  rtl: false
+  slide: .slick__slide
   slidesToShow: 1
   slidesToScroll: 1
   speed: 500
-  swipe: TRUE
-  swipeToSlide: FALSE
-  touchMove: TRUE
+  swipe: true
+  swipeToSlide: false
+  touchMove: true
   touchThreshold: 5
-  useCSS: TRUE
-  cssEase: 'ease'
+  useCSS: true
+  cssEase: ease
   cssEaseOverride: ''
-  easing: 'linear'
-  variableWidth: FALSE
-  vertical: FALSE
-  waitForAnimate: TRUE
-breakpoints: []
+  easing: ease
+  variableWidth: false
+  vertical: false
+  waitForAnimate: true
+breakpoints: ''

@@ -1,4 +1,4 @@
-jquery.slick:
+slick:
   remote: http://kenwheeler.github.io/slick/
   version: VERSION
   license:
@@ -6,18 +6,21 @@ jquery.slick:
     url: https://github.com/kenwheeler/slick/blob/master/LICENSE
     gpl-compatible: true
   js:
-    js/slick.load.js: {}
-    /libraries/slick/slick/slick.js: {}
     /libraries/slick/slick/slick.min.js: { minified: true }
   css:
     component:
       /libraries/slick/slick/slick.css: {}
   dependencies:
     - core/jquery
-    - core/drupal
-    - core/drupalSettings
 
-slick.admin:
+drupal.slick:
+  version: VERSION
+  js:
+    js/slick.load.js: {}
+  dependencies:
+    - slick/slick
+
+drupal.slick.admin:
   version: VERSION
   js:
     js/slick.admin.ui.js: {}
@@ -25,9 +28,5 @@ slick.admin:
     component:
       css/admin/slick.admin--ui.css: {}
       css/admin/slick.admin--vertical-tabs.css: {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupalSettings
 
 #@todo: Add other libraries as media etc.

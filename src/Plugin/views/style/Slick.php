@@ -46,25 +46,25 @@ class Slick extends StylePluginBase {
     $options = parent::defineOptions();
 
     $options = array(
-        'optionset' => array('default' => 'default'),
-        'optionset_thumbnail' => array('default' => ''),
-        'skin' => array('default' => ''),
-        'skin_thumbnail' => array('default' => ''),
-        'asnavfor_main' => array('default' => ''),
-        'asnavfor_thumbnail' => array('default' => ''),
-        'grid' => array('default' => ''),
-        'grid_medium' => array('default' => ''),
-        'grid_small' => array('default' => ''),
-        'visible_slides' => array('default' => ''),
-        'slide_field_wrapper' => array('default' => FALSE),
-        'slide_title' => array('default' => ''),
-        'slide_image' => array('default' => ''),
-        'slide_thumbnail' => array('default' => ''),
-        'slide_overlay' => array('default' => ''),
-        'slide_link' => array('default' => ''),
-        'slide_layout' => array('default' => ''),
-        'slide_caption' => array('default' => array()),
-        'id' => array('default' => ''),
+      'optionset' => array('default' => 'default'),
+      'optionset_thumbnail' => array('default' => ''),
+      'skin' => array('default' => ''),
+      'skin_thumbnail' => array('default' => ''),
+      'asnavfor_main' => array('default' => ''),
+      'asnavfor_thumbnail' => array('default' => ''),
+      'grid' => array('default' => ''),
+      'grid_medium' => array('default' => ''),
+      'grid_small' => array('default' => ''),
+      'visible_slides' => array('default' => ''),
+      'slide_field_wrapper' => array('default' => FALSE),
+      'slide_title' => array('default' => ''),
+      'slide_image' => array('default' => ''),
+      'slide_thumbnail' => array('default' => ''),
+      'slide_overlay' => array('default' => ''),
+      'slide_link' => array('default' => ''),
+      'slide_layout' => array('default' => ''),
+      'slide_caption' => array('default' => array()),
+      'id' => array('default' => ''),
     );
 
     return $options;
@@ -189,7 +189,8 @@ class Slick extends StylePluginBase {
       // Content: title is not really a field.
       if ($handler->field == 'title') {
         $title_options[$field] = $handler->adminLabel();
-      } else {
+      }
+      else {
         $type = $handler->options['type'];
         switch ($type) {
           case 'file':
@@ -263,7 +264,6 @@ class Slick extends StylePluginBase {
       '#attributes' => array('class' => array('is-tooltip')),
     );
 
-
     $element['slide_caption'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Caption fields'),
@@ -281,18 +281,20 @@ class Slick extends StylePluginBase {
 
     foreach ($element as $key => $item) {
       $form[$key] = $item;
-      if (!in_array($key, array(
-        'optionset',
-        'skin',
-        'slide_field_wrapper',
-        'id',
-        'asnavfor_main',
-        'asnavfor_thumbnail',
-        'grid',
-        'grid_medium',
-        'grid_small',
-        'visible_slides',
-      ))) {
+      if (!in_array($key,
+        array(
+          'optionset',
+          'skin',
+          'slide_field_wrapper',
+          'id',
+          'asnavfor_main',
+          'asnavfor_thumbnail',
+          'grid',
+          'grid_medium',
+          'grid_small',
+          'visible_slides',
+        )
+      )) {
         $form[$key]['#states'] = array(
           'visible' => array(
             ':input[name*="[slide_field_wrapper]"]' => array('checked' => TRUE),

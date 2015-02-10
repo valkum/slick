@@ -264,12 +264,6 @@ function template_preprocess_slick(&$variables) {
 }
 
 /**
- * Implements hook_process_HOOK().
- */
-function template_process_slick(&$variables) {
-}
-
-/**
  * Implements hook_preprocess_HOOK().
  */
 function template_preprocess_slick_item(&$variables) {
@@ -405,12 +399,6 @@ function template_preprocess_slick_item(&$variables) {
 
 /**
  * Implements hook_process_HOOK().
- */
-function template_process_slick_item(&$variables) {
-}
-
-/**
- * Implements hook_process_HOOK().
  *
  * Tips:
  *   - Avoid variableWidth and adaptiveHeight.
@@ -535,12 +523,6 @@ function template_preprocess_slick_media(&$variables) {
 }
 
 /**
- * Implements hook_process_HOOK().
- */
-function template_process_slick_media(&$variables) {
-}
-
-/**
  * Implements hook_preprocess_HOOK().
  *
  * @see theme_slick_wrapper()
@@ -567,11 +549,6 @@ function template_preprocess_slick_wrapper(&$variables) {
   }
 }
 
-/**
- * Implements hook_process_HOOK().
- */
-function template_process_slick_wrapper(&$variables) {
-}
 
 /**
  * Returns HTML for a slick_wrapper.
@@ -586,7 +563,8 @@ function template_process_slick_wrapper(&$variables) {
  * @see template_process_slick_wrapper()
  *
  * @ingroup themeable
- * @todo The function drupal_render is deprecated. Drop this?
+ *
+ * @todo The function drupal_render is deprecated. Drop this? Or change to use #markup.
  */
 function theme_slick_wrapper(array $variables) {
   $build = '';

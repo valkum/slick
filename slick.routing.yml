@@ -5,7 +5,7 @@ slick.optionset_list:
     _entity_list: 'slick_optionset'
     _title: 'Slick Optionsets'
   requirements:
-    _permission: 'administer themes'
+    _permission: 'administer slick'
 
 slick.optionset_add:
   path: '/admin/config/media/slick/optionset/add'
@@ -13,18 +13,18 @@ slick.optionset_add:
     _entity_form: 'slick_optionset.add'
     _title: 'Add optionset'
   requirements:
-    _permission: 'administer themes'
+    _permission: 'administer slick'
 entity.slick_optionset.edit_form:
   path: '/admin/config/media/slick/optionset/{slick_optionset}'
   defaults:
     _entity_form: 'slick_optionset.edit'
     _title: 'Edit optionset'
   requirements:
-    _permission: 'administer themes'
+    _permission: 'administer slick'
 entity.slick_optionset.delete_form:
   path: '/admin/config/media/slick/optionset/{slick_optionset}/delete'
   defaults:
     _entity_form: 'slick_optionset.delete'
     _title: 'Delete optionset'
   requirements:
-    _permission: 'administer themes'
+    _permission: 'administer slick'

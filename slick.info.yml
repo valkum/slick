@@ -1,6 +1,6 @@
 name: Slick
 type: module
 description: 'Slick Slider'
-package: Slider
+package: Media
 version: VERSION
 core: 8.x
