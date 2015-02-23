@@ -1,0 +1,26 @@
+# OS-Specifics
+.DS_Store
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# Other VCS/RCS
+.svn/
+/CVS/*
+*/CVS/*
+.cvsignore
+*/.cvsignore
+
+# IDEs / Editors
+*.sublime-workspace
+*.tmproj
+*.tmproject
+tmtags
+*.un~
+*~
+*.swp
+
+# Archives
+*.zip
+*.gz
+*.tar
