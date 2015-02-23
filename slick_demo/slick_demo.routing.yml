@@ -1,0 +1,6 @@
+slick_demo:
+  path: 'slick/demo'
+  defaults:
+    _controller: '\Drupal\slick_demo\Controller\SlickDemoController::demo'
+  requirements:
+    _permission: 'access content'

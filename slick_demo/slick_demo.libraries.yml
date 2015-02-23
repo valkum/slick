@@ -1,0 +1,8 @@
+style:
+  version: VERSION
+  css:
+    theme:
+      /libraries/slick/slick/slick-theme.css: {}
+      css/slick_demo.style.css: {}
+  dependencies:
+  - slick/slick

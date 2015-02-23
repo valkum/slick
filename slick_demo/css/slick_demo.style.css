@@ -1,0 +1,47 @@
+#slick-demo {
+  margin: auto;
+  padding: 20px;
+  width: 600px;
+  color: rgb(52, 152, 219);
+}
+.slide-content h3 {
+  background: rgb(52, 152, 219);
+  color: rgb(255, 255, 255);
+  font-size: 36px;
+  line-height: 100px;
+  margin: 10px;
+  padding: 2%;
+  position: relative;
+  text-align: center;
+}
+.slick-prev:before,
+.slick-next:before {
+  color: #000;
+}
+.slick-variable-width .slick-slide p {
+  background: rgb(52, 152, 219);
+  height: 100px;
+  color: rgb(255, 255, 255);
+  margin: 5px;
+  line-height: 100px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+.slick-one-time .slick-slide p {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+.slick-center .slick-center h3 {
+  -moz-transform:s cale(1.08);
+  -ms-transform: scale(1.08);
+  -o-transform: scale(1.08);
+  -webkit-transform: scale(1.08);
+  opacity: 1;
+  transform: scale(1.08);
+}
+.slick-center h3 {
+  opacity: 0.8;
+  transition: all 300ms ease;
+}

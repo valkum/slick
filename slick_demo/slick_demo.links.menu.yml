@@ -1,0 +1,6 @@
+slick_demo.demo:
+  title: Slick demo page
+  route_name: slick_demo
+
+# We can't define a menu link for the page_example_arguments route, because it
+# requires path arguments.
