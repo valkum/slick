@@ -15,12 +15,10 @@
 {%
   set classes = [
     'slick',
-    slidesToShow > 1 ? 'slick-carousel' : 'slick-slider',
-    'slick-' ~ attributes.id,
+    'slick--slider',
+    'slick--' ~ attributes.id,
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
-    {% for item in items %}
-      {{ item }}
-    {% endfor %}
+    {{ content }}
 </div>

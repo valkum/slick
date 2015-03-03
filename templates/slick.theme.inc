@@ -9,6 +9,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Template\Attribute;
+use Drupal\Core\Render\Element;
 
 
 /**
@@ -17,16 +18,16 @@ use Drupal\Core\Template\Attribute;
  * Default template: slick.html.twig.
  *
  * @param array $variables
- *   An associative array containing:
- *   - #items: An array of items to be displayed in the slick slider. Each item
- *   has to be a render array.
- *   - #settings: Slick Settings.
+ * Elements:
+ * - #settings is set via sub-modules and serves various purposes, and not
+ * related to JS settings, mostly slide layouts or attaching assets.
+ * - #options is set programmatically, or hand-crafted, and only accepts direct
+ * key|value pairs related to JS settings, or at least optionset name.
  */
 function template_preprocess_slick(array &$variables) {
-  $element = $variables['element'];
-  $items = $element['#items'];
-  $count = count($items);
-  $settings = (isset($element['#settings'])) ? $element['#settings'] : array();
+  $element = $variables['elements'];
+  $count = count(Element::children($element));
+  $options = (isset($element['#options'])) ? $element['#options'] : array();
 
   // Set the ID for each slick instance, if none provided, for quick JS lookup.
   if (empty($variables['attributes']['id'])) {
@@ -34,23 +35,21 @@ function template_preprocess_slick(array &$variables) {
     $variables['attributes']['id'] = $id;
   }
 
-  // Process individual item.
-  $build = array();
-  foreach ($items as $delta => $item) {
-    $build[$delta] = array(
-      '#theme' => 'slick_item',
-      '#item' => isset($item['slide']) ? $item['slide'] : $item,
-      '#delta' => $delta,
-      '#settings' => $settings,
-      '#caption' => isset($item['caption']) ? $item['caption'] : array(),
-    );
+  foreach (Element::children($element) as $key) {
+    $child = &$element[$key];
+    // Default children #theme to slick_item if nothing is set.
+    if(!isset($child['#theme_wrappers'])) {
+      $child['#theme_wrappers'] = array('slick_item_wrapper');
+    }
+    if(!isset($child['#delta'])) {
+      $child['#delta'] = $key;
+    }
+    $variables['content'][$key] = $child;
   }
 
-  $variables['items'] = $build;
-
-  $variables['settings'] = $settings;
-  if (!empty($settings)) {
-    $js = Json::encode($variables['settings']);
+  $variables['options'] = $options;
+  if (!empty($options)) {
+    $js = Json::encode($variables['options']);
     $variables['attributes']['data-config'] = $js;
   }
 
@@ -66,61 +65,27 @@ function template_preprocess_slick(array &$variables) {
  * Default template: slick-item.html.twig.
  *
  * @param array $variables
- *   - #item: Slick Slide.
- *   - #caption: Slide Caption.
- *   - #settings: Slick Settings.
+ * Element:
+ * - #settings is set via sub-modules and serves various purposes, and not
+ * related to JS settings, mostly slide layouts or attaching assets.
+ * - #options is set programmatically, or hand-crafted, and only accepts direct
+ * key|value pairs related to JS settings, or at least optionset name.
+ * - #delta is key of the array entry used to generate a unique css class.
  */
-function template_preprocess_slick_item(array &$variables) {
+function template_preprocess_slick_item_wrapper(array &$variables) {
   $element = $variables['element'];
-  $item = $element['#item'];
-  $captions = $element['#caption'];
-  $settings = $element['#settings'];
+  $options = $element['#options'] = array();
   $variables['delta'] = $element['#delta'];
 
-  $variables['item'] = $item;
-  $variables['item_prefix'] = array();
-  $variables['item_suffix'] = array();
 
   $variables['tag'] = $variables['content_tag'] = 'div';
   $variables['content_attributes'] = new Attribute();
 
   $variables['css_name'] = Html::cleanCssIdentifier(implode('-', array('slick-slide', $variables['delta'])));
 
-  // Add layout/ caption position classes if so configured.
-  if (!empty($captions['layout'])) {
-    $layout = Html::cleanCssIdentifier('slide-caption--' . $captions['layout']);
-    $variables['attributes']['class'][] = $layout;
-  }
 
-  // Title, caption and overlay, or nested media.
-  $stage = array();
+  $variables['children'] = $element['#children'];
 
-  // Overlay image/ video.
-  if (!empty($captions['overlay'])) {
-    $stage['overlay'] = $captions['overlay'];
-  }
-
-  // Title.
-  if (!empty($captions['title'])) {
-    $stage['title'] = $captions['title'];
-  }
-
-  // Core image alt as description.
-  if (!empty($captions['alt'])) {
-    $stage['alt'] = $captions['alt'];
-  }
-
-  // Captions, can be multiple fields, useful for custom markups.
-  if (!empty($captions['data'])) {
-    $stage['data'] = $captions['data'];
-  }
-
-  // Link/ buttons.
-  if (!empty($captions['link'])) {
-    $stage['link'] = $captions['link'];
-  }
-
-  $variables['caption'] = $stage;
-
-  $variables['settings'] = $settings;
+  $variables['options'] = $options;
 }
+

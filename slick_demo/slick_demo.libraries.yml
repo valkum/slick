@@ -1,8 +1,8 @@
-style:
+slick_demo:
   version: VERSION
   css:
     theme:
       /libraries/slick/slick/slick-theme.css: {}
-      css/slick_demo.style.css: {}
+      css/slick_demo.theme.css: {}
   dependencies:
-  - slick/slick
+  - slick/drupal.slick

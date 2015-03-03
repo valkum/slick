@@ -17,15 +17,8 @@ drupal.slick:
   version: VERSION
   js:
     js/slick.load.js: {}
-  dependencies:
-    - slick/slick
-
-drupal.slick.admin:
-  version: VERSION
-  js:
-    js/slick.admin.ui.js: {}
   css:
     component:
-      css/admin/slick.admin--ui.css: {}
-      css/admin/slick.admin--vertical-tabs.css: {}
-
+      css/slick.module.css: {}
+  dependencies:
+    - slick/slick

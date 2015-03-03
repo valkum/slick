@@ -1,6 +1,21 @@
 <?php
+
 /**
  * @file
  * Module file for page_example_module.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function slick_demo_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'slick_demo':
+      $output = '';
+      $output = '<h3>' . t('Slick Slider Demo Page') . '</h3>';
+      $output = '<p>' . t('Shows various examples of Slick Sliders.') . '</p>';
+      break;
+  }
+}

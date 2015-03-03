@@ -8,7 +8,7 @@ Drupal module for Ken Wheeler's Slick carousel. See http://kenwheeler.github.io/
 * Desktop mouse dragging
 * Fully accessible with arrow key navigation
 * Autoplay, pagers, arrows, etc...
-* Works with Views.
+* Works with Views. (Needs Port)
 
 ## Views
 
@@ -17,20 +17,31 @@ Slick works with Views and is available as a style plugin. Select slick as the f
 ## Programmatically
 
     <?php
-    // Add items.
-    $items = array();
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/One.gif" />');
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/Two.gif" />');
-    $items[] = array('#markup' => '<img src="https://drupal.org/files/Three.gif" />');
-    
-    // Add options.
-    $options = array(
-      'autoplay' => TRUE,
-      'dots' => TRUE,
-      'arrows' => FALSE,
+    $render_array =  array(
+      '#prefix' => '<h2>Single Item</h2>',
+      '#theme' => 'slick',
+      '#id' => 'single-item',
+      array(
+        '#markup' => '<h3>1</h3>',
+      ),
+      array(
+        '#markup' => '<h3>2</h3>',
+      ),
+      array(
+        '#markup' => '<h3>3</h3>',
+      ),
+      array(
+        '#markup' => '<h3>4</h3>',
+      ),
+      array(
+        '#markup' => '<h3>5</h3>',
+      ),
+      array(
+        '#markup' => '<h3>6</h3>',
+      ),
+      '#settings' => array(),
     );
-    
-    print theme('slick_carousel', array('items' => $items, 'options' => $options));
+    Renderer::doRender($render_array);
     ?>
 
 ## Read more

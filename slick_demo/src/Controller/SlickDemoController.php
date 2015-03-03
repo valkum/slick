@@ -26,68 +26,64 @@ class SlickDemoController {
    */
   public function demo() {
     $render = array(
-      '#prefix' => '<div id="slick-demo">',
+      '#prefix' => '<div class="slick--demo">',
       '#postfix' => '</div>',
       'single-item' => array(
         '#prefix' => '<h2>Single Item</h2>',
         '#theme' => 'slick',
         '#id' => 'single-item',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
-          array(
-            '#markup' => '<h3>6</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
+        ),
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        array(
+          '#markup' => '<h3>6</h3>',
         ),
       ),
 
-      'multiple-items' => array(
+      'multiple-#items' => array(
         '#prefix' => '<h2>Multiple Items</h2>',
         '#theme' => 'slick',
-        '#id' => 'multiple-items',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
-          array(
-            '#markup' => '<h3>6</h3>',
-          ),
-          array(
-            '#markup' => '<h3>7</h3>',
-          ),
-          array(
-            '#markup' => '<h3>8</h3>',
-          ),
-          array(
-            '#markup' => '<h3>9</h3>',
-          ),
+        '#id' => 'multiple-#items',
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        array(
+          '#markup' => '<h3>6</h3>',
+        ),
+        array(
+          '#markup' => '<h3>7</h3>',
+        ),
+        array(
+          '#markup' => '<h3>8</h3>',
+        ),
+        array(
+          '#markup' => '<h3>9</h3>',
+        ),
+        '#options' => array(
           'infinite' => TRUE,
           'slidesToShow' => 3,
           'slidesToScroll' => 3,
@@ -98,27 +94,25 @@ class SlickDemoController {
         '#prefix' => '<h2>Responsive Display</h2>',
         '#theme' => 'slick',
         '#id' => 'responsive',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
-          array(
-            '#markup' => '<h3>6</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        array(
+          '#markup' => '<h3>6</h3>',
+        ),
+        '#options' => array(
           'dots' => TRUE,
           'infinite' => FALSE,
           'speed' => 300,
@@ -156,27 +150,25 @@ class SlickDemoController {
         '#prefix' => '<h2>Variable Width</h2>',
         '#theme' => 'slick',
         '#id' => 'variable-width',
-        '#items' => array(
-          array(
-            '#markup' => '<div style="width:200px;"><p>200</p></div>',
-          ),
-          array(
-            '#markup' => '<div style="width:175px;"><p>175</p></div>',
-          ),
-          array(
-            '#markup' => '<div style="width:150px;"><p>150</p></div>',
-          ),
-          array(
-            '#markup' => '<div style="width:300px;"><p>300</p></div>',
-          ),
-          array(
-            '#markup' => '<div style="width:225px;"><p>225</p></div>',
-          ),
-          array(
-            '#markup' => '<div style="width:125px;"><p>125</p></div>',
-          ),
+        array(
+          '#markup' => '<div style="width:200px;"><p>200</p></div>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<div style="width:175px;"><p>175</p></div>',
+        ),
+        array(
+          '#markup' => '<div style="width:150px;"><p>150</p></div>',
+        ),
+        array(
+          '#markup' => '<div style="width:300px;"><p>300</p></div>',
+        ),
+        array(
+          '#markup' => '<div style="width:225px;"><p>225</p></div>',
+        ),
+        array(
+          '#markup' => '<div style="width:125px;"><p>125</p></div>',
+        ),
+        '#options' => array(
           'dots' => TRUE,
           'infinite' => TRUE,
           'speed' => 300,
@@ -189,21 +181,19 @@ class SlickDemoController {
         '#prefix' => '<h2>Adaptive Height</h2>',
         '#theme' => 'slick',
         '#id' => 'one-time',
-        '#items' => array(
-          array(
-            '#markup' => '<div><h3>1</h3></div>',
-          ),
-          array(
-            '#markup' => '<div><h3>2</h3><p>Look ma!</p></div>',
-          ),
-          array(
-            '#markup' => '<div><h3>3</h3><p>Check<br/>this out!</p></div>',
-          ),
-          array(
-            '#markup' => '<div><h3>4</h3><p>Woo!</p></div>',
-          ),
+        array(
+          '#markup' => '<div><h3>1</h3></div>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<div><h3>2</h3><p>Look ma!</p></div>',
+        ),
+        array(
+          '#markup' => '<div><h3>3</h3><p>Check<br/>this out!</p></div>',
+        ),
+        array(
+          '#markup' => '<div><h3>4</h3><p>Woo!</p></div>',
+        ),
+        '#options' => array(
           'dots' => TRUE,
           'infinite' => TRUE,
           'speed' => 300,
@@ -216,27 +206,25 @@ class SlickDemoController {
         '#prefix' => '<h2>Center Mode</h2>',
         '#theme' => 'slick',
         '#id' => 'center',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
-          array(
-            '#markup' => '<h3>6</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        array(
+          '#markup' => '<h3>6</h3>',
+        ),
+        '#options' => array(
           'centerMode' => TRUE,
           'centerPadding' => '60px',
           'slidesToShow' => 3,
@@ -263,33 +251,90 @@ class SlickDemoController {
         ),
       ),
 
-      'lazy loading' => array(),
+      'lazy loading' => array(
+        '#prefix' => '<h2>Lazy Loading</h2>',
+        '#theme' => 'slick',
+        '#id' => 'lazy',
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array(
+            '#theme' => 'image',
+            '#attributes' => array('data-lazy' => 'http://placeimg.com/200/200/any/grayscale/1.png'),
+          ),
+        ),
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array(
+            '#theme' => 'image',
+            '#attributes' => array('data-lazy' => 'http://placeimg.com/200/200/any/grayscale/2.png'),
+          ),
+        ),
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array(
+            '#theme' => 'image',
+            '#attributes' => array('data-lazy' => 'http://placeimg.com/200/200/any/grayscale/3.png'),
+          ),
+        ),
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array(
+            '#theme' => 'image',
+            '#attributes' => array('data-lazy' => 'http://placeimg.com/200/200/any/grayscale.png'),
+          ),
+        ),
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array(
+            '#theme' => 'image',
+            '#attributes' => array('data-lazy' => 'http://placeimg.com/200/200/any/grayscale.png'),
+          ),
+        ),
+        '#options' => array(
+          'lazyLoad' => 'ondemand',
+          'slidesToShow' => 3,
+          'slidesToScroll' => 1,
+        ),
+      ),
 
       'autoplay' => array(
         '#prefix' => '<h2>Autoplay</h2>',
         '#theme' => 'slick',
         '#id' => 'autoplay',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
-          array(
-            '#markup' => '<h3>6</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        array(
+          '#markup' => '<h3>6</h3>',
+        ),
+        '#options' => array(
           'slidesToShow' => 3,
           'slidesToScroll' => 1,
           'autoplay' => TRUE,
@@ -301,18 +346,43 @@ class SlickDemoController {
         '#prefix' => '<h2>Fade</h2>',
         '#theme' => 'slick',
         '#id' => 'fade',
-        '#items' => array(
-          array(
-            '#markup' => '<h3><div class="image"><img src="//dummyimage.com/650x400/5081de/ffff00.png"/></div></h3>',
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
           ),
+          array('#markup' => '<h3>'),
           array(
-            '#markup' => '<h3><div class="image"><img src="//dummyimage.com/650x400/1001de/ff00ff.png"/></div></h3>',
+            '#theme' => 'image',
+            '#uri' => '//lorempixel.com/650/400/technics/1',
           ),
-          array(
-            '#markup' => '<h3><div class="image"><img src="//dummyimage.com/650x400/10810e/00ffff.png"/></div></h3>',
-          ),
+          array('#markup' => '</h3>'),
         ),
-        '#settings' => array(
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array('#markup' => '<h3>'),
+          array(
+            '#theme' => 'image',
+            '#uri' => '//lorempixel.com/650/400/technics/2',
+          ),
+          array('#markup' => '</h3>'),
+        ),
+        array(
+          '#type' => 'container',
+          '#attributes' => array(
+            'class' => array('image'),
+          ),
+          array('#markup' => '<h3>'),
+          array(
+            '#theme' => 'image',
+            '#uri' => '//lorempixel.com/650/400/technics/3',
+          ),
+          array('#markup' => '</h3>'),
+        ),
+        '#options' => array(
           'dots' => TRUE,
           'infinite' => TRUE,
           'speed' => 500,
@@ -325,24 +395,22 @@ class SlickDemoController {
         '#prefix' => '<h2>Slider Syncing</h2>',
         '#theme' => 'slick',
         '#id' => 'slider-for',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        '#options' => array(
           'slidesToShow' => 1,
           'slidesToScroll' => 1,
           'arrows' => FALSE,
@@ -353,24 +421,22 @@ class SlickDemoController {
       'slider-nav' => array(
         '#theme' => 'slick',
         '#id' => 'slider-nav',
-        '#items' => array(
-          array(
-            '#markup' => '<h3>1</h3>',
-          ),
-          array(
-            '#markup' => '<h3>2</h3>',
-          ),
-          array(
-            '#markup' => '<h3>3</h3>',
-          ),
-          array(
-            '#markup' => '<h3>4</h3>',
-          ),
-          array(
-            '#markup' => '<h3>5</h3>',
-          ),
+        array(
+          '#markup' => '<h3>1</h3>',
         ),
-        '#settings' => array(
+        array(
+          '#markup' => '<h3>2</h3>',
+        ),
+        array(
+          '#markup' => '<h3>3</h3>',
+        ),
+        array(
+          '#markup' => '<h3>4</h3>',
+        ),
+        array(
+          '#markup' => '<h3>5</h3>',
+        ),
+        '#options' => array(
           'slidesToShow' => 3,
           'slidesToScroll' => 1,
           'dots' => TRUE,
@@ -381,7 +447,7 @@ class SlickDemoController {
       ),
     );
 
-    $render['#attached']['library'][] = 'slick_demo/style';
+    $render['#attached']['library'][] = 'slick_demo/slick_demo';
     return $render;
   }
 
