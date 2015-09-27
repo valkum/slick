@@ -10,14 +10,10 @@ Drupal module for Ken Wheeler's Slick carousel. See http://kenwheeler.github.io/
 * Autoplay, pagers, arrows, etc...
 * Works with Views. (Needs Port)
 
-## Views
-
-Slick works with Views and is available as a style plugin. Select slick as the format. Adjust the settings as needed.
-
 ## Programmatically
 
     <?php
-    $render_array =  array(
+    $render_array = array(
       '#prefix' => '<h2>Single Item</h2>',
       '#theme' => 'slick',
       '#id' => 'single-item',
