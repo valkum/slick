@@ -151,22 +151,28 @@ class SlickDemoController {
         '#theme' => 'slick',
         '#id' => 'variable-width',
         array(
-          '#markup' => '<div style="width:200px;"><p>200</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:200px;"><p>200</p></div>',
         ),
         array(
-          '#markup' => '<div style="width:175px;"><p>175</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:175px;"><p>175</p></div>',
         ),
         array(
-          '#markup' => '<div style="width:150px;"><p>150</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:150px;"><p>150</p></div>',
         ),
         array(
-          '#markup' => '<div style="width:300px;"><p>300</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:300px;"><p>300</p></div>',
         ),
         array(
-          '#markup' => '<div style="width:225px;"><p>225</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:225px;"><p>225</p></div>',
         ),
         array(
-          '#markup' => '<div style="width:125px;"><p>125</p></div>',
+          '#type' => 'inline_template',
+          '#template' => '<div style="width:125px;"><p>125</p></div>',
         ),
         '#options' => array(
           'dots' => TRUE,

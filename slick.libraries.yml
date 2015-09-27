@@ -16,7 +16,7 @@ slick:
 drupal.slick:
   version: VERSION
   js:
-    js/slick.load.js: {}
+    js/slick.js: {}
   css:
     component:
       css/slick.module.css: {}
