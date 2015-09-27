@@ -10,6 +10,11 @@ Drupal module for Ken Wheeler's Slick carousel. See http://kenwheeler.github.io/
 * Autoplay, pagers, arrows, etc...
 * Works with Views. (Needs Port)
 
+## Installation
+1. Download slick from http://kenwheeler.github.io/slick/
+2. Place in /libraries/slick
+
+
 ## Programmatically
 
     <?php
